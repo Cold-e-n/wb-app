@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/prisma-generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Color {
+  id        String    @id @default(cuid())
+  name      String    @db.VarChar(100)
+  slug      String    @unique @db.VarChar(200)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("colors")
+}
+
+model ColorLayout {
+  id           String    @id @default(cuid())
+  fabricId     String    @unique @map("fabric_id")
+  colorContent Json?     @map("color_content")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @map("updated_at")
+
+  fabric         Fabric          @relation(fields: [fabricId], references: [id])
+  colorPositions ColorPosition[]
+
+  @@map("color_layouts")
+}
+
+model ColorPosition {
+  id            String @id @default(cuid())
+  fabricId      String @map("fabric_id")
+  colorLayoutId String @map("color_layout_id")
+  fabricContent Json?  @map("fabric_content")
+  wbNo          String @map("wb_no")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
+
+  fabric        Fabric      @relation(fields: [fabricId], references: [id])
+  colorLayout   ColorLayout @relation(fields: [colorLayoutId], references: [id])
+
+  @@map("color_positions")
+}
+
+model DailyReport {
+  id              String      @id @default(cuid())
+  date            DateTime    @db.Date
+  machine         MachineType @default(BENNINGER)
+  processType     ProcessType @default(WARPING) @map("process_type")
+  operator        String?
+  noWb            String?     @map("no_wb")
+  noMc            String?     @map("no_mc")
+  cones           Int?        @db.SmallInt
+  length          Int?        @db.SmallInt
+  sectionBeam     Int?        @map("section_beam")
+  speed           Int?        @db.SmallInt
+  start           String?     @db.Char(5)
+  finish          String?     @db.Char(5)
+  duration        Int?        @db.SmallInt
+  theoriticalTime Int?        @map("theoritical_time") @db.SmallInt
+  availableTime   Int?        @map("available_time") @db.SmallInt
+  effMachine      Decimal?    @map("eff_machine") @db.Decimal(4, 2)
+  effProduction   Decimal?    @map("eff_production") @db.Decimal(4, 2)
+  remark          String?     @db.VarChar(100)
+  lostStart       String?     @map("lost_start") @db.Char(5)
+  lostFinish      String?     @map("lost_finish") @db.Char(5)
+  lostDesc        String?     @map("lost_desc") @db.VarChar(200)
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime?   @map("updated_at")
+
+  @@index([date, machine, processType])
+  @@map("daily_reports")
+}
+
+model Fabric {
+  id             String          @id @default(cuid())
+  name           String          @unique @db.VarChar(100)
+  slug           String          @unique @db.VarChar(200)
+  hasColor       Boolean         @default(false) @map("has_color")
+  colorLayoutId  String?         @map("color_layout_id")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime?       @map("updated_at")
+  colorLayout    ColorLayout?
+  colorPositions ColorPosition[]
+
+  @@map("fabrics")
+}
+
+enum MachineType {
+  BENNINGER
+  KARL_MAYER
+  W_MO
+  W_TSUDAKOMA
+}
+
+enum ProcessType {
+  WARPING
+  BEAMING
+}

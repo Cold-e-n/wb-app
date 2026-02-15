@@ -1,0 +1,30 @@
+{
+  "id": "cmli5njjs0002nkeooqhnf3ty",
+  "fabricId": "cmkrtdz5g00020weo3ctjbq0u",
+  "colorLayoutId": "cml88f7nj00012oeolaspxy85",
+  "fabricContent": {
+    "cones": [406],
+    "fringe": 0,
+    "sections": 12
+  },
+  "wbNo": "1291",
+  "createdAt": "2026-02-11T14:58:46.839Z",
+  "fabric": {
+    "id": "cmkrtdz5g00020weo3ctjbq0u",
+    "name": "HC10-198(MO)"
+  },
+  "colorLayout": {
+    "id": "cml88f7nj00012oeolaspxy85",
+    "colorContent": {
+      "OUT": {
+        "color": ["cmkndbkdc000a3geon9odidhr", "cmkndbkdc000a3geon9odidhr"],
+        "count": 1,
+        "distance": 10
+      },
+      "type": "single",
+      "color": ["cmkndbkdc000a3geon9odidhr"],
+      "colorCount": 9,
+      "colorDistance": 476
+    }
+  }
+}
