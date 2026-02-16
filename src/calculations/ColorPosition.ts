@@ -6,23 +6,18 @@ import { type ColorPositionWithRelations } from '@/features/color-positions'
  */
 export class ColorPositionCalculator {
   private readonly data: ColorPositionWithRelations
-  private result: number[][]
 
   /**
-   * Constructor
+   * Constructor untuk inisialisasi data posisi warna.
+   * @param data Data posisi warna dengan relasi kain dan layout.
    */
   constructor(data: ColorPositionWithRelations) {
     this.data = data
-
-    this.result = Array.from(
-      { length: this.data.fabricContent.sections + 1 },
-      () => [],
-    )
   }
 
   /**
-   * Menghitung posisi paling awal.
-   * @return number
+   * Menghitung offset awal (posisi benang pertama).
+   * @returns number
    */
   private firstPos(): number {
     const { cones, sections } = this.data.fabricContent
@@ -42,8 +37,9 @@ export class ColorPositionCalculator {
         const { colorPairDistance } = this.data.colorLayout.colorContent
         return Math.floor(
           (totalThreads -
-            (colorDistance * (colorCount - 1) + colorPairDistance)) /
-            4,
+            (colorDistance * (colorCount - 1) +
+              ((colorPairDistance ?? 0) + 2) * colorCount)) /
+            2,
         )
       }
 
@@ -54,146 +50,133 @@ export class ColorPositionCalculator {
   }
 
   /**
-   * Menghitung posisi berikutnya di seksi yang sama.
-   * @return number
-   */
-  private nextPosCurrentSect(current: number[]): number {
-    const { cones } = this.data.fabricContent
-    const i = current.reduce((acc, val) => acc + val, 0)
-    return cones[0] - i - current.length
-  }
-
-  /**
-   * Menghitung posisi seksi pertama.
-   * @return number[]
-   */
-  private firstSectPos(): number[] {
-    const { colorDistance } = this.data.colorLayout.colorContent
-    const { cones } = this.data.fabricContent
-    const result = []
-    result[0] = this.firstPos() > cones[0] ? cones[0] : this.firstPos()
-
-    const len = result.length
-    if (result[0] < cones[0]) {
-      for (let key = 0; key < len; key++) {
-        let i: number | null = this.nextPosCurrentSect(result)
-
-        while (i !== null && i > colorDistance) {
-          result.push(colorDistance)
-          i = i - colorDistance === 1 ? null : this.nextPosCurrentSect(result)
-        }
-
-        if (i !== null) {
-          result.push(i)
-        }
-      }
-    }
-
-    return result
-  }
-
-  /**
-   * Posisi terakhir dari section sebelumnya.
-   * @return number
-   */
-  private lastPosPrevSection(current: number[]): number {
-    return current[current.length - 1]
-  }
-
-  /**
-   * Menghitung posisi pertama di seksi berikutnya.
-   * @return number[]
-   */
-  private firstPosNextSect(current: number[]): number[] {
-    const { colorDistance } = this.data.colorLayout.colorContent
-    const { cones } = this.data.fabricContent
-    const lastPosPrevSection = this.lastPosPrevSection(current)
-    const n = () => {
-      if (this.result.indexOf(current) === 1) {
-        if (lastPosPrevSection >= cones[0]) {
-          return this.firstPos() - lastPosPrevSection
-        }
-      } else if (this.result.indexOf(current) > 1) {
-        return colorDistance - lastPosPrevSection
-      }
-
-      return colorDistance - lastPosPrevSection
-    }
-    const result: number[] = []
-    result[0] = n() > cones[0] ? cones[0] : n()
-
-    const len = result.length
-    if (result[0] < cones[0]) {
-      for (let key = 0; key < len; key++) {
-        let i: number | null = this.nextPosCurrentSect(result)
-
-        while (i !== null && i > colorDistance) {
-          result.push(colorDistance)
-          i = i - colorDistance === 1 ? null : this.nextPosCurrentSect(result)
-        }
-
-        if (i !== null) {
-          result.push(i)
-        }
-      }
-    }
-
-    return result
-  }
-
-  /**
-   * Menghitung jumlah posisi warna dari section 1 sampai section ke-n.
-   * @returns number
-   */
-  private countColorPositions(upToIndex: number): number {
-    let count = 0
-    for (let i = 1; i <= upToIndex; i++) {
-      count += this.result[i].length - 1
-    }
-
-    return count
-  }
-
-  /**
-   * Menghitung posisi seksi terakhir.
-   * @returns number[]
-   */
-  private lastSectionPos(current: number[]): number[] {
-    const { colorCount, OUT } = this.data.colorLayout.colorContent
-    const { cones } = this.data.fabricContent
-    const { sections } = this.data.fabricContent
-
-    const totalColorPos = this.countColorPositions(sections - 1)
-
-    if (OUT) {
-      const totalOutGap = OUT.distance * OUT.count
-      const firstValue = cones[0] - totalOutGap - OUT.count
-      const result: number[] = [firstValue]
-      for (let i = 0; i < OUT.count; i++) {
-        result.push(OUT.distance)
-      }
-      return result
-    }
-
-    return this.firstPosNextSect(current)
-  }
-
-  /**
-   * Nampilin semua nilai untuk posisinya.
+   * Fungsi utama untuk menghitung distribusi posisi benang warna di setiap seksi.
+   * Menggunakan logika kumulatif untuk memastikan jarak antar warna tetap konsisten
+   * meskipun melintasi batas seksi atau seksi yang kosong.
    * @returns number[][]
    */
   public calculate(): number[][] {
     const { sections } = this.data.fabricContent
-    for (let i = 1; i <= sections; i++) {
-      if (i === 1) {
-        this.result[i] = this.firstSectPos()
-      } else if (i === sections) {
-        this.result[i] = this.lastSectionPos(this.result[i - 1])
+    const threadPerColor = this.getThreadPerColor()
+    const results: number[][] = Array.from({ length: sections }, () => [])
+
+    this.placeColors(results, threadPerColor)
+    this.fillGaps(results, threadPerColor)
+
+    return results
+  }
+
+  /**
+   * Menghitung jumlah benang yang dikonsumsi per satu titik penempatan warna.
+   * Untuk tipe 'double', dihitung sebagai 2 benang + jarak antar pasangan.
+   * @returns number
+   */
+  private getThreadPerColor(): number {
+    const { type, colorPairDistance } = this.data.colorLayout.colorContent
+    return type === 'double' ? 2 + (colorPairDistance ?? 0) : 1
+  }
+
+  /**
+   * Mengambil kapasitas total benang (cones) pada seksi tertentu.
+   * Mendukung perbedaan jumlah cones antara seksi badan dan seksi pinggiran (cones[1]).
+   * @param index Indeks seksi (0-n).
+   * @returns number
+   */
+  private getSectionCones(index: number): number {
+    const { cones, sections } = this.data.fabricContent
+    return cones.length > 1 && index === sections - 1 ? cones[1] : cones[0]
+  }
+
+  /**
+   * Kalkulasi total benang yang sudah terpakai di sebuah seksi,
+   * termasuk benang warna dan gap yang sudah ditempatkan.
+   * @param gaps Array jarak gap yang sudah ada di seksi tersebut.
+   * @param threadPerColor Lebar benang warna.
+   * @returns number.
+   */
+  private calculateUsedThreads(gaps: number[], threadPerColor: number): number {
+    return gaps.reduce((acc, g) => acc + g, 0) + gaps.length * threadPerColor
+  }
+
+  /**
+   * Melakukan iterasi untuk menentukan di seksi mana setiap benang warna harus diletakkan.
+   * Jika sisa benang di seksi sekarang tidak cukup untuk jarak 'colorDistance',
+   * sisa tersebut akan diteruskan ke seksi berikutnya secara kumulatif.
+   * @param results Array hasil untuk menampung gap.
+   * @param threadPerColor Lebar benang warna.
+   */
+  private placeColors(results: number[][], threadPerColor: number): void {
+    const { sections } = this.data.fabricContent
+    const { colorCount, colorDistance } = this.data.colorLayout.colorContent
+
+    let currentSection = 0
+    let colorsPlaced = 0
+    let gapToNextColor = this.firstPos()
+
+    while (currentSection < sections && colorsPlaced < colorCount) {
+      const sectCones = this.getSectionCones(currentSection)
+      const currentSectionGaps = results[currentSection]
+      const usedThreads = this.calculateUsedThreads(
+        currentSectionGaps,
+        threadPerColor,
+      )
+      const remainingThreads = sectCones - usedThreads
+
+      if (gapToNextColor <= remainingThreads) {
+        currentSectionGaps.push(gapToNextColor)
+        colorsPlaced++
+        gapToNextColor = colorDistance
       } else {
-        this.result[i] = this.firstPosNextSect(this.result[i - 1])
+        gapToNextColor -= remainingThreads
+        currentSection++
       }
     }
+  }
 
-    return this.result.slice(1)
+  /**
+   * Mengisi gap terakhir untuk setiap seksi guna memastikan total benang
+   * di setiap sub-array hasil sesuai dengan kapasitas seksi (sectCones).
+   * @param results Array hasil yang sudah berisi posisi warna.
+   * @param threadPerColor Lebar benang warna.
+   */
+  private fillGaps(results: number[][], threadPerColor: number): void {
+    const { sections } = this.data.fabricContent
+    const { OUT } = this.data.colorLayout.colorContent
+
+    for (let s = 0; s < sections; s++) {
+      const sectCones = this.getSectionCones(s)
+      const usedThreads = this.calculateUsedThreads(results[s], threadPerColor)
+      const remainingThreads = sectCones - usedThreads
+
+      if (s === sections - 1 && OUT) {
+        results[s].push(...this.calculateOutGaps(remainingThreads))
+        continue
+      }
+
+      results[s].push(remainingThreads)
+    }
+  }
+
+  /**
+   * Logika khusus untuk menghitung distribusi warna pada bagian OUT di seksi terakhir.
+   * Biasanya digunakan untuk benang pinggiran dengan aturan jarak yang berbeda.
+   * @param remainingCapacity Sisa ruang di seksi terakhir.
+   * @returns Array gap untuk seksi OUT.
+   */
+  private calculateOutGaps(remainingCapacity: number): number[] {
+    const { OUT } = this.data.colorLayout.colorContent
+
+    if (!OUT) return [remainingCapacity]
+
+    const totalOutGap = OUT.distance * OUT.count
+    // OUT markers diasumsikan single thread (lebar 1)
+    const firstValue = remainingCapacity - totalOutGap - OUT.count
+    const results: number[] = [firstValue]
+
+    for (let i = 0; i < OUT.count; i++) {
+      results.push(OUT.distance)
+    }
+
+    return results
   }
 }
