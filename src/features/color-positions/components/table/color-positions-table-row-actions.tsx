@@ -23,10 +23,7 @@ export const ColorPositionsTableRowActions = <TData,>({
           type: 'item',
           label: 'Detail',
           icon: BookSearch,
-          onClick: () => {
-            setCurrentRow(colorPosition)
-            setOpen('detail')
-          },
+          href: `/color-positions/${colorPosition.id}`,
         },
         {
           type: 'item',

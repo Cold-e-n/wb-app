@@ -10,7 +10,7 @@ export type ColorPositionWithRelations = ColorPosition & {
   colorLayout: ColorLayout
 }
 
-type ColorPositionsDialogType = 'create' | 'update' | 'detail' | 'delete'
+type ColorPositionsDialogType = 'create' | 'update' | 'delete'
 
 type ColorPositionsContextType = {
   open: ColorPositionsDialogType | null

@@ -3,7 +3,6 @@ import { Plus } from 'lucide-react'
 import { ColorPositionsTable } from './table/color-positions-table'
 import { type ColorPositionWithRelations } from './color-positions-provider'
 import { ColorPositionsDeleteDialog } from './color-positions-delete-dialog'
-import { ColorPositionsDetails } from './color-positions-details'
 import { ColorPositionsDialogs } from './color-positions-dialogs'
 import { useColorPositionsContext } from './color-positions-provider'
 
@@ -39,7 +38,6 @@ export const ColorPositions = ({ data }: ColorPositionsProps) => {
 
         <ColorPositionsTable data={data} />
       </div>
-      <ColorPositionsDetails />
       <ColorPositionsDialogs />
       <ColorPositionsDeleteDialog />
     </>
