@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ColorLayoutGrid2 } from './color-layout-grid2'
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 
 interface ColorLayoutDetailsProps {
   colorLayout: ColorLayout & { fabric: { name: string } }
@@ -123,19 +123,26 @@ export const ColorLayoutDetails = ({
 
   return (
     <div className="flex flex-1 flex-col gap-4 sm:gap-6">
-      <h1 className="text-2xl font-bold tracking-tight">
-        Detail Layout: {colorLayout.fabric.name}
-      </h1>
-
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="space-y-3">
-          <Button
-            variant="outline"
-            onClick={() => navigate({ to: '/color-layouts' })}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Kembali
-          </Button>
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="-ml-2"
+                  onClick={() => navigate({ to: '/color-layouts' })}
+                >
+                  <MoveLeft className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Kembali</TooltipContent>
+            </Tooltip>
+            <h1 className="text-2xl font-bold tracking-tight">
+              Detail Layout: {colorLayout.fabric.name}
+            </h1>
+          </div>
         </div>
 
         <div className="flex gap-2">

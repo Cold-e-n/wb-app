@@ -3,8 +3,13 @@ import { ColorPositionsDetails } from '@/features/color-positions/components/col
 import { useColorPositionById } from '@/features/color-positions/hooks/use-color-positions'
 import { type ColorPositionWithRelations } from '@/features/color-positions'
 import { Button } from '@/components/ui/button'
-import { ChevronLeft } from 'lucide-react'
+import { MoveLeft } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 function RouteComponent() {
   const { colorPositionId } = Route.useParams()
@@ -14,12 +19,17 @@ function RouteComponent() {
     <div className="flex flex-col gap-4 sm:gap-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 mb-2">
-            <Button variant="ghost" size="icon" asChild className="-ml-2">
-              <Link to="/color-positions">
-                <ChevronLeft className="h-4 w-4" />
-              </Link>
-            </Button>
+          <div className="flex items-center gap-2 mb-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" asChild className="-ml-2">
+                  <Link to="/color-positions">
+                    <MoveLeft className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Kembali</TooltipContent>
+            </Tooltip>
             <h1 className="text-2xl font-bold tracking-tight">
               Detail Posisi Warna
             </h1>
