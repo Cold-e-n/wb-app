@@ -176,32 +176,45 @@ export const ColorPositionVisualizer: React.FC<
                               {item === 0 ? '' : item}
                             </div>
                             {isMarker && (
-                              <div className="flex items-center -gap-1">
-                                {Array.from({
-                                  length:
-                                    layoutType === 'triple'
-                                      ? 3
-                                      : layoutType === 'double'
-                                        ? 2
-                                        : 1,
-                                }).map((_, i) => (
-                                  <React.Fragment key={i}>
-                                    <MoveDown
-                                      className={cn(
-                                        'w-4 h-4 translate-y-5.75 translate-x-0.5 shrink-0',
-                                        getArrowColorClass(
-                                          currentMarkerIndex,
-                                          i,
-                                        ),
+                              <div className="flex flex-col items-center relative">
+                                <div className="flex items-center -gap-1">
+                                  {Array.from({
+                                    length:
+                                      layoutType === 'triple'
+                                        ? 3
+                                        : layoutType === 'double'
+                                          ? 2
+                                          : 1,
+                                  }).map((_, i) => (
+                                    <React.Fragment key={i}>
+                                      <MoveDown
+                                        className={cn(
+                                          'w-4 h-4 translate-y-5.75 translate-x-0.5 shrink-0',
+                                          getArrowColorClass(
+                                            currentMarkerIndex,
+                                            i,
+                                          ),
+                                        )}
+                                      />
+                                      {layoutType === 'double' && i === 0 && (
+                                        <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 translate-x-3.5 select-none shrink-0">
+                                          {colorPairDistance}
+                                        </span>
                                       )}
-                                    />
-                                    {layoutType === 'double' && i === 0 && (
-                                      <span className="text-[12px] font-bold text-gray-500 translate-y-8 translate-x-0.5 select-none">
-                                        {colorPairDistance}
-                                      </span>
-                                    )}
-                                  </React.Fragment>
-                                ))}
+                                    </React.Fragment>
+                                  ))}
+                                </div>
+                                {currentMarkerIndex < inCount && (
+                                  <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 select-none shrink-0">
+                                    IN
+                                  </span>
+                                )}
+                                {currentMarkerIndex >=
+                                  inCount + regularCount && (
+                                  <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 select-none shrink-0">
+                                    OUT
+                                  </span>
+                                )}
                               </div>
                             )}
                           </div>
