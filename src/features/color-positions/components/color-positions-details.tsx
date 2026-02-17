@@ -2,6 +2,8 @@ import { type ColorPositionWithRelations } from './color-positions-provider'
 import { ColorPositionCalculator } from '@/calculations/ColorPosition'
 import ReactJson from '@microlink/react-json-view'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
+import { ColorPositionVisualizer } from './color-position-visualizer'
 
 type ColorPositionsDetailsProps = {
   data: ColorPositionWithRelations
@@ -9,66 +11,41 @@ type ColorPositionsDetailsProps = {
 
 export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
   const calculator = new ColorPositionCalculator(data)
+  const results = calculator.calculate()
+  const colorInfo = ColorInfoDisplay(data.colorLayout)
+  const totalThreads = data.fabricContent.cones[0] * data.fabricContent.sections
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-6 print-wrap">
+      <div className="w-full">
         <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Informasi Dasar
-            </CardTitle>
-          </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="block text-xs text-muted-foreground">
-                  Kain
+            <div className="grid grid-cols-2 gap-4 text-md font-jetbrains-mono">
+              <div className="flex flex-col">
+                <span>WB - {data.wbNo}</span>
+                <span>{data.fabric.name}</span>
+                <span>
+                  {`${data.fabricContent.cones[0]} cones x ${data.fabricContent.sections} sections = ${totalThreads} Helai`}
                 </span>
-                <span className="font-medium">{data.fabric.name}</span>
               </div>
-              <div>
-                <span className="block text-xs text-muted-foreground">
-                  No WB
-                </span>
-                <span className="font-medium">{data.wbNo}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Hasil Kalkulasi (Gaps)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col space-y-2">
-              {calculator.calculate().map((row, i) => (
-                <div
-                  key={i}
-                  className="flex flex-wrap gap-2 py-1 border-b last:border-0 border-dashed"
-                >
-                  <span className="text-[10px] text-muted-foreground w-6">
-                    S{i + 1}
-                  </span>
-                  {row.map((value, j) => (
-                    <div
-                      key={j}
-                      className="px-2 py-0.5 bg-muted rounded text-[10px] font-mono border"
-                    >
-                      {value}
-                    </div>
-                  ))}
-                </div>
-              ))}
+              <div className="flex flex-col">
+                <span>
+                  {`Jarak Warna: ${data.colorLayout.colorContent.colorDistance} Helai`}
+                </span>
+                <span>{colorInfo}</span>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      <ColorPositionVisualizer
+        calculationResults={results}
+        fabricContent={data.fabricContent}
+      />
+
+      <Card className="no-print">
         <CardHeader>
           <CardTitle className="text-sm font-medium text-muted-foreground">
             Data Mentah (JSON)

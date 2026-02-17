@@ -71,6 +71,38 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
           rel="stylesheet"
         />
+        <style>{`
+        @media print {
+          body {
+            background: white !important;
+            visibility: hidden !important;
+          }
+          .print-wrap {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 4rem 0 !important;
+            overflow: visible !important;
+            padding-bottom: 0 !important;
+            min-width: auto !important;
+            visibility: visible !important;
+            width: 100% !important;
+          }
+          .no-print {
+            display: none !important;
+          }
+          /* Reset Sidebar Layout for Print */
+          [data-slot="sidebar"], [data-slot="sidebar-gap"] {
+            display: none !important;
+            width: 0 !important;
+          }
+          [data-slot="sidebar-inset"] {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            background: white !important;
+          }
+        }
+      `}</style>
         <script
           dangerouslySetInnerHTML={{
             __html: `

@@ -24,7 +24,11 @@ const ColorName = ({ colorId }: { colorId: string }) => {
   return <>{color?.name || '...'}</>
 }
 
-const ColorInfoDisplay = ({ colorContent }: { colorContent: ColorContent }) => {
+export const ColorInfoDisplay = ({
+  colorContent,
+}: {
+  colorContent: ColorContent
+}) => {
   const { type, color = [], colorCount, OUT } = colorContent
 
   const renderOUT = () => {

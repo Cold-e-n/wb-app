@@ -1,16 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
-  type ColorPositionWithRelations,
   ColorPositions,
   ColorPositionsProvider,
 } from '@/features/color-positions'
 import { useColorPositions } from '@/features/color-positions/hooks/use-color-positions'
 
-function RouteComponent() {
+const RouteComponent = () => {
   const { data } = useColorPositions()
   return (
     <ColorPositionsProvider>
-      <ColorPositions data={data as ColorPositionWithRelations[]} />
+      <ColorPositions data={data as []} />
     </ColorPositionsProvider>
   )
 }

@@ -54,6 +54,7 @@ button {
   --font-sans: Roboto, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Roboto Serif, ui-serif, serif;
   --font-mono: Roboto Mono, ui-monospace, monospace;
+  --font-jetbrains-mono: JetBrains Mono, ui-monospace, monospace;
   --font-primary: Inter, sans-serif;
   --font-secondary: 'Roboto', sans-serif;
   --radius: 0.5rem;
@@ -172,6 +173,7 @@ button {
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-jetbrains-mono: var(--font-jetbrains-mono);
   --font-serif: var(--font-serif);
 
   --radius-sm: calc(var(--radius) - 4px);

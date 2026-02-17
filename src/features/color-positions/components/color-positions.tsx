@@ -19,7 +19,7 @@ export const ColorPositions = ({ data }: ColorPositionsProps) => {
           <div className="space-y-3">
             <h1 className="text-2xl font-bold tracking-tight">Posisi Warna</h1>
             <p className="text-muted-foreground">
-              Detail posisi warna untuk produksi
+              Data posisi benang warna pada kain
             </p>
           </div>
 

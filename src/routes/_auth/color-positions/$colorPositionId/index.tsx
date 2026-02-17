@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ColorPositionsDetails } from '@/features/color-positions/components/color-positions-details'
-import { useColorPositionById } from '@/features/color-positions/hooks/use-color-positions'
+import { getColorPositionByIdQueryOptions } from '@/features/color-positions/hooks/use-color-positions'
 import { type ColorPositionWithRelations } from '@/features/color-positions'
+
+import { ColorPositionsDetails } from '@/features/color-positions/components/color-positions-details'
 import { Button } from '@/components/ui/button'
 import { MoveLeft } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
@@ -11,33 +12,35 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 
-function RouteComponent() {
-  const { colorPositionId } = Route.useParams()
-  const { data } = useColorPositionById(colorPositionId)
+const RouteComponent = () => {
+  const { data } = Route.useLoaderData()
 
   return (
     <div className="flex flex-col gap-4 sm:gap-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 mb-1">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" asChild className="-ml-2">
-                  <Link to="/color-positions">
-                    <MoveLeft className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Kembali</TooltipContent>
-            </Tooltip>
+          <div className="flex items-center gap-5 mb-1">
+            <div className="no-print">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    asChild
+                    className="-ml-2"
+                  >
+                    <Link to="/color-positions">
+                      <MoveLeft className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Kembali</TooltipContent>
+              </Tooltip>
+            </div>
             <h1 className="text-2xl font-bold tracking-tight">
               Detail Posisi Warna
             </h1>
           </div>
-          <p className="text-muted-foreground ml-8">
-            Informasi lengkap penempatan benang warna untuk No WB:{' '}
-            <span className="font-semibold text-foreground">{data?.wbNo}</span>
-          </p>
         </div>
       </div>
 
@@ -49,5 +52,22 @@ function RouteComponent() {
 export const Route = createFileRoute(
   '/_auth/color-positions/$colorPositionId/',
 )({
+  loader: async ({ context, params }) => {
+    const data = await context.queryClient.ensureQueryData(
+      getColorPositionByIdQueryOptions(params.colorPositionId),
+    )
+    if (!data) {
+      throw new Error('Color position not found')
+    }
+
+    return { data }
+  },
+  head: ({ loaderData }) => ({
+    meta: [
+      {
+        title: `Detail Posisi Warna [${loaderData?.data?.fabric?.name}] - ${import.meta.env.VITE_APP_DEPARTMENT_NAME} App`,
+      },
+    ],
+  }),
   component: RouteComponent,
 })

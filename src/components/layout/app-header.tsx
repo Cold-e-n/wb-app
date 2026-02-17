@@ -29,6 +29,7 @@ export const AppHeader = ({ className, fixed, ...props }: AppHeaderProps) => {
         'z-50 h-16 transition-shadow duration-300 border-b',
         fixed && 'header-fixed peer/header sticky top-0 w-[inherit]',
         offset > 10 && fixed ? 'shadow' : 'shadow-none',
+        'no-print',
         className,
       )}
       {...props}

@@ -18,7 +18,7 @@ export const AppSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar>) => {
   return (
-    <Sidebar collapsible="icon" variant="sidebar" {...props}>
+    <Sidebar collapsible="icon" className="no-print" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
