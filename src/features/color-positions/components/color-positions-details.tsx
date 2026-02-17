@@ -1,7 +1,6 @@
 import { type ColorPositionWithRelations } from './color-positions-provider'
 import { ColorPositionCalculator } from '@/calculations/ColorPosition'
-import ReactJson from '@microlink/react-json-view'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
 import { ColorPositionVisualizer } from './color-position-visualizer'
 
@@ -16,9 +15,9 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
   const totalThreads = data.fabricContent.cones[0] * data.fabricContent.sections
 
   return (
-    <div className="space-y-6 print-wrap">
-      <div className="w-full">
-        <Card>
+    <div className="space-y-6 print:space-y-0 print-wrap">
+      <div className="w-full print:mx-2 print:mt-5">
+        <Card className="print:border-gray-800">
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-md font-jetbrains-mono">
               <div className="flex flex-col">
@@ -40,31 +39,7 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
         </Card>
       </div>
 
-      <ColorPositionVisualizer
-        calculationResults={results}
-        fabricContent={data.fabricContent}
-      />
-
-      <Card className="no-print">
-        <CardHeader>
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Data Mentah (JSON)
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-md border bg-muted/50 p-4 overflow-hidden">
-            <ReactJson
-              src={data}
-              theme="monokai"
-              displayDataTypes={false}
-              displayObjectSize={false}
-              enableClipboard={true}
-              name={false}
-              collapsed={1}
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <ColorPositionVisualizer positionResults={results} dataColor={data} />
     </div>
   )
 }

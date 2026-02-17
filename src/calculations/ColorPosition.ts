@@ -60,10 +60,34 @@ export class ColorPositionCalculator {
     const threadPerColor = this.getThreadPerColor()
     const results: number[][] = Array.from({ length: sections }, () => [])
 
+    this.placeInColors(results)
     this.placeColors(results, threadPerColor)
     this.fillGaps(results, threadPerColor)
 
     return results
+  }
+
+  /**
+   * Logika penempatan warna untuk bagian IN di awal seksi pertama.
+   * @param results Array hasil untuk menampung gap.
+   */
+  private placeInColors(results: number[][]): void {
+    const { IN } = this.data.colorLayout.colorContent
+    if (!IN || IN.count === 0) return
+
+    // IN markers ditempatkan di awal seksi 0
+    // Marker pertama diletakkan setelah gap 0 (langsung di awal)
+    // Marker berikutnya diletakkan setelah gap IN.distance
+    // Marker terakhir diakhiri dengan gap IN.distance sebelum regular markers?
+    // Sederhananya: [gap_0, IN_marker, gap_IN, IN_marker, gap_IN, IN_marker, ...]
+    results[0].push(0) // Marker pertama langsung di awal
+    for (let i = 0; i < IN.count - 1; i++) {
+      results[0].push(IN.distance)
+    }
+    // Setelah semua IN markers, sisakan gap IN.distance sebelum pattern regular dimulai
+    // Namun Calculator.placeColors() sudah mulai dengan firstPos() gap.
+    // Jadi gap akhir IN markers akan digabung dengan firstPos()?
+    // Tidak, cukup biarkan placeColors menangani gap awalnya sendiri.
   }
 
   /**

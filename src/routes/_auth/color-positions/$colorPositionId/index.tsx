@@ -16,8 +16,8 @@ const RouteComponent = () => {
   const { data } = Route.useLoaderData()
 
   return (
-    <div className="flex flex-col gap-4 sm:gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
+    <div className="flex flex-col gap-4 sm:gap-6 print:gap-0">
+      <div className="flex flex-wrap items-center justify-between gap-2 no-print">
         <div className="space-y-1">
           <div className="flex items-center gap-5 mb-1">
             <div className="no-print">
