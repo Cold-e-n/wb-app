@@ -154,7 +154,7 @@ export const ColorPositionVisualizer: React.FC<
                   )}
                 >
                   {/* Nomor Section */}
-                  <div className="mb-10 print:mb-5 font-semibold text-gray-900">
+                  <div className="mb-15 print:mb-10 font-semibold text-gray-900">
                     {sectionNumber}
                   </div>
 
@@ -224,7 +224,7 @@ export const ColorPositionVisualizer: React.FC<
                   </div>
 
                   {/* Empty space below */}
-                  <div className="p-5 mt-4">
+                  <div className="p-5 mt-10">
                     <div className="h-4"></div>
                   </div>
                 </div>
