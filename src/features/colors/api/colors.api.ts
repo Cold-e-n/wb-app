@@ -2,22 +2,28 @@ import { createServerFn } from '@tanstack/react-start'
 import { prisma } from '@/db'
 import { z } from 'zod'
 import { createSlug } from '@/lib/utils'
+import { createColorsSchema, updateColorSchema } from '@/types/Color'
 
 export const getColors = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  const colors = await prisma.color.findMany({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-    },
-    orderBy: {
-      name: 'asc',
-    },
-  })
+  try {
+    const colors = await prisma.color.findMany({
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    })
 
-  return colors
+    return colors
+  } catch (error) {
+    console.error('Failed to fetch colors:', error)
+    throw new Error('Gagal mengambil data benang warna.')
+  }
 })
 
 export const getColorById = createServerFn({
@@ -25,59 +31,63 @@ export const getColorById = createServerFn({
 })
   .inputValidator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
-    const color = await prisma.color.findUnique({
-      where: { id: data.id },
-    })
+    try {
+      const color = await prisma.color.findUnique({
+        where: { id: data.id },
+      })
 
-    return color
+      return color
+    } catch (error) {
+      console.error('Failed to fetch color by id:', error)
+      throw new Error('Gagal mengambil detail benang warna.')
+    }
   })
-
-// Schema for creating colors
-const createColorsSchema = z.object({
-  colors: z.array(
-    z.object({
-      name: z.string().min(3),
-    }),
-  ),
-})
 
 export const createColors = createServerFn({
   method: 'POST',
 })
   .inputValidator(createColorsSchema)
   .handler(async ({ data }) => {
-    const colorsToCreate = data.colors.map((color) => ({
-      name: color.name,
-      slug: createSlug(color.name),
-    }))
+    try {
+      const colorsToCreate = data.colors.map((color) => ({
+        name: color.name,
+        slug: createSlug(color.name),
+      }))
 
-    const createdColors = await prisma.color.createMany({
-      data: colorsToCreate,
-    })
+      const createdColors = await prisma.color.createMany({
+        data: colorsToCreate,
+      })
 
-    return createdColors
+      return createdColors
+    } catch (error) {
+      console.error('Failed to create colors:', error)
+      throw new Error(
+        'Gagal menambahkan benang warna. Pastikan nama belum digunakan.',
+      )
+    }
   })
-
-// Schema for updating a color
-const updateColorSchema = z.object({
-  id: z.string(),
-  name: z.string().min(3),
-})
 
 export const updateColor = createServerFn({
   method: 'POST',
 })
   .inputValidator(updateColorSchema)
   .handler(async ({ data }) => {
-    const updatedColor = await prisma.color.update({
-      where: { id: data.id },
-      data: {
-        name: data.name,
-        slug: createSlug(data.name),
-      },
-    })
+    try {
+      const updatedColor = await prisma.color.update({
+        where: { id: data.id },
+        data: {
+          name: data.name,
+          slug: createSlug(data.name),
+        },
+      })
 
-    return updatedColor
+      return updatedColor
+    } catch (error) {
+      console.error('Failed to update color:', error)
+      throw new Error(
+        'Gagal mengupdate benang warna. Pastikan nama belum digunakan.',
+      )
+    }
   })
 
 // Schema for deleting a color
@@ -90,9 +100,16 @@ export const deleteColor = createServerFn({
 })
   .inputValidator(deleteColorSchema)
   .handler(async ({ data }) => {
-    const deletedColor = await prisma.color.delete({
-      where: { id: data.id },
-    })
+    try {
+      const deletedColor = await prisma.color.delete({
+        where: { id: data.id },
+      })
 
-    return deletedColor
+      return deletedColor
+    } catch (error) {
+      console.error('Failed to delete color:', error)
+      throw new Error(
+        'Gagal menghapus benang warna. Warna mungkin masih digunakan oleh data lain.',
+      )
+    }
   })

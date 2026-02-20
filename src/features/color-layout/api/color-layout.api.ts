@@ -6,46 +6,8 @@ import { colorContentSchema } from '@/types/ColorLayout'
 export const getColorLayout = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  if (!prisma?.colorLayout) {
-    const keys = prisma ? Object.keys(prisma) : []
-    const availableModels = keys.filter(
-      (k) => !k.startsWith('_') && !k.startsWith('$') && k !== 'constructor',
-    )
-    console.error('Prisma colorLayout is undefined! Available keys:', keys)
-    throw new Error(
-      `Database service error: colorLayout model not found. Available models: ${availableModels.join(', ')}`,
-    )
-  }
-
-  const colorLayout = await prisma.colorLayout.findMany({
-    select: {
-      id: true,
-      fabricId: true,
-      colorContent: true,
-      fabric: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-    orderBy: {
-      fabric: {
-        name: 'asc',
-      },
-    },
-  })
-
-  return colorLayout
-})
-
-export const getColorLayoutById = createServerFn({
-  method: 'GET',
-})
-  .inputValidator(z.object({ id: z.string() }))
-  .handler(async ({ data }) => {
-    const colorLayout = await prisma.colorLayout.findUnique({
-      where: { id: data.id },
+  try {
+    const colorLayout = await prisma.colorLayout.findMany({
       select: {
         id: true,
         fabricId: true,
@@ -57,9 +19,46 @@ export const getColorLayoutById = createServerFn({
           },
         },
       },
+      orderBy: {
+        fabric: {
+          name: 'asc',
+        },
+      },
     })
 
     return colorLayout
+  } catch (error) {
+    console.error('Failed to fetch color layouts:', error)
+    throw new Error('Gagal mengambil data layout warna.')
+  }
+})
+
+export const getColorLayoutById = createServerFn({
+  method: 'GET',
+})
+  .inputValidator(z.object({ id: z.string() }))
+  .handler(async ({ data }) => {
+    try {
+      const colorLayout = await prisma.colorLayout.findUnique({
+        where: { id: data.id },
+        select: {
+          id: true,
+          fabricId: true,
+          colorContent: true,
+          fabric: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      })
+
+      return colorLayout
+    } catch (error) {
+      console.error('Failed to fetch color layout by id:', error)
+      throw new Error('Gagal mengambil detail layout warna.')
+    }
   })
 
 // Schema for creating color layout
@@ -73,14 +72,21 @@ export const createColorLayout = createServerFn({
 })
   .inputValidator(createColorLayoutSchema)
   .handler(async ({ data }) => {
-    const createdLayout = await prisma.colorLayout.create({
-      data: {
-        fabricId: data.fabricId,
-        colorContent: data.colorContent,
-      },
-    })
+    try {
+      const createdLayout = await prisma.colorLayout.create({
+        data: {
+          fabricId: data.fabricId,
+          colorContent: data.colorContent,
+        },
+      })
 
-    return createdLayout
+      return createdLayout
+    } catch (error) {
+      console.error('Failed to create color layout:', error)
+      throw new Error(
+        'Gagal menambahkan layout warna. Pastikan kain belum memiliki layout.',
+      )
+    }
   })
 
 // Schema for updating color layout
@@ -95,15 +101,20 @@ export const updateColorLayout = createServerFn({
 })
   .inputValidator(updateColorLayoutSchema)
   .handler(async ({ data }) => {
-    const updatedLayout = await prisma.colorLayout.update({
-      where: { id: data.id },
-      data: {
-        fabricId: data.fabricId,
-        colorContent: data.colorContent,
-      },
-    })
+    try {
+      const updatedLayout = await prisma.colorLayout.update({
+        where: { id: data.id },
+        data: {
+          fabricId: data.fabricId,
+          colorContent: data.colorContent,
+        },
+      })
 
-    return updatedLayout
+      return updatedLayout
+    } catch (error) {
+      console.error('Failed to update color layout:', error)
+      throw new Error('Gagal mengupdate layout warna.')
+    }
   })
 
 // Schema for deleting color layout
@@ -116,9 +127,16 @@ export const deleteColorLayout = createServerFn({
 })
   .inputValidator(deleteColorLayoutSchema)
   .handler(async ({ data }) => {
-    const deletedLayout = await prisma.colorLayout.delete({
-      where: { id: data.id },
-    })
+    try {
+      const deletedLayout = await prisma.colorLayout.delete({
+        where: { id: data.id },
+      })
 
-    return deletedLayout
+      return deletedLayout
+    } catch (error) {
+      console.error('Failed to delete color layout:', error)
+      throw new Error(
+        'Gagal menghapus layout warna. Layout mungkin masih digunakan oleh posisi warna.',
+      )
+    }
   })

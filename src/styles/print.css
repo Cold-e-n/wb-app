@@ -1,0 +1,74 @@
+@media print {
+  @page {
+    margin: 5mm !important;
+    size: landscape !important;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  body {
+    visibility: hidden !important;
+  }
+
+  .print-wrap {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4rem 0 !important;
+    overflow: visible !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-width: auto !important;
+    visibility: visible !important;
+    width: 100% !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset Sidebar & Inset Layout for Print */
+  [data-slot='sidebar'],
+  [data-slot='sidebar-gap'] {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  [data-slot='sidebar-inset'] {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: white !important;
+  }
+
+  /* Aggressively hide Devtools, Toasts, & Portals */
+  [data-tanstack-devtools-open],
+  [id^='tanstack-'],
+  [id^='react-query-'],
+  [class*='tanstack-'],
+  [class*='TanStackDevtools'],
+  [class*='ts-devtools'],
+  [class*='react-query-devtools'],
+  .tanstack-router-devtools,
+  .tanstack-query-devtools,
+  #tanstack-router-devtools,
+  #react-query-devtools,
+  .sonner-toaster,
+  [data-sonner-toaster],
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+  }
+}

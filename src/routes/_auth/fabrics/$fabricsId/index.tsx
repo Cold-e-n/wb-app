@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { getFabricByIdQueryOptions } from '@/features/fabrics/hooks/use-fabric'
+import { ErrorFallback } from '@/components/error-boundary'
 
 import { Fabric } from '@/types/Fabric'
 
@@ -26,4 +27,5 @@ export const Route = createFileRoute('/_auth/fabrics/$fabricsId/')({
     ],
   }),
   component: RouteComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })

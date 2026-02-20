@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { getColorsQueryOptions } from '@/features/colors/hooks/use-color'
+import { ErrorFallback } from '@/components/error-boundary'
 
 import { Colors } from '@/features/colors'
 import { ColorsProvider } from '@/features/colors/components/colors-provider'
@@ -32,4 +33,5 @@ export const Route = createFileRoute('/_auth/color')({
     ],
   }),
   component: RouteComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })

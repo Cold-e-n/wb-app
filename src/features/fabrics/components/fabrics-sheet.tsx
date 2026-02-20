@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useForm } from '@tanstack/react-form'
-import { z } from 'zod'
 import { useFabricsMutation, useFabricById } from '../hooks/use-fabric'
+import { fabricFormSchema, type FabricFormValues } from '@/types/Fabric'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -29,18 +29,6 @@ import {
 import { useFabricsContext } from './fabrics-provider'
 import { ColorsCombobox } from '@/components/colors-combobox'
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, 'Nama kain minimal 3 karakter')
-    .max(50, 'Nama kain maksimal 50 karakter')
-    .trim(),
-  hasColor: z.boolean().optional(),
-  colorNote: z.string().optional(),
-  colorName: z.string().optional(),
-})
-type FabricFormValues = z.infer<typeof formSchema>
-
 export const FabricsSheet = () => {
   const { open, setOpen, currentRow, setCurrentRow } = useFabricsContext()
   const { createMutation, updateMutation, isPending } = useFabricsMutation()
@@ -53,7 +41,7 @@ export const FabricsSheet = () => {
       colorName: '',
     } as FabricFormValues,
     validators: {
-      onSubmit: formSchema,
+      onSubmit: fabricFormSchema,
     },
 
     onSubmit: async ({ value }) => {

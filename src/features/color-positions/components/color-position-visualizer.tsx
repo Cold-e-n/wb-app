@@ -66,11 +66,15 @@ export const ColorPositionVisualizer: React.FC<
   const getArrowColorClass = (markerIdx: number, arrowIdx: number) => {
     let colorId: string | undefined
     if (markerIdx < inCount) {
-      colorId = IN?.color?.[arrowIdx] || IN?.color?.[0]
+      // IN markers are sequential: each marker index maps to its color array index
+      colorId = IN?.color?.[markerIdx] || IN?.color?.[0]
     } else if (markerIdx < inCount + regularCount) {
+      // Regular markers: use arrowIdx for pairs/triples
       colorId = regularColors?.[arrowIdx] || regularColors?.[0]
     } else {
-      colorId = OUT?.color?.[arrowIdx] || OUT?.color?.[0]
+      // OUT markers are sequential: index relative to start of OUT section
+      const outMarkerIdx = markerIdx - (inCount + regularCount)
+      colorId = OUT?.color?.[outMarkerIdx] || OUT?.color?.[0]
     }
 
     if (!colorId) return 'text-gray-900'
@@ -87,43 +91,6 @@ export const ColorPositionVisualizer: React.FC<
 
   return (
     <Card className="overflow-hidden print:border-none print:shadow-none print:bg-white print:py-0">
-      <style>{`
-        @media print {
-          @page {
-            margin: 5mm !important;
-            size: landscape !important;
-          }
-          html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            background: white !important;
-          }
-          .print-wrap {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            gap: 4rem 0 !important;
-            overflow: visible !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            min-width: auto !important;
-            width: 100% !important;
-          }
-          .no-print {
-            display: none !important;
-          }
-          /* Reset Sidebar & Inset Layout for Print */
-          [data-slot="sidebar"], [data-slot="sidebar-gap"] {
-            display: none !important;
-            width: 0 !important;
-          }
-          [data-slot="sidebar-inset"] {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            background: white !important;
-          }
-        }
-      `}</style>
       <CardHeader className="no-print">
         <CardAction className="no-print">
           <Button
@@ -172,7 +139,7 @@ export const ColorPositionVisualizer: React.FC<
                             key={valueIndex}
                             className="flex items-center text-center"
                           >
-                            <div className="text-gray-700 font-medium">
+                            <div className="text-gray-700 font-mono text-lg font-medium">
                               {item === 0 ? '' : item}
                             </div>
                             {isMarker && (
@@ -180,11 +147,15 @@ export const ColorPositionVisualizer: React.FC<
                                 <div className="flex items-center -gap-1">
                                   {Array.from({
                                     length:
-                                      layoutType === 'triple'
-                                        ? 3
-                                        : layoutType === 'double'
-                                          ? 2
-                                          : 1,
+                                      currentMarkerIndex < inCount ||
+                                      currentMarkerIndex >=
+                                        inCount + regularCount
+                                        ? 1
+                                        : layoutType === 'triple'
+                                          ? 3
+                                          : layoutType === 'double'
+                                            ? 2
+                                            : 1,
                                   }).map((_, i) => (
                                     <React.Fragment key={i}>
                                       <MoveDown
@@ -196,22 +167,26 @@ export const ColorPositionVisualizer: React.FC<
                                           ),
                                         )}
                                       />
-                                      {layoutType === 'double' && i === 0 && (
-                                        <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 translate-x-3.5 select-none shrink-0">
-                                          {colorPairDistance}
-                                        </span>
-                                      )}
+                                      {layoutType === 'double' &&
+                                        i === 0 &&
+                                        currentMarkerIndex >= inCount &&
+                                        currentMarkerIndex <
+                                          inCount + regularCount && (
+                                          <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 translate-x-3.5 select-none shrink-0">
+                                            {colorPairDistance}
+                                          </span>
+                                        )}
                                     </React.Fragment>
                                   ))}
                                 </div>
                                 {currentMarkerIndex < inCount && (
-                                  <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 select-none shrink-0">
+                                  <span className="absolute text-[10px] font-bold text-gray-500 translate-y-13 select-none shrink-0">
                                     IN
                                   </span>
                                 )}
                                 {currentMarkerIndex >=
                                   inCount + regularCount && (
-                                  <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 select-none shrink-0">
+                                  <span className="absolute text-[10px] font-bold text-gray-500 translate-y-13 select-none shrink-0">
                                     OUT
                                   </span>
                                 )}

@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { Button } from '@/components/ui/button'
-import { ColorLayoutForm } from '@/features/color-layout/components/color-layout-form'
 import { getColorLayoutByIdQueryOptions } from '@/features/color-layout/hooks/use-color-layout'
 import type { ColorContent } from '@/types/ColorLayout'
+
+import { Button } from '@/components/ui/button'
+import { ColorLayoutForm } from '@/features/color-layout/components/color-layout-form'
+import { ErrorFallback } from '@/components/error-boundary'
 
 import { ArrowLeft } from 'lucide-react'
 
@@ -69,4 +71,5 @@ export const Route = createFileRoute(
     ],
   }),
   component: RouteComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })

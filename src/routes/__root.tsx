@@ -11,6 +11,7 @@ import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 
 import appCss from '../styles/default.css?url'
+import printCss from '../styles/print.css?url'
 
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '../providers/theme-provider'
@@ -35,6 +36,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         {
           rel: 'stylesheet',
           href: appCss,
+        },
+        {
+          rel: 'stylesheet',
+          href: printCss,
         },
       ],
     }),
@@ -71,38 +76,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
           rel="stylesheet"
         />
-        <style>{`
-        @media print {
-          body {
-            background: white !important;
-            visibility: hidden !important;
-          }
-          .print-wrap {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            gap: 4rem 0 !important;
-            overflow: visible !important;
-            padding-bottom: 0 !important;
-            min-width: auto !important;
-            visibility: visible !important;
-            width: 100% !important;
-          }
-          .no-print {
-            display: none !important;
-          }
-          /* Reset Sidebar Layout for Print */
-          [data-slot="sidebar"], [data-slot="sidebar-gap"] {
-            display: none !important;
-            width: 0 !important;
-          }
-          [data-slot="sidebar-inset"] {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            background: white !important;
-          }
-        }
-      `}</style>
+
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -136,26 +110,30 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <StrictMode>
           <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             {children}
-            <TanStackDevtools
-              config={{
-                position: 'bottom-right',
-              }}
-              plugins={[
-                {
-                  name: 'Tanstack Router',
-                  render: <TanStackRouterDevtoolsPanel />,
-                },
-                {
-                  name: 'React Query',
-                  render: <ReactQueryDevtoolsPanel />,
-                },
-              ]}
-            />
+            <div className="no-print">
+              <TanStackDevtools
+                config={{
+                  position: 'bottom-right',
+                }}
+                plugins={[
+                  {
+                    name: 'Tanstack Router',
+                    render: <TanStackRouterDevtoolsPanel />,
+                  },
+                  {
+                    name: 'React Query',
+                    render: <ReactQueryDevtoolsPanel />,
+                  },
+                ]}
+              />
+            </div>
           </ThemeProvider>
         </StrictMode>
 
         <Scripts />
-        <Toaster position="bottom-right" closeButton />
+        <div className="no-print">
+          <Toaster position="bottom-right" closeButton />
+        </div>
       </body>
     </html>
   )

@@ -1,10 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ColorLayoutProvider } from '@/features/color-layout/components/color-layout-provider'
-import { ColorLayout } from '@/features/color-layout'
 import { getColorLayoutQueryOptions } from '@/features/color-layout/hooks/use-color-layout'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
 import { type ColorLayoutWithFabric } from '@/features/color-layout/components/table/color-layout-table-columns'
+
+import { ColorLayout } from '@/features/color-layout'
+import { ErrorFallback } from '@/components/error-boundary'
 
 const RouteComponent = () => {
   const { data: colorLayouts } = useSuspenseQuery(getColorLayoutQueryOptions)
@@ -32,4 +34,5 @@ export const Route = createFileRoute('/_auth/color-layouts/')({
     ],
   }),
   component: RouteComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })

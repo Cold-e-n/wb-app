@@ -6,48 +6,15 @@ import { fabricContentSchema } from '@/types/ColorPosition'
 export const getColorPositions = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  const colorPositions = await prisma.colorPosition.findMany({
-    select: {
-      id: true,
-      fabricId: true,
-      colorLayoutId: true,
-      fabricContent: true,
-      wbNo: true,
-      createdAt: true,
-      fabric: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      colorLayout: {
-        select: {
-          id: true,
-          colorContent: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: 'asc',
-    },
-  })
-
-  return colorPositions
-})
-
-export const getColorPositionById = createServerFn({
-  method: 'GET',
-})
-  .inputValidator(z.object({ id: z.string() }))
-  .handler(async ({ data }) => {
-    const colorPosition = await prisma.colorPosition.findUnique({
-      where: { id: data.id },
+  try {
+    const colorPositions = await prisma.colorPosition.findMany({
       select: {
         id: true,
         fabricId: true,
         colorLayoutId: true,
         fabricContent: true,
         wbNo: true,
+        createdAt: true,
         fabric: {
           select: {
             id: true,
@@ -61,9 +28,52 @@ export const getColorPositionById = createServerFn({
           },
         },
       },
+      orderBy: {
+        createdAt: 'asc',
+      },
     })
 
-    return colorPosition
+    return colorPositions
+  } catch (error) {
+    console.error('Failed to fetch color positions:', error)
+    throw new Error('Gagal mengambil data posisi warna.')
+  }
+})
+
+export const getColorPositionById = createServerFn({
+  method: 'GET',
+})
+  .inputValidator(z.object({ id: z.string() }))
+  .handler(async ({ data }) => {
+    try {
+      const colorPosition = await prisma.colorPosition.findUnique({
+        where: { id: data.id },
+        select: {
+          id: true,
+          fabricId: true,
+          colorLayoutId: true,
+          fabricContent: true,
+          wbNo: true,
+          fabric: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          colorLayout: {
+            select: {
+              id: true,
+              colorContent: true,
+            },
+          },
+        },
+      })
+
+      return colorPosition
+    } catch (error) {
+      console.error('Failed to fetch color position by id:', error)
+      throw new Error('Gagal mengambil detail posisi warna.')
+    }
   })
 
 // Schema for creating color position
@@ -79,16 +89,21 @@ export const createColorPosition = createServerFn({
 })
   .inputValidator(createColorPositionSchema)
   .handler(async ({ data }) => {
-    const createdPosition = await prisma.colorPosition.create({
-      data: {
-        fabricId: data.fabricId,
-        colorLayoutId: data.colorLayoutId,
-        fabricContent: data.fabricContent as any, // Json support
-        wbNo: data.wbNo,
-      },
-    })
+    try {
+      const createdPosition = await prisma.colorPosition.create({
+        data: {
+          fabricId: data.fabricId,
+          colorLayoutId: data.colorLayoutId,
+          fabricContent: data.fabricContent as any, // Json support
+          wbNo: data.wbNo,
+        },
+      })
 
-    return createdPosition
+      return createdPosition
+    } catch (error) {
+      console.error('Failed to create color position:', error)
+      throw new Error('Gagal menambahkan posisi warna.')
+    }
   })
 
 // Schema for updating color position
@@ -105,17 +120,22 @@ export const updateColorPosition = createServerFn({
 })
   .inputValidator(updateColorPositionSchema)
   .handler(async ({ data }) => {
-    const updatedPosition = await prisma.colorPosition.update({
-      where: { id: data.id },
-      data: {
-        fabricId: data.fabricId,
-        colorLayoutId: data.colorLayoutId,
-        fabricContent: data.fabricContent as any, // Json support
-        wbNo: data.wbNo,
-      },
-    })
+    try {
+      const updatedPosition = await prisma.colorPosition.update({
+        where: { id: data.id },
+        data: {
+          fabricId: data.fabricId,
+          colorLayoutId: data.colorLayoutId,
+          fabricContent: data.fabricContent as any, // Json support
+          wbNo: data.wbNo,
+        },
+      })
 
-    return updatedPosition
+      return updatedPosition
+    } catch (error) {
+      console.error('Failed to update color position:', error)
+      throw new Error('Gagal mengupdate posisi warna.')
+    }
   })
 
 // Schema for deleting color position
@@ -128,9 +148,14 @@ export const deleteColorPosition = createServerFn({
 })
   .inputValidator(deleteColorPositionSchema)
   .handler(async ({ data }) => {
-    const deletedPosition = await prisma.colorPosition.delete({
-      where: { id: data.id },
-    })
+    try {
+      const deletedPosition = await prisma.colorPosition.delete({
+        where: { id: data.id },
+      })
 
-    return deletedPosition
+      return deletedPosition
+    } catch (error) {
+      console.error('Failed to delete color position:', error)
+      throw new Error('Gagal menghapus posisi warna.')
+    }
   })

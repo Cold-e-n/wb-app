@@ -2,24 +2,30 @@ import { createServerFn } from '@tanstack/react-start'
 import { prisma } from '@/db'
 import { z } from 'zod'
 import { createSlug } from '@/lib/utils'
+import { createFabricSchema, updateFabricSchema } from '@/types/Fabric'
 
 export const getFabrics = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  const fabrics = await prisma.fabric.findMany({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      hasColor: true,
-      colorLayoutId: true,
-    },
-    orderBy: {
-      name: 'asc',
-    },
-  })
+  try {
+    const fabrics = await prisma.fabric.findMany({
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        hasColor: true,
+        colorLayoutId: true,
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    })
 
-  return fabrics
+    return fabrics
+  } catch (error) {
+    console.error('Failed to fetch fabrics:', error)
+    throw new Error('Gagal mengambil data kain.')
+  }
 })
 
 export const getFabricById = createServerFn({
@@ -27,105 +33,103 @@ export const getFabricById = createServerFn({
 })
   .inputValidator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
-    const fabric = await prisma.fabric.findUnique({
-      where: {
-        id: data.id,
-      },
-      include: {
-        colorLayout: true,
-      },
-    })
+    try {
+      const fabric = await prisma.fabric.findUnique({
+        where: {
+          id: data.id,
+        },
+        include: {
+          colorLayout: true,
+        },
+      })
 
-    return fabric
+      return fabric
+    } catch (error) {
+      console.error('Failed to fetch fabric by id:', error)
+      throw new Error('Gagal mengambil detail kain.')
+    }
   })
-
-// Schema for creating fabrics
-const createFabricSchema = z.object({
-  name: z.string().min(3),
-  hasColor: z
-    .boolean()
-    .nullable()
-    .optional()
-    .transform((v) => v ?? false),
-  colorName: z.string().optional(),
-  colorNote: z.string().optional(),
-})
 
 export const createFabrics = createServerFn({
   method: 'POST',
 })
   .inputValidator(createFabricSchema)
   .handler(async ({ data }) => {
-    const createdFabrics = await prisma.fabric.create({
-      data: {
-        name: data.name,
-        slug: createSlug(data.name),
-        hasColor: data.hasColor,
-        ...(data.hasColor &&
-          (data.colorName || data.colorNote) && {
-            colorLayout: {
-              create: {
-                colorContent: {
-                  name: data.colorName,
-                  note: data.colorNote,
+    try {
+      const createdFabrics = await prisma.fabric.create({
+        data: {
+          name: data.name,
+          slug: createSlug(data.name),
+          hasColor: data.hasColor,
+          ...(data.hasColor &&
+            (data.colorName || data.colorNote) && {
+              colorLayout: {
+                create: {
+                  colorContent: {
+                    name: data.colorName,
+                    note: data.colorNote,
+                  },
                 },
               },
-            },
-          }),
-      },
-    })
+            }),
+        },
+      })
 
-    return createdFabrics
+      return createdFabrics
+    } catch (error) {
+      console.error('Failed to create fabric:', error)
+      throw new Error(
+        'Gagal menambahkan kain. Pastikan nama kain belum digunakan.',
+      )
+    }
   })
-
-// Schema for updating a fabric
-const updateFabricSchema = z.object({
-  id: z.string(),
-  name: z.string().min(3),
-  hasColor: z.boolean().nullable().optional(),
-  colorName: z.string().optional(),
-  colorNote: z.string().optional(),
-})
 
 export const updateFabric = createServerFn({
   method: 'POST',
 })
   .inputValidator(updateFabricSchema)
   .handler(async ({ data }) => {
-    const updatedFabric = await prisma.fabric.update({
-      where: { id: data.id },
-      data: {
-        name: data.name,
-        slug: createSlug(data.name),
-        ...(data.hasColor !== null &&
-          data.hasColor !== undefined && { hasColor: data.hasColor }),
-        ...(data.hasColor && {
-          colorLayout: {
-            upsert: {
-              create: {
-                colorContent: {
-                  name: data.colorName,
-                  note: data.colorNote,
+    try {
+      const updatedFabric = await prisma.fabric.update({
+        where: { id: data.id },
+        data: {
+          name: data.name,
+          slug: createSlug(data.name),
+          ...(data.hasColor !== null &&
+            data.hasColor !== undefined && { hasColor: data.hasColor }),
+          ...(data.hasColor && {
+            colorLayout: {
+              upsert: {
+                create: {
+                  colorContent: {
+                    name: data.colorName,
+                    note: data.colorNote,
+                  },
                 },
-              },
-              update: {
-                colorContent: {
-                  name: data.colorName,
-                  note: data.colorNote,
+                update: {
+                  colorContent: {
+                    name: data.colorName,
+                    note: data.colorNote,
+                  },
                 },
               },
             },
-          },
-        }),
-        ...(!data.hasColor && {
-          colorLayout: {
-            delete: true,
-          },
-        }),
-      },
-    })
+          }),
+          ...(!data.hasColor && {
+            colorLayout: {
+              delete: true,
+            },
+          }),
+        },
+      })
 
-    return updatedFabric
+      return updatedFabric
+    } catch (error) {
+      console.error('Failed to update fabric:', error)
+      throw new Error(
+        'Gagal mengupdate kain. Pastikan nama kain belum digunakan.',
+      )
+    }
   })
 
 // Schema for deleting a fabric
@@ -138,9 +142,16 @@ export const deleteFabric = createServerFn({
 })
   .inputValidator(deleteFabricSchema)
   .handler(async ({ data }) => {
-    const deletedFabric = await prisma.fabric.delete({
-      where: { id: data.id },
-    })
+    try {
+      const deletedFabric = await prisma.fabric.delete({
+        where: { id: data.id },
+      })
 
-    return deletedFabric
+      return deletedFabric
+    } catch (error) {
+      console.error('Failed to delete fabric:', error)
+      throw new Error(
+        'Gagal menghapus kain. Kain mungkin masih digunakan oleh data lain.',
+      )
+    }
   })

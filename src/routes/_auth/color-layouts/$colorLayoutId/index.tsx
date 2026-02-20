@@ -1,6 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { getColorLayoutByIdQueryOptions } from '@/features/color-layout/hooks/use-color-layout'
+
 import { ColorLayoutDetails } from '@/features/color-layout/components/color-layout-details'
+import { ErrorFallback } from '@/components/error-boundary'
 
 const RouteComponent = () => {
   const { colorLayout } = Route.useLoaderData()
@@ -26,4 +28,5 @@ export const Route = createFileRoute('/_auth/color-layouts/$colorLayoutId/')({
     ],
   }),
   component: RouteComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })
