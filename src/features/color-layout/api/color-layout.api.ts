@@ -73,11 +73,24 @@ export const createColorLayout = createServerFn({
   .inputValidator(createColorLayoutSchema)
   .handler(async ({ data }) => {
     try {
-      const createdLayout = await prisma.colorLayout.create({
-        data: {
-          fabricId: data.fabricId,
-          colorContent: data.colorContent,
-        },
+      const createdLayout = await prisma.$transaction(async (tx) => {
+        const layout = await tx.colorLayout.create({
+          data: {
+            fabricId: data.fabricId,
+            colorContent: data.colorContent,
+          },
+        })
+
+        // Update fabric to hasColor: true and set colorLayoutId
+        await tx.fabric.update({
+          where: { id: data.fabricId },
+          data: {
+            hasColor: true,
+            colorLayoutId: layout.id,
+          },
+        })
+
+        return layout
       })
 
       return createdLayout
@@ -128,8 +141,29 @@ export const deleteColorLayout = createServerFn({
   .inputValidator(deleteColorLayoutSchema)
   .handler(async ({ data }) => {
     try {
-      const deletedLayout = await prisma.colorLayout.delete({
-        where: { id: data.id },
+      const deletedLayout = await prisma.$transaction(async (tx) => {
+        // Find the layout first to get fabricId
+        const layout = await tx.colorLayout.findUnique({
+          where: { id: data.id },
+          select: { fabricId: true },
+        })
+
+        const deleted = await tx.colorLayout.delete({
+          where: { id: data.id },
+        })
+
+        // Update fabric if layout was found
+        if (layout) {
+          await tx.fabric.update({
+            where: { id: layout.fabricId },
+            data: {
+              hasColor: false,
+              colorLayoutId: null,
+            },
+          })
+        }
+
+        return deleted
       })
 
       return deletedLayout

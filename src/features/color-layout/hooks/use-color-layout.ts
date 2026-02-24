@@ -34,6 +34,7 @@ export const useColorLayoutMutation = () => {
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ['colorLayout'] })
+    queryClient.invalidateQueries({ queryKey: ['fabrics'] })
     router.invalidate()
   }
 
