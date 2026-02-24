@@ -11,6 +11,9 @@ count.txt
 .output
 .vinxi
 todos.json
+run_pnpm.bat
+
+/.zed
 
 /prisma/src/prisma-generated
 
