@@ -12,8 +12,6 @@ import {
   SidebarMenuButton,
 } from '../ui/sidebar'
 
-import { Package } from 'lucide-react'
-
 export const AppSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar>) => {
@@ -24,8 +22,8 @@ export const AppSidebar = ({
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Package className="size-4" />
+                <div className="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <img src="/logo-moriuchi.svg" alt="Logo" className="size-7" />
                 </div>
 
                 <div className="flex flex-col gap-0.5 leading-none">

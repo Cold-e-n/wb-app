@@ -10,7 +10,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 
-import appCss from '../styles/default.css?url'
+import appCss from '../styles/tangerine.css?url'
 import printCss from '../styles/print.css?url'
 
 import { Toaster } from '@/components/ui/sonner'
@@ -43,7 +43,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
         {
           rel: 'icon',
-          href: '/logo-moriuchi.png',
+          href: '/logo-moriuchi.svg',
+          className: 'size-6',
         },
       ],
     }),
