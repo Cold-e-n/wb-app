@@ -121,7 +121,7 @@ export const ColorPositionVisualizer: React.FC<
                   )}
                 >
                   {/* Nomor Section */}
-                  <div className="mb-15 print:mb-10 font-semibold font-jetbrains-mono text-gray-900">
+                  <div className="mb-15 print:mb-10 font-semibold font-jetbrains-mono text-gray-900 dark:text-gray-100 print:text-black print:dark:text-gray-900">
                     {sectionNumber}
                   </div>
 
@@ -139,7 +139,7 @@ export const ColorPositionVisualizer: React.FC<
                             key={valueIndex}
                             className="flex items-center text-center"
                           >
-                            <div className="text-gray-800 font-jetbrains-mono text-[15px] font-medium">
+                            <div className="text-gray-800 dark:text-gray-100 print:dark:text-gray-900 font-jetbrains-mono text-[15px] font-medium">
                               {item === 0 ? '' : item}
                             </div>
                             {isMarker && (
@@ -172,7 +172,7 @@ export const ColorPositionVisualizer: React.FC<
                                         currentMarkerIndex >= inCount &&
                                         currentMarkerIndex <
                                           inCount + regularCount && (
-                                          <span className="absolute text-[12px] font-bold text-gray-500 translate-y-10 translate-x-3.5 select-none shrink-0">
+                                          <span className="absolute text-[12px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-10 translate-x-3.5 select-none shrink-0">
                                             {colorPairDistance}
                                           </span>
                                         )}
@@ -180,13 +180,13 @@ export const ColorPositionVisualizer: React.FC<
                                   ))}
                                 </div>
                                 {currentMarkerIndex < inCount && (
-                                  <span className="absolute text-[10px] font-bold text-gray-500 translate-y-13 select-none shrink-0">
+                                  <span className="absolute text-[10px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
                                     IN
                                   </span>
                                 )}
                                 {currentMarkerIndex >=
                                   inCount + regularCount && (
-                                  <span className="absolute text-[12px] font-jetbrains-mono font-bold text-gray-500 translate-y-13 select-none shrink-0">
+                                  <span className="absolute text-[12px] font-jetbrains-mono font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
                                     OUT
                                   </span>
                                 )}
