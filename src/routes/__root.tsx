@@ -41,6 +41,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           rel: 'stylesheet',
           href: printCss,
         },
+        {
+          rel: 'icon',
+          href: '/logo-moriuchi.png',
+        },
       ],
     }),
 
