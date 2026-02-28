@@ -172,7 +172,7 @@ export const ColorPositionVisualizer: React.FC<
                                         currentMarkerIndex >= inCount &&
                                         currentMarkerIndex <
                                           inCount + regularCount && (
-                                          <span className="absolute text-[12px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-10 translate-x-3.5 select-none shrink-0">
+                                          <span className="absolute text-[12px] font-bold text-gray-800 dark:text-foreground print:dark:text-gray-900 translate-y-10 translate-x-3.5 select-none shrink-0">
                                             {colorPairDistance}
                                           </span>
                                         )}

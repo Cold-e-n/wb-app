@@ -1,10 +1,12 @@
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import { ColorPositionsTable } from './table/color-positions-table'
+import { useColorPositionsContext } from './color-positions-provider'
 import { type ColorPositionWithRelations } from './color-positions-provider'
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { ColorPositionsTable } from './table/color-positions-table'
 import { ColorPositionsDeleteDialog } from './color-positions-delete-dialog'
 import { ColorPositionsDialogs } from './color-positions-dialogs'
-import { useColorPositionsContext } from './color-positions-provider'
+import { Plus, AlertCircleIcon } from 'lucide-react'
 
 type ColorPositionsProps = {
   data: ColorPositionWithRelations[]
@@ -35,6 +37,19 @@ export const ColorPositions = ({ data }: ColorPositionsProps) => {
             </Button>
           </div>
         </div>
+
+        <Alert>
+          <AlertCircleIcon className="h-4 w-4" />
+          <AlertTitle>Catatan</AlertTitle>
+          <AlertDescription>
+            Untuk kain:
+            <strong>1151039C(NL)-225</strong>
+            <strong>1152031C(NL)-225</strong>
+            <strong>E8640GBS-C236(I) Soaping</strong>
+            <strong>R0390801-114[DBL]</strong>
+            Belum bisa melalukan perhitungan posisi benang warna untuk saat ini.
+          </AlertDescription>
+        </Alert>
 
         <ColorPositionsTable data={data} />
       </div>
