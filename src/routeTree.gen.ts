@@ -110,14 +110,14 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthDashboardRoute
   '/sign-in': typeof GuestSignInRoute
   '/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
-  '/color-layouts': typeof AuthColorLayoutsIndexRoute
-  '/color-positions': typeof AuthColorPositionsIndexRoute
-  '/fabrics': typeof AuthFabricsIndexRoute
+  '/color-layouts/': typeof AuthColorLayoutsIndexRoute
+  '/color-positions/': typeof AuthColorPositionsIndexRoute
+  '/fabrics/': typeof AuthFabricsIndexRoute
   '/color-layouts/$colorLayoutId/edit': typeof AuthColorLayoutsColorLayoutIdEditRoute
   '/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
-  '/color-layouts/$colorLayoutId': typeof AuthColorLayoutsColorLayoutIdIndexRoute
-  '/color-positions/$colorPositionId': typeof AuthColorPositionsColorPositionIdIndexRoute
-  '/fabrics/$fabricsId': typeof AuthFabricsFabricsIdIndexRoute
+  '/color-layouts/$colorLayoutId/': typeof AuthColorLayoutsColorLayoutIdIndexRoute
+  '/color-positions/$colorPositionId/': typeof AuthColorPositionsColorPositionIdIndexRoute
+  '/fabrics/$fabricsId/': typeof AuthFabricsFabricsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -160,14 +160,14 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sign-in'
     | '/color-layouts/add-new'
-    | '/color-layouts'
-    | '/color-positions'
-    | '/fabrics'
+    | '/color-layouts/'
+    | '/color-positions/'
+    | '/fabrics/'
     | '/color-layouts/$colorLayoutId/edit'
     | '/color-positions/$colorPositionId/edit'
-    | '/color-layouts/$colorLayoutId'
-    | '/color-positions/$colorPositionId'
-    | '/fabrics/$fabricsId'
+    | '/color-layouts/$colorLayoutId/'
+    | '/color-positions/$colorPositionId/'
+    | '/fabrics/$fabricsId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -213,14 +213,14 @@ declare module '@tanstack/react-router' {
     '/_guest': {
       id: '/_guest'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof GuestRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -255,21 +255,21 @@ declare module '@tanstack/react-router' {
     '/_auth/fabrics/': {
       id: '/_auth/fabrics/'
       path: '/fabrics'
-      fullPath: '/fabrics'
+      fullPath: '/fabrics/'
       preLoaderRoute: typeof AuthFabricsIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/color-positions/': {
       id: '/_auth/color-positions/'
       path: '/color-positions'
-      fullPath: '/color-positions'
+      fullPath: '/color-positions/'
       preLoaderRoute: typeof AuthColorPositionsIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/color-layouts/': {
       id: '/_auth/color-layouts/'
       path: '/color-layouts'
-      fullPath: '/color-layouts'
+      fullPath: '/color-layouts/'
       preLoaderRoute: typeof AuthColorLayoutsIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
@@ -283,21 +283,21 @@ declare module '@tanstack/react-router' {
     '/_auth/fabrics/$fabricsId/': {
       id: '/_auth/fabrics/$fabricsId/'
       path: '/fabrics/$fabricsId'
-      fullPath: '/fabrics/$fabricsId'
+      fullPath: '/fabrics/$fabricsId/'
       preLoaderRoute: typeof AuthFabricsFabricsIdIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/color-positions/$colorPositionId/': {
       id: '/_auth/color-positions/$colorPositionId/'
       path: '/color-positions/$colorPositionId'
-      fullPath: '/color-positions/$colorPositionId'
+      fullPath: '/color-positions/$colorPositionId/'
       preLoaderRoute: typeof AuthColorPositionsColorPositionIdIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/color-layouts/$colorLayoutId/': {
       id: '/_auth/color-layouts/$colorLayoutId/'
       path: '/color-layouts/$colorLayoutId'
-      fullPath: '/color-layouts/$colorLayoutId'
+      fullPath: '/color-layouts/$colorLayoutId/'
       preLoaderRoute: typeof AuthColorLayoutsColorLayoutIdIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }

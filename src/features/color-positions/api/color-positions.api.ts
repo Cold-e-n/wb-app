@@ -29,7 +29,7 @@ export const getColorPositions = createServerFn({
         },
       },
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
     })
 

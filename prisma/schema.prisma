@@ -37,16 +37,16 @@ model ColorLayout {
 }
 
 model ColorPosition {
-  id            String @id @default(cuid())
-  fabricId      String @map("fabric_id")
-  colorLayoutId String @map("color_layout_id")
-  fabricContent Json?  @map("fabric_content")
-  wbNo          String @map("wb_no")
+  id            String    @id @default(cuid())
+  fabricId      String    @map("fabric_id")
+  colorLayoutId String    @map("color_layout_id")
+  fabricContent Json?     @map("fabric_content")
+  wbNo          String    @map("wb_no")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime? @map("updated_at")
 
-  fabric        Fabric      @relation(fields: [fabricId], references: [id])
-  colorLayout   ColorLayout @relation(fields: [colorLayoutId], references: [id])
+  fabric      Fabric      @relation(fields: [fabricId], references: [id])
+  colorLayout ColorLayout @relation(fields: [colorLayoutId], references: [id])
 
   @@map("color_positions")
 }
