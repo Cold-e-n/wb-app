@@ -116,7 +116,7 @@ export const FabricsDialogs = () => {
 
   return (
     <Dialog
-      open={open === 'update' && currentRow?.hasColor === false}
+      open={open === 'create' || open === 'update'}
       onOpenChange={handleOpenChange}
     >
       <DialogContent>

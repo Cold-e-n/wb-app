@@ -1,14 +1,11 @@
-src/components/ui/resizable.tsx(10,51): error TS2339: Property 'PanelGroup' does not exist on type 'typeof import("C:/laragon/www/wb-app/node_modules/.pnpm/react-resizable-panels@4.2._0bd81d0fb8c518425cd4ab17daf1486f/node_modules/react-resizable-panels/dist/react-resizable-panels")'.
-src/components/ui/resizable.tsx(12,25): error TS2339: Property 'PanelGroup' does not exist on type 'typeof import("C:/laragon/www/wb-app/node_modules/.pnpm/react-resizable-panels@4.2._0bd81d0fb8c518425cd4ab17daf1486f/node_modules/react-resizable-panels/dist/react-resizable-panels")'.
-src/components/ui/resizable.tsx(33,51): error TS2339: Property 'PanelResizeHandle' does not exist on type 'typeof import("C:/laragon/www/wb-app/node_modules/.pnpm/react-resizable-panels@4.2._0bd81d0fb8c518425cd4ab17daf1486f/node_modules/react-resizable-panels/dist/react-resizable-panels")'.
-src/components/ui/resizable.tsx(37,25): error TS2339: Property 'PanelResizeHandle' does not exist on type 'typeof import("C:/laragon/www/wb-app/node_modules/.pnpm/react-resizable-panels@4.2._0bd81d0fb8c518425cd4ab17daf1486f/node_modules/react-resizable-panels/dist/react-resizable-panels")'.
-src/components/ui/resizable.tsx(50,26): error TS2339: Property 'PanelResizeHandle' does not exist on type 'typeof import("C:/laragon/www/wb-app/node_modules/.pnpm/react-resizable-panels@4.2._0bd81d0fb8c518425cd4ab17daf1486f/node_modules/react-resizable-panels/dist/react-resizable-panels")'.
-src/features/auth/components/sign-in-form.tsx(39,27): error TS2769: No overload matches this call.
-  Overload 1 of 4, '(schema: Zod3Type<{ username: string; password: string; }, { username: string; password: string; }>, schemaOptions?: ParseParams | undefined, resolverOptions?: NonRawResolverOptions | undefined): Resolver<...>', gave the following error.
-    Argument of type 'ZodObject<{ username: ZodString; password: ZodString; }, $strip>' is not assignable to parameter of type 'Zod3Type<{ username: string; password: string; }, { username: string; password: string; }>'.
-      Types of property '_def' are incompatible.
-        Property 'typeName' is missing in type '$ZodObjectDef<{ username: ZodString; password: ZodString; }>' but required in type '{ typeName: string; }'.
-  Overload 2 of 4, '(schema: $ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>, schemaOptions?: ParseContext<$ZodIssue> | undefined, resolverOptions?: NonRawResolverOptions | undefined): Resolver<...>', gave the following error.
-    Argument of type 'ZodObject<{ username: ZodString; password: ZodString; }, $strip>' is not assignable to parameter of type '$ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>'.
-      The types of '_zod.version.minor' are incompatible between these types.
-        Type '3' is not assignable to type '0'.
+src/components/confirm-dialog.tsx(10,8): error TS6142: Module './ui/alert-dialog' was resolved to 'C:/laragon/www/wb-app/src/components/ui/alert-dialog.tsx', but '--jsx' is not set.
+src/components/confirm-dialog.tsx(11,24): error TS6142: Module './ui/button' was resolved to 'C:/laragon/www/wb-app/src/components/ui/button.tsx', but '--jsx' is not set.
+src/components/confirm-dialog.tsx(44,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(45,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(46,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(47,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(48,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(49,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(53,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(54,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/confirm-dialog.tsx(57,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.

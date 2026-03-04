@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -22,6 +22,7 @@ type ConfirmDialogProps = {
   handleConfirm: () => void
   isLoading?: boolean
   className?: string
+  contentClassName?: string
   children?: React.ReactNode
 }
 export function ConfirmDialog(props: ConfirmDialogProps) {
@@ -34,13 +35,14 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
     handleConfirm,
     isLoading = false,
     className,
+    contentClassName,
     children,
     disabled = false,
     ...actions
   } = props
   return (
     <AlertDialog {...actions}>
-      <AlertDialogContent>
+      <AlertDialogContent className={contentClassName}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription asChild>

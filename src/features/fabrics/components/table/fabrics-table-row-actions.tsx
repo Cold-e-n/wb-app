@@ -16,49 +16,27 @@ export const FabricsTableRowActions = <TData,>({
   const fabric = fabricSchema.parse(row.original)
   const { setOpen, setCurrentRow } = useFabricsContext()
 
-  // Determine behavior based on hasColor property
-  const detailItem = fabric.hasColor
-    ? {
-        type: 'item' as const,
-        label: 'Detail',
-        icon: BookSearch,
-        href: `/fabrics/${fabric.id}`,
-      }
-    : {
-        type: 'item' as const,
-        label: 'Detail',
-        icon: BookSearch,
-        onClick: () => {
-          setCurrentRow(fabric)
-          setOpen('detail')
-        },
-      }
-
-  const editItem = fabric.hasColor
-    ? {
-        type: 'item' as const,
-        label: 'Edit',
-        icon: Edit2,
-        onClick: () => {
-          setCurrentRow(fabric)
-          setOpen('update')
-        },
-      }
-    : {
-        type: 'item' as const,
-        label: 'Edit',
-        icon: Edit2,
-        onClick: () => {
-          setCurrentRow(fabric)
-          setOpen('update')
-        },
-      }
-
   return (
     <DataTableRowActions
       items={[
-        detailItem,
-        editItem,
+        {
+          type: 'item' as const,
+          label: 'Detail',
+          icon: BookSearch,
+          onClick: () => {
+            setCurrentRow(fabric)
+            setOpen('detail')
+          },
+        },
+        {
+          type: 'item' as const,
+          label: 'Edit',
+          icon: Edit2,
+          onClick: () => {
+            setCurrentRow(fabric)
+            setOpen('update')
+          },
+        },
         {
           type: 'separator',
         },

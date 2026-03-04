@@ -19,7 +19,6 @@ import { Route as AuthFabricsIndexRouteImport } from './routes/_auth/fabrics/ind
 import { Route as AuthColorPositionsIndexRouteImport } from './routes/_auth/color-positions/index'
 import { Route as AuthColorLayoutsIndexRouteImport } from './routes/_auth/color-layouts/index'
 import { Route as AuthColorLayoutsAddNewRouteImport } from './routes/_auth/color-layouts/add-new'
-import { Route as AuthFabricsFabricsIdIndexRouteImport } from './routes/_auth/fabrics/$fabricsId/index'
 import { Route as AuthColorPositionsColorPositionIdIndexRouteImport } from './routes/_auth/color-positions/$colorPositionId/index'
 import { Route as AuthColorLayoutsColorLayoutIdIndexRouteImport } from './routes/_auth/color-layouts/$colorLayoutId/index'
 import { Route as AuthColorPositionsColorPositionIdEditRouteImport } from './routes/_auth/color-positions/$colorPositionId/edit'
@@ -73,12 +72,6 @@ const AuthColorLayoutsAddNewRoute = AuthColorLayoutsAddNewRouteImport.update({
   path: '/color-layouts/add-new',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const AuthFabricsFabricsIdIndexRoute =
-  AuthFabricsFabricsIdIndexRouteImport.update({
-    id: '/fabrics/$fabricsId/',
-    path: '/fabrics/$fabricsId/',
-    getParentRoute: () => AuthRouteRoute,
-  } as any)
 const AuthColorPositionsColorPositionIdIndexRoute =
   AuthColorPositionsColorPositionIdIndexRouteImport.update({
     id: '/color-positions/$colorPositionId/',
@@ -117,7 +110,6 @@ export interface FileRoutesByFullPath {
   '/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
   '/color-layouts/$colorLayoutId/': typeof AuthColorLayoutsColorLayoutIdIndexRoute
   '/color-positions/$colorPositionId/': typeof AuthColorPositionsColorPositionIdIndexRoute
-  '/fabrics/$fabricsId/': typeof AuthFabricsFabricsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,7 +124,6 @@ export interface FileRoutesByTo {
   '/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
   '/color-layouts/$colorLayoutId': typeof AuthColorLayoutsColorLayoutIdIndexRoute
   '/color-positions/$colorPositionId': typeof AuthColorPositionsColorPositionIdIndexRoute
-  '/fabrics/$fabricsId': typeof AuthFabricsFabricsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,7 +141,6 @@ export interface FileRoutesById {
   '/_auth/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
   '/_auth/color-layouts/$colorLayoutId/': typeof AuthColorLayoutsColorLayoutIdIndexRoute
   '/_auth/color-positions/$colorPositionId/': typeof AuthColorPositionsColorPositionIdIndexRoute
-  '/_auth/fabrics/$fabricsId/': typeof AuthFabricsFabricsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,7 +157,6 @@ export interface FileRouteTypes {
     | '/color-positions/$colorPositionId/edit'
     | '/color-layouts/$colorLayoutId/'
     | '/color-positions/$colorPositionId/'
-    | '/fabrics/$fabricsId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,7 +171,6 @@ export interface FileRouteTypes {
     | '/color-positions/$colorPositionId/edit'
     | '/color-layouts/$colorLayoutId'
     | '/color-positions/$colorPositionId'
-    | '/fabrics/$fabricsId'
   id:
     | '__root__'
     | '/'
@@ -199,7 +187,6 @@ export interface FileRouteTypes {
     | '/_auth/color-positions/$colorPositionId/edit'
     | '/_auth/color-layouts/$colorLayoutId/'
     | '/_auth/color-positions/$colorPositionId/'
-    | '/_auth/fabrics/$fabricsId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -280,13 +267,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthColorLayoutsAddNewRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/_auth/fabrics/$fabricsId/': {
-      id: '/_auth/fabrics/$fabricsId/'
-      path: '/fabrics/$fabricsId'
-      fullPath: '/fabrics/$fabricsId/'
-      preLoaderRoute: typeof AuthFabricsFabricsIdIndexRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
     '/_auth/color-positions/$colorPositionId/': {
       id: '/_auth/color-positions/$colorPositionId/'
       path: '/color-positions/$colorPositionId'
@@ -329,7 +309,6 @@ interface AuthRouteRouteChildren {
   AuthColorPositionsColorPositionIdEditRoute: typeof AuthColorPositionsColorPositionIdEditRoute
   AuthColorLayoutsColorLayoutIdIndexRoute: typeof AuthColorLayoutsColorLayoutIdIndexRoute
   AuthColorPositionsColorPositionIdIndexRoute: typeof AuthColorPositionsColorPositionIdIndexRoute
-  AuthFabricsFabricsIdIndexRoute: typeof AuthFabricsFabricsIdIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -347,7 +326,6 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
     AuthColorLayoutsColorLayoutIdIndexRoute,
   AuthColorPositionsColorPositionIdIndexRoute:
     AuthColorPositionsColorPositionIdIndexRoute,
-  AuthFabricsFabricsIdIndexRoute: AuthFabricsFabricsIdIndexRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
