@@ -1,12 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { getCookie } from '@/lib/cookies'
+import { getRequest } from '@tanstack/react-start/server'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 
 export const getSidebarState = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  const defaultOpen = getCookie('sidebar_state') !== 'false'
+  const request = getRequest()
+  const cookieHeader = request.headers.get('cookie') ?? ''
+  const match = cookieHeader.match(/(?:^|;\s*)sidebar_state=([^;]*)/)
+  const defaultOpen = match ? match[1] !== 'false' : true
   return { defaultOpen }
 })
 
