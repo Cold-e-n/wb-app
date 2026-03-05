@@ -90,6 +90,13 @@ export const updateFabric = createServerFn({
   .inputValidator(updateFabricSchema)
   .handler(async ({ data }) => {
     try {
+      const existingFabric = await prisma.fabric.findUnique({
+        where: { id: data.id },
+        select: {
+          colorLayoutId: true,
+        },
+      })
+
       const updatedFabric = await prisma.fabric.update({
         where: { id: data.id },
         data: {
@@ -115,20 +122,19 @@ export const updateFabric = createServerFn({
               },
             },
           }),
-          ...(!data.hasColor && {
-            colorLayout: {
-              delete: true,
-            },
-          }),
+          ...(!data.hasColor &&
+            existingFabric?.colorLayoutId && {
+              colorLayout: {
+                delete: true,
+              },
+            }),
         },
       })
 
       return updatedFabric
     } catch (error) {
       console.error('Failed to update fabric:', error)
-      throw new Error(
-        'Gagal mengupdate kain. Pastikan nama kain belum digunakan.',
-      )
+      throw new Error('Pastikan nama kain belum digunakan.')
     }
   })
 

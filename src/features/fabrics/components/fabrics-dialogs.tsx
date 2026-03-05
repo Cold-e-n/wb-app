@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { useForm } from '@tanstack/react-form'
-import { z } from 'zod'
+import { useRouter } from '@tanstack/react-router'
 import { useFabricsMutation } from '../hooks/use-fabric'
+import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -29,6 +30,8 @@ const formSchema = z.object({
 type FabricFormValues = z.infer<typeof formSchema>
 
 export const FabricsDialogs = () => {
+  const router = useRouter()
+
   const { open, setOpen, currentRow, setCurrentRow } = useFabricsContext()
   const { createMutation, updateMutation, isPending } = useFabricsMutation()
 
@@ -52,6 +55,8 @@ export const FabricsDialogs = () => {
           { onSuccess: () => handleOpenChange(false) },
         )
       }
+
+      await router.invalidate()
     },
   })
 
