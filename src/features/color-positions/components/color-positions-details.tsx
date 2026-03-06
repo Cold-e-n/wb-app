@@ -26,7 +26,6 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-md font-jetbrains-mono">
               <div>
-                <div>WB - {data.wbNo}</div>
                 <div>{data.fabric.name}</div>
                 <div>
                   {data.fabricContent.cones.length === 1 ? (
@@ -51,13 +50,13 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
                     </div>
                   )}
                 </div>
+                <div>{colorInfo}</div>
               </div>
 
               <div>
                 <div>
                   {`Jarak Warna: ${data.colorLayout.colorContent.colorDistance} Helai`}
                 </div>
-                <div>{colorInfo}</div>
                 <div className="grid grid-cols-2">
                   <span>IN: </span>
                   <span>OUT: </span>
