@@ -11,14 +11,16 @@ export type Fabric = z.infer<typeof fabricSchema>
 // --- Shared mutation schemas ---
 
 export const createFabricSchema = z.object({
-  name: z.string().min(3, 'Nama kain minimal 3 karakter'),
-  hasColor: z
-    .boolean()
-    .nullable()
-    .optional()
-    .transform((v) => v ?? false),
-  colorName: z.string().optional(),
-  colorNote: z.string().optional(),
+  fabrics: z.array(
+    z.object({
+      name: z.string().min(3, 'Nama kain minimal 3 karakter'),
+      hasColor: z
+        .boolean()
+        .nullable()
+        .optional()
+        .transform((v) => v ?? false),
+    }),
+  ),
 })
 
 export type CreateFabricInput = z.infer<typeof createFabricSchema>
@@ -41,8 +43,6 @@ export const fabricFormSchema = z.object({
     .max(50, 'Nama kain maksimal 50 karakter')
     .trim(),
   hasColor: z.boolean().optional(),
-  colorNote: z.string().optional(),
-  colorName: z.string().optional(),
 })
 
 export type FabricFormValues = z.infer<typeof fabricFormSchema>

@@ -3,6 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { useRouter } from '@tanstack/react-router'
 import { useFabricsMutation } from '../hooks/use-fabric'
 import { z } from 'zod'
+import { fabricFormSchema } from '@/types/Fabric'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,32 +13,46 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
-import { Field, FieldContent, FieldError } from '@/components/ui/field'
-import { InputGroup, InputGroupInput } from '@/components/ui/input-group'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldSet,
+} from '@/components/ui/field'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/components/ui/input-group'
 
 import { useFabricsContext } from './fabrics-provider'
 
+import { XIcon } from 'lucide-react'
+
 // Define validation schema
 const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, 'Nama kain minimal 3 karakter')
-    .max(50, 'Nama kain maksimal 50 karakter')
-    .trim(),
+  fabrics: z.array(fabricFormSchema),
 })
 
 // Infer type from schema
 type FabricFormValues = z.infer<typeof formSchema>
 
 export const FabricsDialogs = () => {
-  const router = useRouter()
-
   const { open, setOpen, currentRow, setCurrentRow } = useFabricsContext()
   const { createMutation, updateMutation, isPending } = useFabricsMutation()
+  const router = useRouter()
 
   const form = useForm({
     defaultValues: {
-      name: '',
+      fabrics: [
+        {
+          name: '',
+          hasColor: false,
+        },
+      ],
     } as FabricFormValues,
     validators: {
       onSubmit: formSchema,
@@ -46,12 +61,12 @@ export const FabricsDialogs = () => {
     onSubmit: async ({ value }) => {
       if (open === 'update' && currentRow) {
         updateMutation.mutate(
-          { id: currentRow.id, name: value.name },
+          { id: currentRow.id, name: value.fabrics[0].name },
           { onSuccess: () => handleOpenChange(false) },
         )
       } else {
         createMutation.mutate(
-          { name: value.name },
+          { fabrics: value.fabrics },
           { onSuccess: () => handleOpenChange(false) },
         )
       }
@@ -63,7 +78,7 @@ export const FabricsDialogs = () => {
   // Update form values when dialog opens with currentRow
   React.useEffect(() => {
     if (open === 'update' && currentRow) {
-      form.setFieldValue('name', currentRow.name)
+      form.setFieldValue('fabrics', [{ name: currentRow.name }])
     } else if (open === 'create') {
       // Reset form for create mode
       form.reset()
@@ -136,44 +151,104 @@ export const FabricsDialogs = () => {
               form.handleSubmit()
             }}
           >
-            <form.Field
-              name="name"
-              children={(field) => {
+            <form.Field name="fabrics" mode="array">
+              {(field) => {
                 const isInvalid =
                   field.state.meta.isTouched && !field.state.meta.isValid
                 return (
-                  <Field orientation="horizontal" data-invalid={isInvalid}>
-                    <label htmlFor={field.name} className="sr-only">
-                      Nama Kain
-                    </label>
-                    <FieldContent>
-                      <InputGroup>
-                        <InputGroupInput
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          aria-invalid={isInvalid}
-                          aria-describedby={
-                            isInvalid ? `${field.name}-error` : undefined
-                          }
-                          type="text"
-                          autoComplete="off"
-                          placeholder={`Nama kain`}
+                  <FieldSet className="gap-4">
+                    {open === 'create' && (
+                      <FieldDescription>
+                        Maksimal bisa menambahkan 5 kain.
+                      </FieldDescription>
+                    )}
+
+                    <FieldGroup className="gap-4">
+                      {field.state.value.map((_, index) => (
+                        <form.Field
+                          key={index}
+                          name={`fabrics[${index}].name`}
+                          children={(subField) => {
+                            const isSubFieldInvalid =
+                              subField.state.meta.isTouched &&
+                              !subField.state.meta.isValid
+                            return (
+                              <Field
+                                orientation="horizontal"
+                                data-invalid={isSubFieldInvalid}
+                              >
+                                <label
+                                  htmlFor={`colors-field-${index}`}
+                                  className="sr-only"
+                                >
+                                  Nama Warna {index + 1}
+                                </label>
+                                <FieldContent>
+                                  <InputGroup>
+                                    <InputGroupInput
+                                      id={`colors-field-${index}`}
+                                      name={subField.name}
+                                      value={subField.state.value}
+                                      onBlur={subField.handleBlur}
+                                      onChange={(e) =>
+                                        subField.handleChange(e.target.value)
+                                      }
+                                      aria-invalid={isSubFieldInvalid}
+                                      aria-describedby={
+                                        isSubFieldInvalid
+                                          ? `colors-field-${index}-error`
+                                          : undefined
+                                      }
+                                      type="text"
+                                      autoComplete="off"
+                                    />
+                                    {field.state.value.length > 1 && (
+                                      <InputGroupAddon align="inline-end">
+                                        <InputGroupButton
+                                          type="button"
+                                          variant="ghost"
+                                          size="icon-xs"
+                                          onClick={() =>
+                                            field.removeValue(index)
+                                          }
+                                          aria-label={`Hapus warna ${index + 1}`}
+                                        >
+                                          <XIcon />
+                                        </InputGroupButton>
+                                      </InputGroupAddon>
+                                    )}
+                                  </InputGroup>
+                                  {isSubFieldInvalid && (
+                                    <FieldError
+                                      id={`colors-field-${index}-error`}
+                                      errors={subField.state.meta.errors}
+                                    />
+                                  )}
+                                </FieldContent>
+                              </Field>
+                            )
+                          }}
                         />
-                      </InputGroup>
-                      {isInvalid && (
-                        <FieldError
-                          id={`${field.name}-error`}
-                          errors={field.state.meta.errors}
-                        />
+                      ))}
+                      {open === 'create' && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => field.pushValue({ name: '' })}
+                          disabled={field.state.value.length >= 5}
+                        >
+                          Tambah Kain Lain
+                        </Button>
                       )}
-                    </FieldContent>
-                  </Field>
+                    </FieldGroup>
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </FieldSet>
                 )
               }}
-            />
+            </form.Field>
 
             <DialogFooter className="mt-4">
               <Button

@@ -39,17 +39,12 @@ export const useFabricsMutation = () => {
   }
 
   const createMutation = useMutation({
-    mutationFn: async (data: {
-      name: string
-      hasColor?: boolean
-      colorName?: string
-      colorNote?: string
-    }) => {
-      return Api.createFabrics({ data: data })
+    mutationFn: async (data: { fabrics: { name: string }[] }) => {
+      return Api.createFabrics({ data })
     },
     onSuccess: (_, items) => {
       toast.success('Kain berhasil ditambahkan', {
-        description: items.name,
+        description: items.fabrics.map((fabric) => fabric.name).join(', '),
         descriptionClassName: 'text-blue-900',
       })
       invalidate()

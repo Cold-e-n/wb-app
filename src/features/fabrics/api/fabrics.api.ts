@@ -56,23 +56,13 @@ export const createFabrics = createServerFn({
   .inputValidator(createFabricSchema)
   .handler(async ({ data }) => {
     try {
-      const createdFabrics = await prisma.fabric.create({
-        data: {
-          name: data.name,
-          slug: createSlug(data.name),
-          hasColor: data.hasColor,
-          ...(data.hasColor &&
-            (data.colorName || data.colorNote) && {
-              colorLayout: {
-                create: {
-                  colorContent: {
-                    name: data.colorName,
-                    note: data.colorNote,
-                  },
-                },
-              },
-            }),
-        },
+      const fabricToCreate = data.fabrics.map((fabric) => ({
+        name: fabric.name,
+        slug: createSlug(fabric.name),
+      }))
+
+      const createdFabrics = await prisma.fabric.createMany({
+        data: fabricToCreate,
       })
 
       return createdFabrics
