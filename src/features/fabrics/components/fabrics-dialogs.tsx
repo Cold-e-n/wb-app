@@ -61,7 +61,11 @@ export const FabricsDialogs = () => {
     onSubmit: async ({ value }) => {
       if (open === 'update' && currentRow) {
         updateMutation.mutate(
-          { id: currentRow.id, name: value.fabrics[0].name },
+          {
+            id: currentRow.id,
+            name: value.fabrics[0].name,
+            hasColor: currentRow.hasColor,
+          },
           { onSuccess: () => handleOpenChange(false) },
         )
       } else {
