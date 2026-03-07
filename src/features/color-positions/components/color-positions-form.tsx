@@ -374,7 +374,6 @@ export const ColorPositionsForm = ({
                       id="fringe"
                       type="number"
                       min="0"
-                      max="50"
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => {

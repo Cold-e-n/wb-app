@@ -189,16 +189,20 @@ export class ColorPositionCalculator {
    */
   private calculateOutGaps(remainingCapacity: number): number[] {
     const { OUT } = this.data.colorLayout.colorContent
+    const { fringe } = this.data.fabricContent
 
     if (!OUT) return [remainingCapacity]
 
     const totalOutGap = OUT.distance * OUT.count
     // OUT markers diasumsikan single thread (lebar 1)
-    const firstValue = remainingCapacity - totalOutGap - OUT.count
+    const firstValue =
+      remainingCapacity - totalOutGap - OUT.count - (fringe || 0)
     const results: number[] = [firstValue]
 
     for (let i = 0; i < OUT.count; i++) {
-      results.push(OUT.distance)
+      const n =
+        i === OUT.count - 1 ? OUT.distance + (fringe || 0) : OUT.distance
+      results.push(n)
     }
 
     return results
