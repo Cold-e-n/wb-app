@@ -34,19 +34,9 @@ export const ColorInfoDisplay = ({
   const renderOUT = () => {
     if (!OUT) return null
 
-    // Check if OUT color is the same as main color (Single type)
-    const isSameColor =
-      OUT.color.length === color.length &&
-      OUT.color.every((c, i) => c === color[i])
-
-    if (isSameColor) {
-      return ` + OUT ${OUT.count} Helai`
-    }
-
-    // If OUT color is different (e.g. 2 different colors)
     return (
       <>
-        {' + OUT 1 Helai ('}
+        {` + OUT ${OUT.count} Helai (`}
         {OUT.color[0] && <ColorName colorId={OUT.color[0]} />}
         {OUT.color[1] && (
           <>
