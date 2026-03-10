@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/input-group'
 
 import { useFabricsContext } from './fabrics-provider'
+import { FabricDetails } from './fabric-details'
 
 import { XIcon } from 'lucide-react'
 
@@ -82,7 +83,9 @@ export const FabricsDialogs = () => {
   // Update form values when dialog opens with currentRow
   React.useEffect(() => {
     if (open === 'update' && currentRow) {
-      form.setFieldValue('fabrics', [{ name: currentRow.name }])
+      form.setFieldValue('fabrics', [
+        { name: currentRow.name, hasColor: currentRow.hasColor },
+      ])
     } else if (open === 'create') {
       // Reset form for create mode
       form.reset()
@@ -106,24 +109,7 @@ export const FabricsDialogs = () => {
             <DialogTitle>Detail Kain</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 py-4">
-            <div className="grid grid-cols-3 gap-4">
-              <span className="text-muted-foreground text-sm font-medium">
-                Nama
-              </span>
-              <span className="col-span-2 text-sm">{currentRow.name}</span>
-            </div>
-          </div>
-
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleOpenChange(false)}
-            >
-              Tutup
-            </Button>
-          </DialogFooter>
+          <FabricDetails fabric={currentRow} />
         </DialogContent>
       </Dialog>
     )
