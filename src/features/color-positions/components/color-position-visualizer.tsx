@@ -14,8 +14,7 @@ interface ColorPositionVisualizerProps {
 export const ColorPositionVisualizer: React.FC<
   ColorPositionVisualizerProps
 > = ({ positionResults, dataColor }) => {
-  const { fabricContent, colorLayout } = dataColor
-  const { sections } = fabricContent
+  const { colorLayout } = dataColor
   const {
     type: layoutType,
     colorPairDistance,
@@ -90,7 +89,7 @@ export const ColorPositionVisualizer: React.FC<
   let globalMarkerIndex = 0
 
   return (
-    <Card className="overflow-hidden print:border-none print:shadow-none print:bg-white print:py-0">
+    <Card className="overflow-hidden mt-5 print:border-none print:shadow-none print:bg-white print:p-0">
       <CardHeader className="no-print">
         <CardAction className="no-print">
           <Button
@@ -110,14 +109,14 @@ export const ColorPositionVisualizer: React.FC<
           <div className="inline-flex min-w-full print-wrap">
             {positionResults.map((values, index) => {
               const sectionNumber = index + 1
-              const isLastSection = sectionNumber === sections
+              const isFirstSection = sectionNumber === 1
 
               return (
                 <div
                   key={sectionNumber}
                   className={cn(
                     'shrink-0 min-w-10 text-center px-4',
-                    !isLastSection && 'border-r-2 border-black',
+                    !isFirstSection && 'border-l-2 border-black',
                   )}
                 >
                   {/* Nomor Section */}
@@ -180,7 +179,7 @@ export const ColorPositionVisualizer: React.FC<
                                   ))}
                                 </div>
                                 {currentMarkerIndex < inCount && (
-                                  <span className="absolute text-[10px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
+                                  <span className="absolute text-[12px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
                                     IN
                                   </span>
                                 )}

@@ -21,17 +21,17 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
 
   return (
     <div className="space-y-6 print:space-y-0 print-wrap">
-      <div className="w-full print:mx-2 print:mt-5">
-        <Card className="print:border-gray-800 print:text-gray-800">
+      <div className="w-full print:mx-2 print:mt-0">
+        <Card className="print:border-0 print:shadow-none print:text-gray-800">
           <CardContent>
-            <div className="grid grid-cols-2 gap-4 text-md font-jetbrains-mono">
+            <div className="grid grid-cols-2 gap-4 text-md font-jetbrains-mono print:text-sm">
               <div>
                 <div>{data.fabric.name}</div>
                 <div>
                   {data.fabricContent.cones.length === 1 ? (
                     `${data.fabricContent.cones[0]} cones x ${data.fabricContent.sections} sections = ${totalThreads} Helai`
                   ) : (
-                    <div className="flex items-center gap-10">
+                    <div className="flex items-center gap-7">
                       <div className="flex flex-col">
                         <span>
                           {data.fabricContent.cones[0]} cones x{' '}
@@ -65,9 +65,8 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
             </div>
           </CardContent>
         </Card>
+        <ColorPositionVisualizer positionResults={results} dataColor={data} />
       </div>
-
-      <ColorPositionVisualizer positionResults={results} dataColor={data} />
     </div>
   )
 }
