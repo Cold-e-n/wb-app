@@ -1,4 +1,4 @@
-import { type ColorPositionWithRelations } from './color-positions-provider'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 import { ColorPositionCalculator } from '@/calculations/ColorPosition'
 import { Card, CardContent } from '@/components/ui/card'
 import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'

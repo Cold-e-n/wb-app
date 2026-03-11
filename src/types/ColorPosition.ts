@@ -1,4 +1,6 @@
 import z from 'zod'
+import { type ColorLayout } from './ColorLayout'
+import { type Fabric } from './Fabric'
 
 export const fabricContentSchema = z.object({
   cones: z.array(z.number()),
@@ -15,6 +17,11 @@ export const colorPositionSchema = z.object({
   wbNo: z.string(),
 })
 export type ColorPosition = z.infer<typeof colorPositionSchema>
+
+export type ColorPositionWithRelations = ColorPosition & {
+  fabric: Fabric
+  colorLayout: ColorLayout
+}
 
 export const colorPositionFormSchema = z
   .object({

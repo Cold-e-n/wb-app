@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { prisma } from '@/db'
 import { z } from 'zod'
 import { fabricContentSchema } from '@/types/ColorPosition'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 export const getColorPositions = createServerFn({
   method: 'GET',
@@ -33,7 +34,7 @@ export const getColorPositions = createServerFn({
       },
     })
 
-    return colorPositions
+    return colorPositions as unknown as ColorPositionWithRelations[]
   } catch (error) {
     console.error('Failed to fetch color positions:', error)
     throw new Error('Gagal mengambil data posisi warna.')
@@ -69,7 +70,7 @@ export const getColorPositionById = createServerFn({
         },
       })
 
-      return colorPosition
+      return colorPosition as unknown as ColorPositionWithRelations
     } catch (error) {
       console.error('Failed to fetch color position by id:', error)
       throw new Error('Gagal mengambil detail posisi warna.')

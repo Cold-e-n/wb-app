@@ -1,5 +1,5 @@
 import { useColorPositionsContext } from './color-positions-provider'
-import { type ColorPositionWithRelations } from './color-positions-provider'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'

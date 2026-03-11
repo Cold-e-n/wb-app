@@ -29,8 +29,6 @@ export const updateFabricSchema = z.object({
   id: z.string(),
   name: z.string().min(3, 'Nama kain minimal 3 karakter'),
   hasColor: z.boolean().nullable().optional(),
-  colorName: z.string().optional(),
-  colorNote: z.string().optional(),
 })
 
 export type UpdateFabricInput = z.infer<typeof updateFabricSchema>

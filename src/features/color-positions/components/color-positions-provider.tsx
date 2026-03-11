@@ -1,14 +1,6 @@
 import * as React from 'react'
 import { useDialogState } from '@/hooks/use-dialog-state'
-import { type ColorPosition } from '@/types/ColorPosition'
-import { type ColorLayout } from '@/types/ColorLayout'
-import { type Fabric } from '@/types/Fabric'
-
-// Extended type for table data
-export type ColorPositionWithRelations = ColorPosition & {
-  fabric: Fabric
-  colorLayout: ColorLayout
-}
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 type ColorPositionsDialogType = 'create' | 'update' | 'delete'
 

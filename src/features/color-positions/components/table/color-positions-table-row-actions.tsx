@@ -1,8 +1,6 @@
 import { Row } from '@tanstack/react-table'
-import {
-  type ColorPositionWithRelations,
-  useColorPositionsContext,
-} from '../color-positions-provider'
+import { useColorPositionsContext } from '../color-positions-provider'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 import { DataTableRowActions } from '@/components/data-table/row-actions'
 import { BookSearch, Pencil, Trash } from 'lucide-react'
 
