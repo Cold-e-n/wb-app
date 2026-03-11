@@ -5,7 +5,7 @@ export const Route = createFileRoute('/_guest/sign-in')({
   head: () => ({
     meta: [
       {
-        title: `Sign In | ${import.meta.env.VITE_APP_NAME}`,
+        title: `Sign In - ${import.meta.env.VITE_APP_DEPARTMENT_NAME} App`,
       },
     ],
   }),
