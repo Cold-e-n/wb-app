@@ -1,4 +1,5 @@
 import { StrictMode } from 'react'
+import { AppSplash, SPLASH_STYLES } from '@/components/app-splash'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import {
   createRootRouteWithContext,
@@ -109,9 +110,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           crossOrigin="anonymous"
           src="https://tweakcn.com/live-preview.min.js"
         />
+        <style dangerouslySetInnerHTML={{ __html: SPLASH_STYLES }} />
         <HeadContent />
       </head>
       <body>
+        <AppSplash />
         <StrictMode>
           <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             {children}
@@ -137,7 +140,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
         <Scripts />
         <div className="no-print">
-          <Toaster position="bottom-right" closeButton />
+          <Toaster position="top-right" closeButton />
         </div>
       </body>
     </html>
