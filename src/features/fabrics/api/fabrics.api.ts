@@ -84,6 +84,11 @@ export const updateFabric = createServerFn({
         where: { id: data.id },
         select: {
           colorLayoutId: true,
+          colorLayout: {
+            select: {
+              colorContent: true,
+            },
+          },
         },
       })
 
@@ -98,16 +103,10 @@ export const updateFabric = createServerFn({
             colorLayout: {
               upsert: {
                 create: {
-                  colorContent: {
-                    name: data.colorName,
-                    note: data.colorNote,
-                  },
+                  colorContent: {},
                 },
                 update: {
-                  colorContent: {
-                    name: data.colorName,
-                    note: data.colorNote,
-                  },
+                  colorContent: existingFabric?.colorLayout?.colorContent ?? {},
                 },
               },
             },

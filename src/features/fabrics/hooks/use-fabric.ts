@@ -35,6 +35,7 @@ export const useFabricsMutation = () => {
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ['fabrics'] })
+    queryClient.invalidateQueries({ queryKey: ['colorPositions'] })
     router.invalidate()
   }
 

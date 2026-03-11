@@ -20,7 +20,7 @@ const RouteComponent = () => {
 
 export const Route = createFileRoute('/_auth/color-layouts/')({
   loader: async ({ context }) => {
-    const colorLayouts = await context.queryClient.ensureQueryData(
+    const colorLayouts = await context.queryClient.fetchQuery(
       getColorLayoutQueryOptions,
     )
     return { colorLayouts }

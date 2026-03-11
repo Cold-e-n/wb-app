@@ -13,6 +13,7 @@ import { z } from 'zod'
 export const getColorPositionsQueryOptions = queryOptions({
   queryKey: ['colorPositions'],
   queryFn: Api.getColorPositions,
+  staleTime: 0,
 })
 
 export const getColorPositionByIdQueryOptions = (id: string) =>

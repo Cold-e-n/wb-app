@@ -3,18 +3,29 @@ import {
   ColorPositions,
   ColorPositionsProvider,
 } from '@/features/color-positions'
-import { useColorPositions } from '@/features/color-positions/hooks/use-color-positions'
+import { getColorPositionsQueryOptions } from '@/features/color-positions/hooks/use-color-positions'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 const RouteComponent = () => {
-  const { data } = useColorPositions()
+  const { data } = Route.useLoaderData()
   return (
     <ColorPositionsProvider>
-      <ColorPositions data={data as []} />
+      <ColorPositions data={data as ColorPositionWithRelations[]} />
     </ColorPositionsProvider>
   )
 }
 
 export const Route = createFileRoute('/_auth/color-positions/')({
+  loader: async ({ context }) => {
+    const data = await context.queryClient.fetchQuery(
+      getColorPositionsQueryOptions,
+    )
+    if (!data) {
+      throw new Error('Color position not found')
+    }
+
+    return { data }
+  },
   head: () => ({
     meta: [
       {

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { getColorPositionByIdQueryOptions } from '@/features/color-positions/hooks/use-color-positions'
-import { type ColorPositionWithRelations } from '@/features/color-positions'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 import { ColorPositionsDetails } from '@/features/color-positions/components/color-positions-details'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
