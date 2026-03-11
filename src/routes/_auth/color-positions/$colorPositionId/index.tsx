@@ -66,7 +66,7 @@ export const Route = createFileRoute(
   '/_auth/color-positions/$colorPositionId/',
 )({
   loader: async ({ context, params }) => {
-    const data = await context.queryClient.ensureQueryData(
+    const data = await context.queryClient.fetchQuery(
       getColorPositionByIdQueryOptions(params.colorPositionId),
     )
     if (!data) {

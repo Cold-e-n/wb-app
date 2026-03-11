@@ -16,7 +16,7 @@ export const getColorsQueryOptions = queryOptions({
 
 export const getColorByIdQueryOptions = (id: string | undefined) =>
   queryOptions({
-    queryKey: ['color', id],
+    queryKey: ['colors', id],
     queryFn: () => Api.getColorById({ data: { id: id! } }),
     enabled: !!id,
   })

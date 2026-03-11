@@ -20,6 +20,7 @@ export const getColorPositionByIdQueryOptions = (id: string) =>
     queryKey: ['colorPositions', id],
     queryFn: () => Api.getColorPositionById({ data: { id } }),
     enabled: !!id,
+    staleTime: 0,
   })
 
 export const useColorPositions = () => {
@@ -38,6 +39,8 @@ export const useColorPositionsMutation = () => {
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ['colorPositions'] })
+    queryClient.invalidateQueries({ queryKey: ['fabrics'] })
+    queryClient.invalidateQueries({ queryKey: ['colorLayouts'] })
     router.invalidate()
   }
 
@@ -71,8 +74,9 @@ export const useColorPositionsMutation = () => {
     }) => {
       return Api.updateColorPosition({ data })
     },
-    onSuccess: () => {
+    onSuccess: (_, data) => {
       toast.success('Posisi warna berhasil diupdate')
+      queryClient.invalidateQueries({ queryKey: ['colorPositions', data.id] })
       invalidate()
     },
     onError: (error) => {

@@ -16,7 +16,7 @@ export const getFabricsQueryOptions = queryOptions({
 
 export const getFabricByIdQueryOptions = (fabricId: string) =>
   queryOptions({
-    queryKey: ['fabric', fabricId],
+    queryKey: ['fabrics', fabricId],
     queryFn: () => Api.getFabricById({ data: { id: fabricId } }),
     enabled: !!fabricId,
   })

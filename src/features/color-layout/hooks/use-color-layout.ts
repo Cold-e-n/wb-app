@@ -9,13 +9,13 @@ import * as Api from '../api/color-layout.api'
 import { toast } from 'sonner'
 
 export const getColorLayoutQueryOptions = queryOptions({
-  queryKey: ['colorLayout'],
+  queryKey: ['colorLayouts'],
   queryFn: Api.getColorLayout,
 })
 
 export const getColorLayoutByIdQueryOptions = (id: string) =>
   queryOptions({
-    queryKey: ['colorLayout', id],
+    queryKey: ['colorLayouts', id],
     queryFn: () => Api.getColorLayoutById({ data: { id } }),
     enabled: !!id,
   })
@@ -33,7 +33,7 @@ export const useColorLayoutMutation = () => {
   const router = useRouter()
 
   const invalidate = () => {
-    queryClient.invalidateQueries({ queryKey: ['colorLayout'] })
+    queryClient.invalidateQueries({ queryKey: ['colorLayouts'] })
     queryClient.invalidateQueries({ queryKey: ['fabrics'] })
     router.invalidate()
   }
