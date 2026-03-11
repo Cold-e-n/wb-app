@@ -14,7 +14,7 @@ export function createSlug(text: string): string {
     .toLowerCase()
     .trim()
     .replace(/\//g, '-')
-    .replace(/[^\w\s-]/g, '')
+    .replace(/[^\w\s-]/g, ' ')
     .replace(/[\s_]+/g, '-')
     .replace(/-+/g, '-')
     .replace(/^-+|-+$/g, '')
