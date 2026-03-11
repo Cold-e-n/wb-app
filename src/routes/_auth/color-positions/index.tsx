@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import {
   ColorPositions,
   ColorPositionsProvider,
@@ -7,7 +8,7 @@ import { getColorPositionsQueryOptions } from '@/features/color-positions/hooks/
 import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 const RouteComponent = () => {
-  const { data } = Route.useLoaderData()
+  const { data } = useSuspenseQuery(getColorPositionsQueryOptions)
   return (
     <ColorPositionsProvider>
       <ColorPositions data={data as ColorPositionWithRelations[]} />
@@ -26,6 +27,7 @@ export const Route = createFileRoute('/_auth/color-positions/')({
 
     return { data }
   },
+  staleTime: Infinity,
   head: () => ({
     meta: [
       {

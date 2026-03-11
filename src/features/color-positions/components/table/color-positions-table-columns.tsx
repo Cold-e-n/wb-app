@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { type ColorPositionWithRelations } from '../color-positions-provider'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColorPositionsTableRowActions } from '@/features/color-positions/components/table/color-positions-table-row-actions'
 

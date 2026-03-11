@@ -21,7 +21,7 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
 
   return (
     <div className="space-y-6 print:space-y-0 print-wrap">
-      <div className="w-full print:mx-2 print:mt-0">
+      <div className="w-full print:mx-2 print:mt-5">
         <Card className="print:border-0 print:shadow-none print:text-gray-800">
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-md font-jetbrains-mono print:text-sm">

@@ -1,6 +1,6 @@
 import React from 'react'
 import { MoveDown, Printer } from 'lucide-react'
-import { type ColorPositionWithRelations } from './color-positions-provider'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 import { cn } from '@/lib/utils'
 import { Card, CardAction, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
