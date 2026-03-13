@@ -26,7 +26,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { colorPositionsTableColumns as columns } from './color-positions-table-columns'
-import { type ColorPositionWithRelations } from '../color-positions-provider'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
 
