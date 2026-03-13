@@ -22,6 +22,7 @@ export const ColorPositionVisualizer: React.FC<
     IN,
     OUT,
     colorCount,
+    edgeTriple,
   } = colorLayout.colorContent
 
   const inCount = IN?.count || 0
@@ -62,6 +63,16 @@ export const ColorPositionVisualizer: React.FC<
     return 'text-gray-900'
   }
 
+  /**
+   * Resolve color ID to CSS class via colorMap.
+   */
+  const getColorClassById = (colorId: string | undefined): string => {
+    if (!colorId) return 'text-gray-900'
+    let colorName = colorMap.get(colorId)
+    if (!colorName) colorName = colorId
+    return getColorClass(colorName)
+  }
+
   const getArrowColorClass = (markerIdx: number, arrowIdx: number) => {
     let colorId: string | undefined
     if (markerIdx < inCount) {
@@ -76,14 +87,112 @@ export const ColorPositionVisualizer: React.FC<
       colorId = OUT?.color?.[outMarkerIdx] || OUT?.color?.[0]
     }
 
-    if (!colorId) return 'text-gray-900'
+    return getColorClassById(colorId)
+  }
 
-    // Try to get from map (if it's an ID)
-    let colorName = colorMap.get(colorId)
-    // If not in map, maybe it's already a name? (Fallback)
-    if (!colorName) colorName = colorId
+  /**
+   * Cek apakah marker ini adalah edge marker (pertama/terakhir dari regular markers).
+   */
+  const isEdgeMarker = (markerIdx: number): boolean => {
+    if (!edgeTriple || layoutType !== 'double') return false
+    const regularIdx = markerIdx - inCount
+    return regularIdx === 0 || regularIdx === regularCount - 1
+  }
 
-    return getColorClass(colorName)
+  /**
+   * Render arrows untuk edge-triple marker:
+   * [pD] [main] [B] [B] [B] [main] [pD]
+   * Total 5 arrows: main, black, black, black, main
+   */
+  const renderEdgeTripleArrows = (currentMarkerIndex: number) => {
+    const mainColorClass = getArrowColorClass(currentMarkerIndex, 0)
+    const blackColorClass = getColorClass('BLACK')
+
+    // Arrow order: [DECO] [MAIN] [BLACK] [BLACK] [BLACK] [MAIN] [DECO]
+    const arrows = [
+      { colorClass: mainColorClass, label: colorPairDistance },
+      { colorClass: blackColorClass, label: null },
+      { colorClass: blackColorClass, label: null },
+      { colorClass: blackColorClass, label: colorPairDistance },
+      { colorClass: mainColorClass, label: null },
+    ]
+
+    return (
+      <div className="flex flex-col items-center relative">
+        <div className="flex items-center -gap-1">
+          {arrows.map((arrow, i) => (
+            <React.Fragment key={i}>
+              <MoveDown
+                className={cn(
+                  'w-4 h-4 translate-y-5.75 translate-x-0.5 shrink-0',
+                  arrow.colorClass,
+                )}
+              />
+              {arrow.label != null && (
+                <span
+                  className="absolute text-[12px] font-bold text-gray-800 dark:text-foreground print:dark:text-gray-900 translate-y-10 select-none shrink-0"
+                  style={{ left: `${i * 16 + 13}px` }}
+                >
+                  {arrow.label}
+                </span>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  /**
+   * Render arrows untuk marker biasa (single/double/triple, non-edge).
+   */
+  const renderRegularArrows = (currentMarkerIndex: number) => {
+    const isIn = currentMarkerIndex < inCount
+    const isOut = currentMarkerIndex >= inCount + regularCount
+
+    const arrowCount =
+      isIn || isOut
+        ? 1
+        : layoutType === 'triple'
+          ? 3
+          : layoutType === 'double'
+            ? 2
+            : 1
+
+    return (
+      <div className="flex flex-col items-center relative">
+        <div className="flex items-center -gap-1">
+          {Array.from({ length: arrowCount }).map((_, i) => (
+            <React.Fragment key={i}>
+              <MoveDown
+                className={cn(
+                  'w-4 h-4 translate-y-5.75 translate-x-0.5 shrink-0',
+                  getArrowColorClass(currentMarkerIndex, i),
+                )}
+              />
+              {layoutType === 'double' &&
+                i === 0 &&
+                currentMarkerIndex >= inCount &&
+                currentMarkerIndex < inCount + regularCount && (
+                  <span className="absolute text-[12px] font-bold text-gray-800 dark:text-foreground print:dark:text-gray-900 translate-y-10 translate-x-3.5 select-none shrink-0">
+                    {colorPairDistance}
+                  </span>
+                )}
+            </React.Fragment>
+          ))}
+        </div>
+        {isIn && (
+          <span className="absolute text-[12px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
+            IN
+          </span>
+        )}
+        {isOut && (
+          <span className="absolute text-[12px] font-jetbrains-mono font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
+            OUT
+          </span>
+        )}
+      </div>
+    )
   }
 
   let globalMarkerIndex = 0
@@ -141,56 +250,10 @@ export const ColorPositionVisualizer: React.FC<
                             <div className="text-gray-800 dark:text-gray-100 print:dark:text-gray-900 font-jetbrains-mono text-[15px] font-medium">
                               {item === 0 ? '' : item}
                             </div>
-                            {isMarker && (
-                              <div className="flex flex-col items-center relative">
-                                <div className="flex items-center -gap-1">
-                                  {Array.from({
-                                    length:
-                                      currentMarkerIndex < inCount ||
-                                      currentMarkerIndex >=
-                                        inCount + regularCount
-                                        ? 1
-                                        : layoutType === 'triple'
-                                          ? 3
-                                          : layoutType === 'double'
-                                            ? 2
-                                            : 1,
-                                  }).map((_, i) => (
-                                    <React.Fragment key={i}>
-                                      <MoveDown
-                                        className={cn(
-                                          'w-4 h-4 translate-y-5.75 translate-x-0.5 shrink-0',
-                                          getArrowColorClass(
-                                            currentMarkerIndex,
-                                            i,
-                                          ),
-                                        )}
-                                      />
-                                      {layoutType === 'double' &&
-                                        i === 0 &&
-                                        currentMarkerIndex >= inCount &&
-                                        currentMarkerIndex <
-                                          inCount + regularCount && (
-                                          <span className="absolute text-[12px] font-bold text-gray-800 dark:text-foreground print:dark:text-gray-900 translate-y-10 translate-x-3.5 select-none shrink-0">
-                                            {colorPairDistance}
-                                          </span>
-                                        )}
-                                    </React.Fragment>
-                                  ))}
-                                </div>
-                                {currentMarkerIndex < inCount && (
-                                  <span className="absolute text-[12px] font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
-                                    IN
-                                  </span>
-                                )}
-                                {currentMarkerIndex >=
-                                  inCount + regularCount && (
-                                  <span className="absolute text-[12px] font-jetbrains-mono font-bold text-gray-800 dark:text-gray-100 print:dark:text-gray-900 translate-y-13 select-none shrink-0">
-                                    OUT
-                                  </span>
-                                )}
-                              </div>
-                            )}
+                            {isMarker &&
+                              (isEdgeMarker(currentMarkerIndex)
+                                ? renderEdgeTripleArrows(currentMarkerIndex)
+                                : renderRegularArrows(currentMarkerIndex))}
                           </div>
                         )
                       })}

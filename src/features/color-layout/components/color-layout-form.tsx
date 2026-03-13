@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { useNavigate } from '@tanstack/react-router'
-import { z } from 'zod'
 import { useColorLayoutMutation } from '../hooks/use-color-layout'
-import type { ColorContent } from '@/types/ColorLayout'
+import {
+  ColorContent,
+  colorLayoutFormSchema,
+  ColorLayoutFormValues,
+} from '@/types/ColorLayout'
 
 import {
   Accordion,
@@ -31,26 +34,6 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ColorsCombobox } from '@/components/colors-combobox'
 import { FabricsCombobox } from '@/components/fabrics-combobox'
 
-const formSchema = z.object({
-  fabric: z.string().min(1, 'Kain harus dipilih'),
-  type: z.enum(['single', 'double', 'triple']),
-  color1: z.string().min(1, 'Benang warna harus dipilih').optional(),
-  color2: z.string().optional(),
-  colorDistance: z.number().min(1, 'Jarak warna minimal 1'),
-  colorPairDistance: z.number().min(1, 'Jarak warna minimal 1').optional(),
-  colorCount: z.number().min(1, 'Jumlah warna minimal 1'),
-  isIn: z.boolean().optional(),
-  isOut: z.boolean().optional(),
-  colorInCount: z.number().min(1, 'Jumlah warna minimal 1').optional(),
-  colorIn: z.array(z.string()).optional(),
-  colorInDistance: z.number().min(1, 'Jarak warna minimal 1').optional(),
-  colorOutCount: z.number().min(1, 'Jumlah warna minimal 1').optional(),
-  colorOut: z.array(z.string()).optional(),
-  colorOutDistance: z.number().min(1, 'Jarak warna minimal 1').optional(),
-})
-
-type FormValues = z.infer<typeof formSchema>
-
 type ColorLayoutFormProps = {
   mode?: 'create' | 'edit'
   initialData?: {
@@ -71,7 +54,7 @@ export const ColorLayoutForm = ({
   const [fabricId, setFabricId] = useState(initialData?.fabricId ?? '')
 
   // Parse initialData colorContent for edit mode
-  const getInitialValues = (): FormValues => {
+  const getInitialValues = (): ColorLayoutFormValues => {
     if (mode === 'edit' && initialData?.colorContent) {
       const content = initialData.colorContent
       return {
@@ -82,6 +65,8 @@ export const ColorLayoutForm = ({
         colorDistance: content.colorDistance || 1,
         colorPairDistance: (content as any).colorPairDistance || 1,
         colorCount: content.colorCount || 1,
+        isEdgeTriple: !!content.edgeTriple,
+        edgeTripleColor: content.edgeTriple?.color || '',
         isIn: !!content.IN,
         isOut: !!content.OUT,
         colorInCount: content.IN?.count || 1,
@@ -100,12 +85,14 @@ export const ColorLayoutForm = ({
       colorDistance: 1,
       colorPairDistance: 1,
       colorCount: 1,
+      isEdgeTriple: false,
+      edgeTripleColor: '',
       isIn: false,
       isOut: false,
       colorInCount: 1,
       colorIn: [],
-      colorInDistance: 1,
-      colorOutCount: 1,
+      colorInDistance: 0,
+      colorOutCount: 0,
       colorOut: [],
       colorOutDistance: 1,
     }
@@ -114,7 +101,7 @@ export const ColorLayoutForm = ({
   const form = useForm({
     defaultValues: getInitialValues(),
     validators: {
-      onSubmit: formSchema,
+      onSubmit: colorLayoutFormSchema,
     },
     onSubmit: async ({ value }) => {
       const colorContent = {
@@ -132,6 +119,16 @@ export const ColorLayoutForm = ({
               colorDistance: value.colorDistance,
               colorPairDistance: value.colorPairDistance,
               colorCount: value.colorCount,
+            }
+          : {}),
+
+        ...(value.type === 'double' &&
+        value.isEdgeTriple &&
+        value.edgeTripleColor
+          ? {
+              edgeTriple: {
+                color: value.edgeTripleColor,
+              },
             }
           : {}),
 
@@ -171,6 +168,9 @@ export const ColorLayoutForm = ({
 
   const [isInValue, setIsInValue] = useState(!!initialData?.colorContent?.IN)
   const [isOutValue, setIsOutValue] = useState(!!initialData?.colorContent?.OUT)
+  const [isEdgeTripleValue, setIsEdgeTripleValue] = useState(
+    !!initialData?.colorContent?.edgeTriple,
+  )
 
   useEffect(() => {
     const unsubscribe = form.store.subscribe(() => {
@@ -182,6 +182,7 @@ export const ColorLayoutForm = ({
 
       setIsInValue(form.getFieldValue('isIn') ?? false)
       setIsOutValue(form.getFieldValue('isOut') ?? false)
+      setIsEdgeTripleValue(form.getFieldValue('isEdgeTriple') ?? false)
     })
 
     return unsubscribe
@@ -396,6 +397,47 @@ export const ColorLayoutForm = ({
                             </Field>
                           )}
                         </form.Field>
+
+                        {/* Edge Triple */}
+                        <div className="flex flex-col gap-2 pt-2">
+                          <form.Field name="isEdgeTriple">
+                            {(field) => (
+                              <div className="flex items-center space-x-2">
+                                <Checkbox
+                                  id="isEdgeTriple"
+                                  checked={field.state.value}
+                                  onCheckedChange={(checked) =>
+                                    field.handleChange(!!checked)
+                                  }
+                                />
+                                <FieldLabel
+                                  htmlFor="isEdgeTriple"
+                                  className="mb-0"
+                                >
+                                  Edge Triple (seksi pertama &amp; terakhir)
+                                </FieldLabel>
+                              </div>
+                            )}
+                          </form.Field>
+
+                          {isEdgeTripleValue && (
+                            <div className="mt-2 space-y-4 rounded-lg border p-4">
+                              <form.Field name="edgeTripleColor">
+                                {(subField) => (
+                                  <Field>
+                                    <FieldLabel>Warna Dekoratif</FieldLabel>
+                                    <ColorsCombobox
+                                      value={subField.state.value}
+                                      onChange={(val) =>
+                                        subField.handleChange(val)
+                                      }
+                                    />
+                                  </Field>
+                                )}
+                              </form.Field>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
                   </Tabs>
@@ -492,7 +534,7 @@ export const ColorLayoutForm = ({
                                 onChange={(e) =>
                                   field.handleChange(Number(e.target.value))
                                 }
-                                min={1}
+                                min={0}
                               />
                             </Field>
                           )}
@@ -590,7 +632,7 @@ export const ColorLayoutForm = ({
                                 onChange={(e) =>
                                   field.handleChange(Number(e.target.value))
                                 }
-                                min={1}
+                                min={0}
                               />
                             </Field>
                           )}

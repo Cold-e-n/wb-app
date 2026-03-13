@@ -1,4 +1,4 @@
-import { type ColorPositionWithRelations } from '@/features/color-positions'
+import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 /**
  * Class untuk menghitung posisi benang warna.
@@ -6,6 +6,12 @@ import { type ColorPositionWithRelations } from '@/features/color-positions'
  */
 export class ColorPositionCalculator {
   private readonly data: ColorPositionWithRelations
+
+  /**
+   * Lebar marker per seksi — diisi saat placeColors berjalan.
+   * Digunakan oleh fillGaps untuk menghitung sisa benang secara akurat.
+   */
+  private sectionMarkerWidths: number[][] = []
 
   /**
    * Constructor untuk inisialisasi data posisi warna.
@@ -21,32 +27,41 @@ export class ColorPositionCalculator {
    */
   private firstPos(): number {
     const { cones, sections } = this.data.fabricContent
-    const { type, colorDistance, colorCount } =
+    const { type, colorDistance, colorCount, colorPairDistance, edgeTriple } =
       this.data.colorLayout.colorContent
     const totalThreads =
       cones.length === 1
         ? cones[0] * sections
         : cones[0] * (sections - 1) + cones[1]
 
-    const i = () => {
-      if (type === 'single') {
-        return Math.floor(
-          (totalThreads - (colorDistance * (colorCount - 1) + colorCount)) / 2,
-        )
-      } else if (type === 'double') {
-        const { colorPairDistance } = this.data.colorLayout.colorContent
-        return Math.floor(
-          (totalThreads -
-            (colorDistance * (colorCount - 1) +
-              ((colorPairDistance ?? 0) + 2) * colorCount)) /
-            2,
-        )
-      }
-
-      return 0
+    if (type === 'single') {
+      return Math.floor(
+        (totalThreads - (colorDistance * (colorCount - 1) + colorCount)) / 2,
+      )
     }
 
-    return i()
+    if (type === 'double') {
+      const pD = colorPairDistance ?? 0
+
+      if (edgeTriple && colorCount >= 2) {
+        // Edge-triple: marker pinggir = 5 benang + 2×pD, marker tengah = 2 + pD
+        // consumed = cD×(cC-1) + (2pD+5)×2 + (cC-2)×(pD+2)
+        const consumed =
+          colorDistance * (colorCount - 1) +
+          (2 * pD + 5) * 2 +
+          (colorCount - 2) * (pD + 2)
+        return Math.floor((totalThreads - consumed) / 2)
+      }
+
+      // Regular double: semua marker = 2 + pD
+      return Math.floor(
+        (totalThreads -
+          (colorDistance * (colorCount - 1) + (pD + 2) * colorCount)) /
+          2,
+      )
+    }
+
+    return 0
   }
 
   /**
@@ -57,12 +72,12 @@ export class ColorPositionCalculator {
    */
   public calculate(): number[][] {
     const { sections } = this.data.fabricContent
-    const threadPerColor = this.getThreadPerColor()
     const results: number[][] = Array.from({ length: sections }, () => [])
+    this.sectionMarkerWidths = Array.from({ length: sections }, () => [])
 
     this.placeInColors(results)
-    this.placeColors(results, threadPerColor)
-    this.fillGaps(results, threadPerColor)
+    this.placeColors(results)
+    this.fillGaps(results)
 
     return results
   }
@@ -78,11 +93,11 @@ export class ColorPositionCalculator {
     // IN markers ditempatkan di awal seksi 0
     // Marker pertama diletakkan setelah gap 0 (langsung di awal)
     // Marker berikutnya diletakkan setelah gap IN.distance
-    // Marker terakhir diakhiri dengan gap IN.distance sebelum regular markers?
     // Sederhananya: [gap_0, IN_marker, gap_IN, IN_marker, gap_IN, IN_marker, ...]
     results[0].push(0) // Marker pertama langsung di awal
     for (let i = 0; i < IN.count - 1; i++) {
       results[0].push(IN.distance)
+      this.sectionMarkerWidths[0].push(1)
     }
     // Setelah semua IN markers, sisakan gap IN.distance sebelum pattern regular dimulai
     // Namun Calculator.placeColors() sudah mulai dengan firstPos() gap.
@@ -91,13 +106,35 @@ export class ColorPositionCalculator {
   }
 
   /**
-   * Menghitung jumlah benang yang dikonsumsi per satu titik penempatan warna.
-   * Untuk tipe 'double', dihitung sebagai 2 benang + jarak antar pasangan.
+   * Menghitung lebar marker default (untuk tipe double / single).
    * @returns number
    */
-  private getThreadPerColor(): number {
+  private getDefaultMarkerWidth(): number {
     const { type, colorPairDistance } = this.data.colorLayout.colorContent
     return type === 'double' ? 2 + (colorPairDistance ?? 0) : 1
+  }
+
+  /**
+   * Menghitung lebar marker berdasarkan indeks marker (0-indexed).
+   * Untuk edge-triple double, marker pertama dan terakhir lebih lebar.
+   * @param markerIndex Indeks marker regular (0 sampai colorCount-1).
+   * @returns number
+   */
+  private getMarkerWidth(markerIndex: number): number {
+    const { type, colorPairDistance, edgeTriple, colorCount } =
+      this.data.colorLayout.colorContent
+
+    if (
+      type === 'double' &&
+      edgeTriple &&
+      colorCount >= 2 &&
+      (markerIndex === 0 || markerIndex === colorCount - 1)
+    ) {
+      const pD = colorPairDistance ?? 0
+      return 2 * pD + 5 // 2 main color + 3 triple black + 2 pairDist gaps
+    }
+
+    return this.getDefaultMarkerWidth()
   }
 
   /**
@@ -115,21 +152,24 @@ export class ColorPositionCalculator {
    * Kalkulasi total benang yang sudah terpakai di sebuah seksi,
    * termasuk benang warna dan gap yang sudah ditempatkan.
    * @param gaps Array jarak gap yang sudah ada di seksi tersebut.
-   * @param threadPerColor Lebar benang warna.
+   * @param markerWidths Array lebar marker yang sudah ditempatkan di seksi tersebut.
    * @returns number.
    */
-  private calculateUsedThreads(gaps: number[], threadPerColor: number): number {
-    return gaps.reduce((acc, g) => acc + g, 0) + gaps.length * threadPerColor
+  private calculateUsedThreads(gaps: number[], markerWidths: number[]): number {
+    return (
+      gaps.reduce((acc, g) => acc + g, 0) +
+      markerWidths.reduce((acc, w) => acc + w, 0)
+    )
   }
 
   /**
    * Melakukan iterasi untuk menentukan di seksi mana setiap benang warna harus diletakkan.
    * Jika sisa benang di seksi sekarang tidak cukup untuk jarak 'colorDistance',
    * sisa tersebut akan diteruskan ke seksi berikutnya secara kumulatif.
+   * Mendukung lebar marker yang berbeda untuk edge-triple double.
    * @param results Array hasil untuk menampung gap.
-   * @param threadPerColor Lebar benang warna.
    */
-  private placeColors(results: number[][], threadPerColor: number): void {
+  private placeColors(results: number[][]): void {
     const { sections } = this.data.fabricContent
     const { colorCount, colorDistance } = this.data.colorLayout.colorContent
 
@@ -140,14 +180,16 @@ export class ColorPositionCalculator {
     while (currentSection < sections && colorsPlaced < colorCount) {
       const sectCones = this.getSectionCones(currentSection)
       const currentSectionGaps = results[currentSection]
+      const currentMarkerWidths = this.sectionMarkerWidths[currentSection]
       const usedThreads = this.calculateUsedThreads(
         currentSectionGaps,
-        threadPerColor,
+        currentMarkerWidths,
       )
       const remainingThreads = sectCones - usedThreads
 
       if (gapToNextColor <= remainingThreads) {
         currentSectionGaps.push(gapToNextColor)
+        currentMarkerWidths.push(this.getMarkerWidth(colorsPlaced))
         colorsPlaced++
         gapToNextColor = colorDistance
       } else {
@@ -161,15 +203,17 @@ export class ColorPositionCalculator {
    * Mengisi gap terakhir untuk setiap seksi guna memastikan total benang
    * di setiap sub-array hasil sesuai dengan kapasitas seksi (sectCones).
    * @param results Array hasil yang sudah berisi posisi warna.
-   * @param threadPerColor Lebar benang warna.
    */
-  private fillGaps(results: number[][], threadPerColor: number): void {
+  private fillGaps(results: number[][]): void {
     const { sections } = this.data.fabricContent
     const { OUT } = this.data.colorLayout.colorContent
 
     for (let s = 0; s < sections; s++) {
       const sectCones = this.getSectionCones(s)
-      const usedThreads = this.calculateUsedThreads(results[s], threadPerColor)
+      const usedThreads = this.calculateUsedThreads(
+        results[s],
+        this.sectionMarkerWidths[s],
+      )
       const remainingThreads = sectCones - usedThreads
 
       if (s === sections - 1 && OUT) {
@@ -188,7 +232,7 @@ export class ColorPositionCalculator {
    * @returns Array gap untuk seksi OUT.
    */
   private calculateOutGaps(remainingCapacity: number): number[] {
-    const { OUT } = this.data.colorLayout.colorContent
+    const { OUT, edgeTriple } = this.data.colorLayout.colorContent
     const { fringe } = this.data.fabricContent
 
     if (!OUT) return [remainingCapacity]
@@ -196,7 +240,10 @@ export class ColorPositionCalculator {
     const totalOutGap = OUT.distance * OUT.count
     // OUT markers diasumsikan single thread (lebar 1)
     const firstValue =
-      remainingCapacity - totalOutGap - OUT.count - (fringe || 0)
+      remainingCapacity -
+      totalOutGap -
+      (edgeTriple ? 0 : OUT.count) -
+      (fringe || 0)
     const results: number[] = [firstValue]
 
     for (let i = 0; i < OUT.count; i++) {
