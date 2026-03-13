@@ -99,7 +99,15 @@ export const FabricsCombobox = ({
           className="w-full p-0"
           style={{ width: 'var(--radix-popover-trigger-width)' }}
         >
-          <Command>
+          <Command
+            filter={(itemValue, search) => {
+              const fabric = fabrics?.find((f) => f.id === itemValue)
+              if (!fabric) return 0
+              return fabric.name.toLowerCase().includes(search.toLowerCase())
+                ? 1
+                : 0
+            }}
+          >
             <CommandInput placeholder="Cari kain ..." />
             <CommandList>
               <CommandEmpty>Data tidak ditemukan</CommandEmpty>
