@@ -71,10 +71,10 @@ export const ColorLayoutForm = ({
         isOut: !!content.OUT,
         colorInCount: content.IN?.count || 1,
         colorIn: content.IN?.color || [],
-        colorInDistance: content.IN?.distance || 1,
+        colorInDistance: content.IN?.distance || 0,
         colorOutCount: content.OUT?.count || 1,
         colorOut: content.OUT?.color || [],
-        colorOutDistance: content.OUT?.distance || 1,
+        colorOutDistance: content.OUT?.distance || 0,
       }
     }
     return {
@@ -94,7 +94,7 @@ export const ColorLayoutForm = ({
       colorInDistance: 0,
       colorOutCount: 0,
       colorOut: [],
-      colorOutDistance: 1,
+      colorOutDistance: 0,
     }
   }
 
@@ -397,47 +397,6 @@ export const ColorLayoutForm = ({
                             </Field>
                           )}
                         </form.Field>
-
-                        {/* Edge Triple */}
-                        <div className="flex flex-col gap-2 pt-2">
-                          <form.Field name="isEdgeTriple">
-                            {(field) => (
-                              <div className="flex items-center space-x-2">
-                                <Checkbox
-                                  id="isEdgeTriple"
-                                  checked={field.state.value}
-                                  onCheckedChange={(checked) =>
-                                    field.handleChange(!!checked)
-                                  }
-                                />
-                                <FieldLabel
-                                  htmlFor="isEdgeTriple"
-                                  className="mb-0"
-                                >
-                                  Edge Triple (seksi pertama &amp; terakhir)
-                                </FieldLabel>
-                              </div>
-                            )}
-                          </form.Field>
-
-                          {isEdgeTripleValue && (
-                            <div className="mt-2 space-y-4 rounded-lg border p-4">
-                              <form.Field name="edgeTripleColor">
-                                {(subField) => (
-                                  <Field>
-                                    <FieldLabel>Warna Dekoratif</FieldLabel>
-                                    <ColorsCombobox
-                                      value={subField.state.value}
-                                      onChange={(val) =>
-                                        subField.handleChange(val)
-                                      }
-                                    />
-                                  </Field>
-                                )}
-                              </form.Field>
-                            </div>
-                          )}
-                        </div>
                       </div>
                     )}
                   </Tabs>
@@ -446,7 +405,7 @@ export const ColorLayoutForm = ({
             </form.Field>
 
             {/* In/Out Checkboxes */}
-            <div className="grid grid-cols-2 gap-6 pt-2">
+            <div className="grid grid-cols-3 gap-6 pt-2">
               {/* IN Section */}
               <div className="flex flex-col gap-2">
                 <form.Field name="isIn">
@@ -640,6 +599,40 @@ export const ColorLayoutForm = ({
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
+                )}
+              </div>
+
+              {/* Edge Triple */}
+              <div className="flex flex-col gap-2 pt-2">
+                <form.Field name="isEdgeTriple">
+                  {(field) => (
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="isEdgeTriple"
+                        checked={field.state.value}
+                        onCheckedChange={(checked) =>
+                          field.handleChange(!!checked)
+                        }
+                      />
+                      <FieldLabel htmlFor="isEdgeTriple" className="mb-0">
+                        Triple (seksi pertama &amp; terakhir)
+                      </FieldLabel>
+                    </div>
+                  )}
+                </form.Field>
+
+                {isEdgeTripleValue && (
+                  <form.Field name="edgeTripleColor">
+                    {(subField) => (
+                      <Field>
+                        <FieldLabel>Benang Warna</FieldLabel>
+                        <ColorsCombobox
+                          value={subField.state.value}
+                          onChange={(val) => subField.handleChange(val)}
+                        />
+                      </Field>
+                    )}
+                  </form.Field>
                 )}
               </div>
             </div>

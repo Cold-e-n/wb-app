@@ -12,7 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { ColorLayoutGrid2 } from './color-layout-grid2'
+import { ColorLayoutGrid } from './color-layout-grid'
 import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 
 interface ColorLayoutDetailsProps {
@@ -29,10 +29,34 @@ export const ColorInfoDisplay = ({
 }: {
   colorContent: ColorContent
 }) => {
-  const { type, color = [], colorCount, OUT } = colorContent
+  const { IN, OUT, colorCount, color = [], type, edgeTriple } = colorContent
+
+  const renderIN = () => {
+    if (!IN) return null
+
+    return (
+      <>
+        {` + IN ${IN.count} Helai (`}
+        {IN.color[0] && <ColorName colorId={IN.color[0]} />}
+        {IN.color[1] && (
+          <>
+            {' + '}
+            <ColorName colorId={IN.color[1]} />
+          </>
+        )}
+        {')'}
+      </>
+    )
+  }
 
   const renderOUT = () => {
     if (!OUT) return null
+
+    const isSameColor = OUT.color.length === 2 && OUT.color[0] === OUT.color[1]
+
+    if (isSameColor) {
+      return <>{` + OUT ${OUT.count} Helai`}</>
+    }
 
     return (
       <>
@@ -49,41 +73,40 @@ export const ColorInfoDisplay = ({
     )
   }
 
+  const renderEdgeTriple = () => {
+    if (!edgeTriple) return null
+
+    return (
+      <>
+        {' + Triple '}
+        {edgeTriple && <ColorName colorId={edgeTriple.color} />}
+      </>
+    )
+  }
+
   if (type === 'double') {
     const isSameColor = color.length === 2 && color[0] === color[1]
 
-    if (!OUT) {
-      if (isSameColor) {
-        return (
-          <>
-            <ColorName colorId={color[0]} /> Double {colorCount} Helai
-          </>
-        )
-      }
+    if (isSameColor) {
       return (
         <>
-          {color[0] && <ColorName colorId={color[0]} />}
-          {color[1] && (
-            <>
-              {' + '}
-              <ColorName colorId={color[1]} />
-            </>
-          )}
-          {` ${colorCount} Helai`}
+          <ColorName colorId={color[0]} /> Double {colorCount} Helai
+          {renderEdgeTriple()} {renderIN()} {renderOUT()}
         </>
       )
     }
 
-    // Fallback for double with OUT (or more than 2 colors if any)
     return (
       <>
-        {color?.map((id, index) => (
-          <span key={`${id}-${index}`}>
-            {index > 0 && ' + '}
-            <ColorName colorId={id} /> {colorCount} Helai
-          </span>
-        ))}
-        {renderOUT()}
+        {color[0] && <ColorName colorId={color[0]} />}
+        {color[1] && (
+          <>
+            {' + '}
+            <ColorName colorId={color[1]} />
+          </>
+        )}
+        {` ${colorCount} Helai`}
+        {renderEdgeTriple()} {renderIN()} {renderOUT()}
       </>
     )
   }
@@ -92,7 +115,7 @@ export const ColorInfoDisplay = ({
   return (
     <>
       {color[0] && <ColorName colorId={color[0]} />} {colorCount} Helai
-      {renderOUT()}
+      {renderIN()} {renderOUT()}
     </>
   )
 }
@@ -119,7 +142,7 @@ export const ColorLayoutDetails = ({
     <div className="flex flex-1 flex-col gap-4 sm:gap-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-5 mb-1">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -232,7 +255,7 @@ export const ColorLayoutDetails = ({
               </div>
             </div>
 
-            <ColorLayoutGrid2 colorContent={colorContent} />
+            <ColorLayoutGrid colorContent={colorContent} />
           </div>
         </CardContent>
       </Card>
