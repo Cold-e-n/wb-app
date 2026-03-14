@@ -43,8 +43,6 @@ export const ColorPositions = ({ data }: ColorPositionsProps) => {
           <AlertTitle>Catatan</AlertTitle>
           <AlertDescription>
             Untuk kain:
-            <strong>1151039C(NL)-225</strong>
-            <strong>1152031C(NL)-225</strong>
             <strong>E8640GBS-C236(I) Soaping</strong>
             <strong>R0390801-114[DBL]</strong>
             Belum bisa melalukan perhitungan posisi benang warna untuk saat ini.
