@@ -1,89 +1,134 @@
 import { useMemo } from 'react'
+import { cn } from '@/lib/utils'
 import { ColorContent } from '@/types/ColorLayout'
 
-interface ColorLayoutGridProps {
+interface ColorLayoutGrid2Props {
   colorContent: ColorContent
 }
 
-export const ColorLayoutGrid = ({ colorContent }: ColorLayoutGridProps) => {
-  const layout = useMemo(() => {
-    const items: (
-      | { type: 'gap'; value: number }
-      | { type: 'marker'; label: string }
-    )[] = []
+export const ColorLayoutGrid = ({ colorContent }: ColorLayoutGrid2Props) => {
+  const isDouble = colorContent.type === 'double'
 
-    // 1. IN Section: Gap -> Marker (Repeated for IN.count)
-    if (colorContent.IN) {
-      for (let i = 0; i < colorContent.IN.count; i++) {
-        items.push({ type: 'gap', value: colorContent.IN.distance })
-        items.push({
-          type: 'marker',
-          label: colorContent.IN.count > 1 ? `IN ${i + 1}` : 'IN',
-        })
+  const sheets = useMemo(() => {
+    const inColumns = colorContent.IN
+      ? Array(colorContent.IN.count).fill(colorContent.IN.distance)
+      : []
+
+    const outColumns = colorContent.OUT
+      ? Array(colorContent.OUT.count).fill(colorContent.OUT.distance)
+      : []
+
+    let mainColumns: (number | string)[] = []
+
+    if (isDouble) {
+      // Double mode: [PairMarker, Gap, PairMarker, Gap, ...]
+      for (let i = 0; i < colorContent.colorCount; i++) {
+        if (i > 0) {
+          mainColumns.push(colorContent.colorDistance)
+        }
+        mainColumns.push(colorContent.colorPairDistance || 1)
       }
+    } else {
+      // Single/Triple mode: [Gap, Gap, Gap, ...]
+      mainColumns = Array(colorContent.colorCount - 1).fill(
+        colorContent.colorDistance,
+      )
     }
 
-    // 2. Main L-Series Section: Gap -> Marker (Repeated for colorCount)
-    for (let i = 0; i < colorContent.colorCount; i++) {
-      items.push({ type: 'marker', label: `L${i + 1}` })
-      if (i < colorContent.colorCount - 1) {
-        items.push({ type: 'gap', value: colorContent.colorDistance })
-      }
+    const result: (number | string)[] = []
+
+    if (inColumns.length > 0) {
+      result.push(...inColumns)
     }
 
-    // 3. OUT Section: Gap -> Marker (Repeated for OUT.count)
-    if (colorContent.OUT) {
-      for (let i = 0; i < colorContent.OUT.count; i++) {
-        items.push({
-          type: 'marker',
-          label: colorContent.OUT.count > 1 ? `OUT ${i + 1}` : 'OUT',
-        })
-        items.push({ type: 'gap', value: colorContent.OUT.distance })
-      }
+    result.push('') // Left boundary blank column
+    result.push(...mainColumns)
+    result.push('') // Right boundary blank column
+
+    if (outColumns.length > 0) {
+      result.push(...outColumns)
     }
 
-    return items
-  }, [colorContent])
+    return result
+  }, [colorContent, isDouble])
+  const inCount = colorContent.IN ? colorContent.IN.count : 0
+
+  const mainColumnCount = isDouble
+    ? 2 * colorContent.colorCount - 1
+    : colorContent.colorCount - 1
+
+  const leftBorderIndex = inCount
+  const rightBorderIndex = inCount + mainColumnCount + 1
 
   return (
-    <div className="group/container relative w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-md transition-shadow hover:shadow-lg">
-      <div className="w-full overflow-x-auto p-6 md:p-12 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-300">
-        <div className="relative flex min-w-max items-center py-16 px-4">
-          {/* Continuous Horizontal Center Line */}
-          <div className="absolute left-0 right-0 top-1/2 z-10 h-[2.5px] -translate-y-1/2 bg-black" />
+    <div className="w-full overflow-x-auto rounded-xl border border-zinc-300 bg-zinc-200 py-10 px-5 shadow-sm">
+      <div className="relative flex min-w-max font-jetbrains-mono">
+        <div className="absolute top-1/2 z-10 h-0.5 w-full -translate-y-1/2 bg-black" />
 
-          {/* Render Layout Sequence */}
-          {layout.map((item, index) => {
-            if (item.type === 'gap') {
-              return (
-                <div
-                  key={`gap-${index}`}
-                  className="relative flex h-24 items-center justify-center px-3 min-w-[32px]"
-                >
-                  {/* Distance Value above the horizontal line */}
-                  <span className="relative z-20 -translate-y-6 text-[13px] md:text-[14px] font-black text-zinc-900 bg-white px-1">
-                    {item.value}
-                  </span>
-                </div>
-              )
+        {sheets.map((sheet, index) => {
+          let markerLabel = ''
+          let cellLabel = ''
+
+          // IN labels: aligned with left border of each IN gap
+          if (index < leftBorderIndex) {
+            markerLabel = 'IN'
+          }
+
+          // Main labels
+          if (index > leftBorderIndex && index < rightBorderIndex) {
+            const mainRelIdx = index - leftBorderIndex - 1
+            if (isDouble) {
+              // Double: labels are centered under the PairMarker cells (0, 2, 4...)
+              if (mainRelIdx % 2 === 0) {
+                cellLabel = `L${Math.floor(mainRelIdx / 2) + 1}`
+              }
+            } else {
+              // Single: labels are marker-based (left border of each main gap)
+              markerLabel = `L${mainRelIdx + 1}`
             }
+          }
 
-            return (
-              <div
-                key={`marker-${index}`}
-                className="relative z-30 flex h-32 items-center"
-              >
-                {/* Red Vertical Marker Line */}
-                <div className="h-full w-[2.5px] bg-red-600" />
+          // Last L label (single) or boundary marker
+          if (index === rightBorderIndex) {
+            if (!isDouble) {
+              markerLabel = `L${colorContent.colorCount}`
+            }
+          }
 
-                {/* Marker Label below the horizontal line */}
-                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-[11px] md:text-[12px] font-black uppercase tracking-tight text-zinc-900 bg-white px-1">
-                  {item.label}
+          // OUT labels: aligned with left border of each OUT gap
+          if (index > rightBorderIndex) {
+            markerLabel = 'OUT'
+          }
+
+          return (
+            <div
+              key={`sheet-${index}`}
+              className={`group relative flex h-32 flex-1 items-center justify-center border-black ${
+                index !== 0 ? 'border-l' : ''
+              }`}
+            >
+              <span className="relative z-20 -translate-y-2 px-1 text-[12px] text-zinc-800">
+                {sheet === 0 ? '' : sheet}
+              </span>
+
+              {markerLabel && (
+                <div
+                  className={cn(
+                    `absolute -bottom-8 ${markerLabel === 'IN' ? 'right-0' : 'left-0'} z-30 ${markerLabel === 'IN' ? 'translate-x-1/2' : '-translate-x-1/2'} text-[12px] whitespace-nowrap text-zinc-800`,
+                  )}
+                >
+                  {markerLabel}
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )}
+
+              {cellLabel && (
+                <div className="absolute -bottom-8 left-1/2 z-30 -translate-x-1/2 text-[12px] whitespace-nowrap text-zinc-800">
+                  {cellLabel}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
