@@ -16,7 +16,6 @@ export const DashboardCard = () => {
       value: colors?.data?.length,
       icon: Palette,
     },
-    { id: 3, title: 'Orders', value: '314', icon: Blocks },
   ]
 
   return (
