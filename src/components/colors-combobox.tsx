@@ -100,7 +100,17 @@ export const ColorsCombobox = ({
           className="w-full p-0"
           style={{ width: 'var(--radix-popover-trigger-width)' }}
         >
-          <Command>
+          <Command
+            filter={(itemValue, search) => {
+              const color = colors?.find((f) => f.id === itemValue)
+              if (!color) return 0
+              return color.name
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase())
+                ? 1
+                : 0
+            }}
+          >
             <CommandInput placeholder="Cari benang warna ..." />
             <CommandList>
               <CommandEmpty>Data tidak ditemukan</CommandEmpty>
