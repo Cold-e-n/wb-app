@@ -9,18 +9,17 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useColorLayoutContext } from './color-layout-provider'
-// import { useColorLayoutMutation } from '../hooks/use-color-layout' // I'll check if this exists or just use a toast for now
+import { useColorLayoutMutation } from '../hooks/use-color-layout'
 
 export const ColorLayoutDeleteDialog = () => {
   const { open, setOpen, currentRow } = useColorLayoutContext()
-  // const { deleteMutation } = useColorLayoutMutation()
+  const { deleteMutation } = useColorLayoutMutation()
 
   const isOpen = open === 'delete'
 
   const handleDelete = () => {
     if (currentRow) {
-      // deleteMutation.mutate(currentRow.id)
-      console.log('Deleting', currentRow.id)
+      deleteMutation.mutate({ id: currentRow.id })
       setOpen(null)
     }
   }
@@ -40,8 +39,9 @@ export const ColorLayoutDeleteDialog = () => {
           <AlertDialogAction
             onClick={handleDelete}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            disabled={deleteMutation.isPending}
           >
-            Hapus
+            {deleteMutation.isPending ? 'Menghapus...' : 'Hapus'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
