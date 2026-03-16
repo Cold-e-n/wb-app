@@ -1,7 +1,6 @@
 import {
   AlignHorizontalJustifyCenter,
   Blocks,
-  ClipboardList,
   LayoutGrid,
   Palette,
   Scroll,
@@ -56,16 +55,6 @@ export const sidebarData: SidebarGroupType[] = [
         title: 'Posisi Benang Warna',
         href: '/color-positions',
         icon: Blocks,
-      },
-    ],
-  },
-  {
-    title: 'Reports',
-    items: [
-      {
-        title: 'Laporan Harian',
-        href: '/daily-report',
-        icon: ClipboardList,
       },
     ],
   },
