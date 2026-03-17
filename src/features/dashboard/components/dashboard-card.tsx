@@ -47,8 +47,11 @@ export const DashboardCard = () => {
 
   return (
     <div className="grid gap-4 lg:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-      {cards.map((card) => (
-        <Card className="hover:shadow-md transition-shadow h-full gap-3">
+      {cards.map((card, i) => (
+        <Card
+          className="hover:shadow-md transition-shadow h-full gap-3"
+          key={`dashboard-card-${i}`}
+        >
           <CardHeader>
             <CardTitle className="text-sm font-medium text-muted-foreground">
               {card.title}
