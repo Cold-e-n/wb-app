@@ -1,7 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { prisma } from '@/db'
 import { z } from 'zod'
-import { fabricContentSchema } from '@/types/ColorPosition'
+import { fabricContentSchema, FabricContent } from '@/types/ColorPosition'
 import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 export const getColorPositions = createServerFn({
@@ -95,8 +95,11 @@ export const createColorPosition = createServerFn({
         data: {
           fabricId: data.fabricId,
           colorLayoutId: data.colorLayoutId,
-          fabricContent: data.fabricContent as any, // Json support
+          fabricContent: data.fabricContent as FabricContent, // Json support
           wbNo: data.wbNo,
+        },
+        select: {
+          id: true,
         },
       })
 
@@ -127,7 +130,7 @@ export const updateColorPosition = createServerFn({
         data: {
           fabricId: data.fabricId,
           colorLayoutId: data.colorLayoutId,
-          fabricContent: data.fabricContent as any, // Json support
+          fabricContent: data.fabricContent as FabricContent, // Json support
           wbNo: data.wbNo,
         },
       })
