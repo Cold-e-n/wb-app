@@ -1,43 +1,9 @@
-import * as React from 'react'
-import { useDialogState } from '@/hooks/use-dialog-state'
+import { createPageProvider } from '@/hooks/create-page-provider'
 import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 type ColorPositionsDialogType = 'create' | 'update' | 'delete'
 
-type ColorPositionsContextType = {
-  open: ColorPositionsDialogType | null
-  setOpen: (open: ColorPositionsDialogType | null) => void
-  currentRow: ColorPositionWithRelations | null
-  setCurrentRow: React.Dispatch<
-    React.SetStateAction<ColorPositionWithRelations | null>
-  >
-}
-
-const ColorPositionsContext =
-  React.createContext<ColorPositionsContextType | null>(null)
-
-export const ColorPositionsProvider = ({
-  children,
-}: React.PropsWithChildren) => {
-  const [open, setOpen] = useDialogState<ColorPositionsDialogType>(null)
-  const [currentRow, setCurrentRow] =
-    React.useState<ColorPositionWithRelations | null>(null)
-
-  return (
-    <ColorPositionsContext.Provider
-      value={{ open, setOpen, currentRow, setCurrentRow }}
-    >
-      {children}
-    </ColorPositionsContext.Provider>
+export const [ColorPositionsProvider, useColorPositionsContext] =
+  createPageProvider<ColorPositionsDialogType, ColorPositionWithRelations>(
+    'ColorPositions',
   )
-}
-
-export const useColorPositionsContext = () => {
-  const context = React.useContext(ColorPositionsContext)
-  if (!context) {
-    throw new Error(
-      'useColorPositionsContext must be used within a ColorPositionsProvider',
-    )
-  }
-  return context
-}
