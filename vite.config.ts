@@ -16,6 +16,10 @@ const config = defineConfig({
     tailwindcss(),
     viteReact(),
   ],
+  server: {
+    host: 'wb-app.local',
+    port: 3001,
+  },
 })
 
 export default config
