@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 import { useColorLayout } from '../hooks/use-color-layout'
 import { useColorById } from '@/features/colors/hooks/use-color'
 import { type ColorLayout } from '@/types/ColorLayout'
@@ -123,7 +123,7 @@ export const ColorInfoDisplay = ({
 export const ColorLayoutDetails = ({
   colorLayout,
 }: ColorLayoutDetailsProps) => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { data: colorLayouts = [] } = useColorLayout()
   const colorContent = colorLayout?.colorContent as ColorContent
   const ReactJson = React.lazy(() => import('react-json-view'))
@@ -149,7 +149,7 @@ export const ColorLayoutDetails = ({
                   variant="outline"
                   size="icon"
                   className="-ml-2"
-                  onClick={() => navigate({ to: '/color-layouts' })}
+                  onClick={() => router.history.go(-1)}
                 >
                   <MoveLeft className="h-4 w-4" />
                 </Button>

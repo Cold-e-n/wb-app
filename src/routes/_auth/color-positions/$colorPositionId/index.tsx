@@ -1,11 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { getColorPositionByIdQueryOptions } from '@/features/color-positions/hooks/use-color-positions'
 import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 import { ColorPositionsDetails } from '@/features/color-positions/components/color-positions-details'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { Link } from '@tanstack/react-router'
 import {
   Tooltip,
   TooltipContent,
@@ -16,6 +15,7 @@ import { ErrorFallback } from '@/components/error-boundary'
 import { CircleAlert, MoveLeft } from 'lucide-react'
 
 const RouteComponent = () => {
+  const router = useRouter()
   const { data } = Route.useLoaderData()
 
   return (
@@ -29,12 +29,9 @@ const RouteComponent = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    asChild
-                    className="-ml-2"
+                    onClick={() => router.history.go(-1)}
                   >
-                    <Link to="/color-positions">
-                      <MoveLeft className="h-4 w-4" />
-                    </Link>
+                    <MoveLeft className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Kembali</TooltipContent>
