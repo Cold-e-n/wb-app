@@ -43,7 +43,7 @@ export const AppHeader = ({ className, fixed, ...props }: AppHeaderProps) => {
         )}
       >
         <SidebarTrigger
-          variant="outline"
+          variant="ghost"
           className={cn('cursor-pointer max-md:scale-125')}
         />
         <Separator orientation="vertical" className="h-6" />
