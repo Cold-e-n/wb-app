@@ -54,9 +54,17 @@ export const useColorPositionsMutation = () => {
     }) => {
       return Api.createColorPosition({ data })
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       toast.success('Posisi warna berhasil ditambahkan')
       invalidate()
+
+      await queryClient.prefetchQuery({
+        queryKey: ['colorPositions', result.id],
+      })
+      router.navigate({
+        to: '/color-positions/$colorPositionId',
+        params: { colorPositionId: result.id },
+      })
     },
     onError: (error) => {
       toast.error('Gagal menambahkan posisi warna', {
