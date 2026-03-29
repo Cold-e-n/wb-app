@@ -63,7 +63,7 @@ export const ColorLayoutForm = ({
         color1: content.color?.[0] || '',
         color2: content.color?.[1] || '',
         colorDistance: content.colorDistance || 1,
-        colorPairDistance: (content as any).colorPairDistance || 1,
+        colorPairDistance: content.colorPairDistance || 1,
         colorCount: content.colorCount || 1,
         isEdgeTriple: !!content.edgeTriple,
         edgeTripleColor: content.edgeTriple?.color || '',
