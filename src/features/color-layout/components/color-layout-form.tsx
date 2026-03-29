@@ -135,7 +135,7 @@ export const ColorLayoutForm = ({
         ...(value.isIn && {
           IN: {
             color: value.colorIn || [],
-            distance: value.colorInDistance || 1,
+            distance: value.colorInDistance ?? 0,
             count: value.colorInCount || 1,
           },
         }),
@@ -143,7 +143,7 @@ export const ColorLayoutForm = ({
         ...(value.isOut && {
           OUT: {
             color: value.colorOut || [],
-            distance: value.colorOutDistance || 1,
+            distance: value.colorOutDistance ?? 0,
             count: value.colorOutCount || 1,
           },
         }),
