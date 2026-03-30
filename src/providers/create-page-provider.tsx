@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useDialogState } from './use-dialog-state'
+import { useDialogState } from '@/hooks/use-dialog-state'
 
 type PageProviderContextType<TDialogType extends string, TRow> = {
   open: TDialogType | null
