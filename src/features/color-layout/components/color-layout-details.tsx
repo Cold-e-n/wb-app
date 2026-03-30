@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Link, useRouter } from '@tanstack/react-router'
 import { useColorLayout } from '../hooks/use-color-layout'
 import { useColorById } from '@/features/colors/hooks/use-color'
@@ -126,7 +125,6 @@ export const ColorLayoutDetails = ({
   const router = useRouter()
   const { data: colorLayouts = [] } = useColorLayout()
   const colorContent = colorLayout?.colorContent as ColorContent
-  const ReactJson = React.lazy(() => import('react-json-view'))
 
   // Find current index
   const currentIndex = colorLayouts.findIndex((l) => l.id === colorLayout.id)
@@ -228,31 +226,6 @@ export const ColorLayoutDetails = ({
               <p className="text-2xl">
                 <ColorInfoDisplay colorContent={colorContent} />
               </p>
-            </div>
-            <div>
-              <div className="mt-2 overflow-hidden rounded-md border p-4">
-                {/* 3. Bungkus dengan Suspense agar tidak error saat loading */}
-                <React.Suspense
-                  fallback={
-                    <div className="text-sm text-muted-foreground">
-                      Loading viewer...
-                    </div>
-                  }
-                >
-                  <ReactJson
-                    src={(colorLayout.colorContent as object) || {}}
-                    theme="rjv-default"
-                    collapsed={2}
-                    name={false}
-                    displayDataTypes={true}
-                    displayObjectSize={true}
-                    enableClipboard={true}
-                    style={{
-                      backgroundColor: 'transparent',
-                    }}
-                  />
-                </React.Suspense>
-              </div>
             </div>
 
             <ColorLayoutGrid colorContent={colorContent} />
