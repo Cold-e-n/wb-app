@@ -1,10 +1,16 @@
 import React from 'react'
-import { MoveDown, Printer } from 'lucide-react'
+import { useColorMap } from '@/features/colors/hooks/use-color'
+import {
+  cn,
+  getArrowColorClass,
+  getColorClass,
+  isEdgeMarker,
+} from '@/lib/utils'
 import { type ColorPositionWithRelations } from '@/types/ColorPosition'
-import { cn } from '@/lib/utils'
+
 import { Card, CardAction, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { useColor } from '@/features/colors/hooks/use-color'
+import { MoveDown, Printer } from 'lucide-react'
 
 interface ColorPositionVisualizerProps {
   positionResults: number[][]
@@ -18,85 +24,17 @@ export const ColorPositionVisualizer: React.FC<
   const {
     type: layoutType,
     colorPairDistance,
-    color: regularColors,
     IN,
-    OUT,
     colorCount,
-    edgeTriple,
   } = colorLayout.colorContent
 
   const inCount = IN?.count || 0
   const regularCount = colorCount
 
-  const { data: colors = [] } = useColor()
-  const colorMap = React.useMemo(() => {
-    return new Map(colors.map((c) => [c.id, c.name]))
-  }, [colors])
+  const { colorMap } = useColorMap()
 
   const handlePrint = () => {
     window.print()
-  }
-
-  const getColorClass = (colorName: string | undefined): string => {
-    if (!colorName) return 'text-gray-900'
-    const name = colorName.toUpperCase()
-    if (name.includes('RED')) return 'text-red-500'
-    if (name.includes('BLACK')) return 'text-black'
-    if (name.includes('GREEN')) return 'text-green-500'
-    if (name.includes('BLUE')) return 'text-blue-500'
-    if (name.includes('YELLOW')) return 'text-yellow-500'
-    if (name.includes('ORANGE')) return 'text-orange-500'
-    if (name.includes('PURPLE')) return 'text-purple-500'
-    if (name.includes('PINK')) return 'text-pink-500'
-    if (name.includes('BROWN')) return 'text-amber-800'
-    if (name.includes('GRAY') || name.includes('GREY')) return 'text-gray-500'
-    if (name.includes('WHITE')) return 'text-slate-300'
-    if (name.includes('NAVY')) return 'text-blue-900'
-    if (name.includes('TURQ') || name.includes('CYAN')) return 'text-cyan-500'
-    if (name.includes('TEAL')) return 'text-teal-500'
-    if (name.includes('LIME')) return 'text-lime-500'
-    if (name.includes('ROSE')) return 'text-rose-500'
-    if (name.includes('EMERALD')) return 'text-emerald-500'
-    if (name.includes('VIOLET')) return 'text-violet-500'
-    if (name.includes('GOLD')) return 'text-yellow-600'
-    if (name.includes('SILVER')) return 'text-slate-400'
-    return 'text-gray-900'
-  }
-
-  /**
-   * Resolve color ID to CSS class via colorMap.
-   */
-  const getColorClassById = (colorId: string | undefined): string => {
-    if (!colorId) return 'text-gray-900'
-    let colorName = colorMap.get(colorId)
-    if (!colorName) colorName = colorId
-    return getColorClass(colorName)
-  }
-
-  const getArrowColorClass = (markerIdx: number, arrowIdx: number) => {
-    let colorId: string | undefined
-    if (markerIdx < inCount) {
-      // IN markers are sequential: each marker index maps to its color array index
-      colorId = IN?.color?.[markerIdx] || IN?.color?.[0]
-    } else if (markerIdx < inCount + regularCount) {
-      // Regular markers: use arrowIdx for pairs/triples
-      colorId = regularColors?.[arrowIdx] || regularColors?.[0]
-    } else {
-      // OUT markers are sequential: index relative to start of OUT section
-      const outMarkerIdx = markerIdx - (inCount + regularCount)
-      colorId = OUT?.color?.[outMarkerIdx] || OUT?.color?.[0]
-    }
-
-    return getColorClassById(colorId)
-  }
-
-  /**
-   * Cek apakah marker ini adalah edge marker (pertama/terakhir dari regular markers).
-   */
-  const isEdgeMarker = (markerIdx: number): boolean => {
-    if (!edgeTriple || layoutType !== 'double') return false
-    const regularIdx = markerIdx - inCount
-    return regularIdx === 0 || regularIdx === regularCount - 1
   }
 
   /**
@@ -105,10 +43,15 @@ export const ColorPositionVisualizer: React.FC<
    * Total 5 arrows: main, black, black, black, main
    */
   const renderEdgeTripleArrows = (currentMarkerIndex: number) => {
-    const mainColorClass = getArrowColorClass(currentMarkerIndex, 0)
+    const mainColorClass = getArrowColorClass(
+      currentMarkerIndex,
+      0,
+      colorMap,
+      colorLayout?.colorContent,
+    )
     const blackColorClass = getColorClass('BLACK')
 
-    // Arrow order: [DECO] [MAIN] [BLACK] [BLACK] [BLACK] [MAIN] [DECO]
+    // Arrow order: [MAIN] [BLACK] [BLACK] [BLACK] [MAIN]
     const arrows = [
       { colorClass: mainColorClass, label: colorPairDistance },
       { colorClass: blackColorClass, label: null },
@@ -167,7 +110,12 @@ export const ColorPositionVisualizer: React.FC<
               <MoveDown
                 className={cn(
                   'w-4 h-4 translate-y-5.75 translate-x-0.5 shrink-0',
-                  getArrowColorClass(currentMarkerIndex, i),
+                  getArrowColorClass(
+                    currentMarkerIndex,
+                    i,
+                    colorMap,
+                    colorLayout?.colorContent,
+                  ),
                 )}
               />
               {layoutType === 'double' &&
@@ -251,7 +199,10 @@ export const ColorPositionVisualizer: React.FC<
                               {item === 0 ? '' : item}
                             </div>
                             {isMarker &&
-                              (isEdgeMarker(currentMarkerIndex)
+                              (isEdgeMarker(
+                                currentMarkerIndex,
+                                colorLayout?.colorContent,
+                              )
                                 ? renderEdgeTripleArrows(currentMarkerIndex)
                                 : renderRegularArrows(currentMarkerIndex))}
                           </div>

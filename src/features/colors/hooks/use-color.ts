@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   queryOptions,
   useMutation,
@@ -27,6 +28,15 @@ export const useColor = () => {
 
 export const useColorById = (colorId: string | undefined) => {
   return useQuery(getColorByIdQueryOptions(colorId))
+}
+
+export const useColorMap = () => {
+  const { data: colors = [] } = useColor()
+  const colorMap = React.useMemo(() => {
+    return new Map(colors.map((c) => [c.id, c.name]))
+  }, [colors])
+
+  return { colorMap }
 }
 
 export const useColorsMutation = () => {
