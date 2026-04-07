@@ -11,6 +11,7 @@ import { toast } from 'sonner'
 export const getColorLayoutQueryOptions = queryOptions({
   queryKey: ['colorLayouts'],
   queryFn: Api.getColorLayout,
+  staleTime: 0,
 })
 
 export const getColorLayoutByIdQueryOptions = (id: string) =>
@@ -18,6 +19,7 @@ export const getColorLayoutByIdQueryOptions = (id: string) =>
     queryKey: ['colorLayouts', id],
     queryFn: () => Api.getColorLayoutById({ data: { id } }),
     enabled: !!id,
+    staleTime: 0,
   })
 
 export const useColorLayout = () => {

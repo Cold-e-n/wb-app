@@ -54,10 +54,10 @@ export const colorLayoutFormSchema = z.object({
   edgeTripleColor: z.string().optional(),
   isIn: z.boolean().optional(),
   isOut: z.boolean().optional(),
-  colorInCount: z.number().min(1, 'Jumlah warna minimal 1').optional(),
+  colorInCount: z.number().min(0, 'Jumlah warna minimal 0').optional(),
   colorIn: z.array(z.string()).optional(),
   colorInDistance: z.number().min(0).optional(),
-  colorOutCount: z.number().min(1, 'Jumlah warna minimal 1').optional(),
+  colorOutCount: z.number().min(0, 'Jumlah warna minimal 0').optional(),
   colorOut: z.array(z.string()).optional(),
   colorOutDistance: z.number().min(0).optional(),
 })
