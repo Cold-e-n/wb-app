@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react'
 import Logo from 'public/logo-moriuchi.svg'
+import type { PropsWithChildren } from 'react'
 
 export const AuthLayout = ({ children }: PropsWithChildren) => {
   return (

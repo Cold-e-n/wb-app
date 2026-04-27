@@ -1,6 +1,6 @@
 import z from 'zod'
-import { type ColorLayout } from './ColorLayout'
-import { type Fabric } from './Fabric'
+import type {ColorLayout} from './ColorLayout';
+import type {Fabric} from './Fabric';
 
 export const fabricContentSchema = z.object({
   cones: z.array(z.number()),

@@ -1,6 +1,4 @@
-import { cn } from '@/lib/utils'
 import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons'
-import { Column } from '@tanstack/react-table'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import {
@@ -14,15 +12,17 @@ import {
 } from '../ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Separator } from '../ui/separator'
+import type { Column } from '@tanstack/react-table'
+import { cn } from '@/lib/utils'
 
 type DataTableFacetedFilterProps<TData, TValue> = {
   column?: Column<TData, TValue>
   title?: string
-  options: {
+  options: Array<{
     label: string
     value: string
     icon?: React.ComponentType<{ className?: string }>
-  }[]
+  }>
 }
 export function DataTableFacetedFilter<TData, TValue>({
   title,
@@ -30,7 +30,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues()
-  const selectedValues = new Set(column?.getFilterValue() as string[])
+  const selectedValues = new Set(column?.getFilterValue() as Array<string>)
 
   return (
     <Popover>

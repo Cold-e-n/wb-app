@@ -1,10 +1,10 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { type Color } from '@/types/Color'
+import { ColorsTableRowActions } from './colors-table-row-actions'
+import type { ColumnDef } from '@tanstack/react-table'
+import type {Color} from '@/types/Color';
 
 import { Checkbox } from '@/components/ui/checkbox'
-import { ColorsTableRowActions } from './colors-table-row-actions'
 
-export const colorsTableColumns: ColumnDef<Color>[] = [
+export const colorsTableColumns: Array<ColumnDef<Color>> = [
   {
     id: 'select',
     header: ({ table }) => (

@@ -1,8 +1,9 @@
-import { clsx, type ClassValue } from 'clsx'
+import {  clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { type ColorContent } from '@/types/ColorLayout'
+import type {ClassValue} from 'clsx';
+import type {ColorContent} from '@/types/ColorLayout';
 
-export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs: Array<ClassValue>) {
   return twMerge(clsx(inputs))
 }
 

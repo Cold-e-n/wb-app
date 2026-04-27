@@ -1,3 +1,4 @@
+import { SignInForm } from './components/sign-in-form'
 import {
   Card,
   CardContent,
@@ -5,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { SignInForm } from './components/sign-in-form'
 
 export const SignIn = () => {
   return (

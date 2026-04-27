@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { AlertCircle, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { deleteColor } from '../api/colors.api'
 import { useColorsContext } from './colors-provider'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { AlertCircle, Trash2 } from 'lucide-react'
-import { useState } from 'react'
 
 export const ColorsDeleteDialog = () => {
   const { open, setOpen, currentRow, setCurrentRow } = useColorsContext()

@@ -1,6 +1,6 @@
 import { Link, useRouter } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
 import { MoveLeft } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 const ForbiddenError = () => {
   const router = useRouter()

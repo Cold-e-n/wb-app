@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
-import { prisma } from '@/db'
 import { z } from 'zod'
+import { prisma } from '@/db'
 import { colorContentSchema } from '@/types/ColorLayout'
 
 export const getColorLayout = createServerFn({

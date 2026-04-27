@@ -1,9 +1,9 @@
-import {
+import { useMemo, useState } from 'react'
+import type {
   ColumnFiltersState,
   OnChangeFn,
   PaginationState,
 } from '@tanstack/react-table'
-import { useMemo, useState } from 'react'
 
 type SearchRecord = Record<string, unknown>
 
@@ -149,7 +149,7 @@ export const useTableUrlState = (
 
           navigate({
             search: (prev) => ({
-              ...(prev as SearchRecord),
+              ...(prev),
               [pageKey]: undefined,
               [globalFilterKey]: value === '' ? undefined : value,
             }),

@@ -1,3 +1,5 @@
+import { useColorPositionsMutation } from '../hooks/use-color-positions'
+import { useColorPositionsContext } from './color-positions-provider'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,8 +10,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { useColorPositionsContext } from './color-positions-provider'
-import { useColorPositionsMutation } from '../hooks/use-color-positions'
 
 export const ColorPositionsDeleteDialog = () => {
   const { open, setOpen, currentRow } = useColorPositionsContext()

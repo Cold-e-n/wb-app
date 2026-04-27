@@ -1,5 +1,5 @@
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import { createPageProvider } from '@/providers/create-page-provider'
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 type ColorPositionsDialogType = 'create' | 'update' | 'delete'
 

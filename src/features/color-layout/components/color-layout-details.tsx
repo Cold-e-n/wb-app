@@ -1,8 +1,9 @@
 import { Link, useRouter } from '@tanstack/react-router'
+import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import { useColorLayout } from '../hooks/use-color-layout'
+import { ColorLayoutGrid } from './color-layout-grid'
+import type {ColorContent,ColorLayout} from '@/types/ColorLayout';
 import { useColorById } from '@/features/colors/hooks/use-color'
-import { type ColorLayout } from '@/types/ColorLayout'
-import { type ColorContent } from '@/types/ColorLayout'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -11,8 +12,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { ColorLayoutGrid } from './color-layout-grid'
-import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 
 interface ColorLayoutDetailsProps {
   colorLayout: ColorLayout & { fabric: { name: string } }
@@ -124,7 +123,7 @@ export const ColorLayoutDetails = ({
 }: ColorLayoutDetailsProps) => {
   const router = useRouter()
   const { data: colorLayouts = [] } = useColorLayout()
-  const colorContent = colorLayout?.colorContent as ColorContent
+  const colorContent = colorLayout?.colorContent
 
   // Find current index
   const currentIndex = colorLayouts.findIndex((l) => l.id === colorLayout.id)

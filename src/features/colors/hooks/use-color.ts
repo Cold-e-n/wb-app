@@ -6,9 +6,9 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import * as Api from '../api/colors.api'
 
-import { toast } from 'sonner'
 
 export const getColorsQueryOptions = queryOptions({
   queryKey: ['colors'],
@@ -49,7 +49,7 @@ export const useColorsMutation = () => {
   }
 
   const createMutation = useMutation({
-    mutationFn: async (data: { colors: { name: string }[] }) => {
+    mutationFn: async (data: { colors: Array<{ name: string }> }) => {
       return Api.createColors({ data })
     },
     onSuccess: (_, items) => {

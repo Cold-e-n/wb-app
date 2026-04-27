@@ -1,17 +1,20 @@
 import * as React from 'react'
 import { useForm } from '@tanstack/react-form'
 import { useRouter } from '@tanstack/react-router'
-import { useFabricsMutation } from '../hooks/use-fabric'
 import { z } from 'zod'
+import { XIcon } from 'lucide-react'
+import { useFabricsMutation } from '../hooks/use-fabric'
+import { useFabricsContext } from './fabrics-provider'
+import { FabricDetails } from './fabric-details'
 import { fabricFormSchema } from '@/types/Fabric'
 
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from '@/components/ui/dialog'
 import {
   Field,
@@ -28,10 +31,7 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group'
 
-import { useFabricsContext } from './fabrics-provider'
-import { FabricDetails } from './fabric-details'
 
-import { XIcon } from 'lucide-react'
 
 // Define validation schema
 const formSchema = z.object({
@@ -54,7 +54,7 @@ export const FabricsDialogs = () => {
           hasColor: false,
         },
       ],
-    } as FabricFormValues,
+    },
     validators: {
       onSubmit: formSchema,
     },

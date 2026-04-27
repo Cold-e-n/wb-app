@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import type {ColorLayoutWithFabric} from '@/features/color-layout/components/table/color-layout-table-columns';
 import { ColorLayoutProvider } from '@/features/color-layout/components/color-layout-provider'
 import { getColorLayoutQueryOptions } from '@/features/color-layout/hooks/use-color-layout'
-import { useSuspenseQuery } from '@tanstack/react-query'
 
-import { type ColorLayoutWithFabric } from '@/features/color-layout/components/table/color-layout-table-columns'
 
 import { ColorLayout } from '@/features/color-layout'
 import { ErrorFallback } from '@/components/error-boundary'
@@ -13,7 +13,7 @@ const RouteComponent = () => {
 
   return (
     <ColorLayoutProvider>
-      <ColorLayout data={colorLayouts as ColorLayoutWithFabric[]} />
+      <ColorLayout data={colorLayouts as Array<ColorLayoutWithFabric>} />
     </ColorLayoutProvider>
   )
 }

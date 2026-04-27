@@ -1,6 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { sidebarData } from './data/sidebar-data'
-
 import {
   Sidebar,
   SidebarContent,
@@ -8,9 +6,11 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
 } from '../ui/sidebar'
+import { sidebarData } from './data/sidebar-data'
+
 
 export const AppSidebar = ({
   ...props

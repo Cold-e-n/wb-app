@@ -1,15 +1,17 @@
 import * as React from 'react'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
+import { XIcon } from 'lucide-react'
 import { useColorsMutation } from '../hooks/use-color'
 
+import { useColorsContext } from './colors-provider'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from '@/components/ui/dialog'
 import {
   Field,
@@ -26,9 +28,7 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group'
 
-import { useColorsContext } from './colors-provider'
 
-import { XIcon } from 'lucide-react'
 
 // Define validation schema
 const formSchema = z.object({
@@ -56,7 +56,7 @@ export const ColorsDialogs = () => {
   const form = useForm({
     defaultValues: {
       colors: [{ name: '' }],
-    } as ColorFormValues,
+    },
     validators: {
       onSubmit: formSchema,
     },

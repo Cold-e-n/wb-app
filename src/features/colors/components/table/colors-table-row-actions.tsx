@@ -1,10 +1,10 @@
-import { Row } from '@tanstack/react-table'
-import { colorSchema } from '@/types/Color'
+import { Edit2, Trash2 } from 'lucide-react'
 import { useColorsContext } from '../colors-provider'
+import type { Row } from '@tanstack/react-table'
+import { colorSchema } from '@/types/Color'
 
 import { DataTableRowActions } from '@/components/data-table/row-actions'
 
-import { Edit2, Trash2 } from 'lucide-react'
 
 type ColorsTableRowActionsProps<TData> = {
   row: Row<TData>

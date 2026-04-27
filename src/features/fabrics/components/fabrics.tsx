@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 import { useFabricsContext } from './fabrics-provider'
 import { FabricsTable } from './table/fabrics-table'
 import { FabricsDialogs } from './fabrics-dialogs'
 import { FabricsDeleteDialog } from './fabrics-delete-dialog'
 
-import { Plus } from 'lucide-react'
 
-import { type Fabric } from '@/types/Fabric'
+import type {Fabric} from '@/types/Fabric';
+import { Button } from '@/components/ui/button'
 
 type FabricsProps = {
-  data: Fabric[]
+  data: Array<Fabric>
 }
 
 export const Fabrics = ({ data }: FabricsProps) => {

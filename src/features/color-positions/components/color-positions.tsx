@@ -1,15 +1,15 @@
+import { AlertCircleIcon, Plus } from 'lucide-react'
 import { useColorPositionsContext } from './color-positions-provider'
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
-
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
 import { ColorPositionsTable } from './table/color-positions-table'
 import { ColorPositionsDeleteDialog } from './color-positions-delete-dialog'
 import { ColorPositionsDialogs } from './color-positions-dialogs'
-import { Plus, AlertCircleIcon } from 'lucide-react'
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 
 type ColorPositionsProps = {
-  data: ColorPositionWithRelations[]
+  data: Array<ColorPositionWithRelations>
 }
 
 export const ColorPositions = ({ data }: ColorPositionsProps) => {

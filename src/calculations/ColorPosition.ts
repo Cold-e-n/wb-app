@@ -1,4 +1,4 @@
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 
 /**
  * Class untuk menghitung posisi benang warna.
@@ -11,7 +11,7 @@ export class ColorPositionCalculator {
    * Lebar marker per seksi — diisi saat placeColors berjalan.
    * Digunakan oleh fillGaps untuk menghitung sisa benang secara akurat.
    */
-  private sectionMarkerWidths: number[][] = []
+  private sectionMarkerWidths: Array<Array<number>> = []
 
   /**
    * Constructor untuk inisialisasi data posisi warna.
@@ -70,9 +70,9 @@ export class ColorPositionCalculator {
    * meskipun melintasi batas seksi atau seksi yang kosong.
    * @returns number[][]
    */
-  public calculate(): number[][] {
+  public calculate(): Array<Array<number>> {
     const { sections } = this.data.fabricContent
-    const results: number[][] = Array.from({ length: sections }, () => [])
+    const results: Array<Array<number>> = Array.from({ length: sections }, () => [])
     this.sectionMarkerWidths = Array.from({ length: sections }, () => [])
 
     this.placeInColors(results)
@@ -86,7 +86,7 @@ export class ColorPositionCalculator {
    * Logika penempatan warna untuk bagian IN di awal seksi pertama.
    * @param results Array hasil untuk menampung gap.
    */
-  private placeInColors(results: number[][]): void {
+  private placeInColors(results: Array<Array<number>>): void {
     const { IN } = this.data.colorLayout.colorContent
     if (!IN || IN.count === 0) return
 
@@ -155,7 +155,7 @@ export class ColorPositionCalculator {
    * @param markerWidths Array lebar marker yang sudah ditempatkan di seksi tersebut.
    * @returns number.
    */
-  private calculateUsedThreads(gaps: number[], markerWidths: number[]): number {
+  private calculateUsedThreads(gaps: Array<number>, markerWidths: Array<number>): number {
     return (
       gaps.reduce((acc, g) => acc + g, 0) +
       markerWidths.reduce((acc, w) => acc + w, 0)
@@ -169,7 +169,7 @@ export class ColorPositionCalculator {
    * Mendukung lebar marker yang berbeda untuk edge-triple double.
    * @param results Array hasil untuk menampung gap.
    */
-  private placeColors(results: number[][]): void {
+  private placeColors(results: Array<Array<number>>): void {
     const { sections } = this.data.fabricContent
     const { colorCount, colorDistance } = this.data.colorLayout.colorContent
 
@@ -204,7 +204,7 @@ export class ColorPositionCalculator {
    * di setiap sub-array hasil sesuai dengan kapasitas seksi (sectCones).
    * @param results Array hasil yang sudah berisi posisi warna.
    */
-  private fillGaps(results: number[][]): void {
+  private fillGaps(results: Array<Array<number>>): void {
     const { sections } = this.data.fabricContent
     const { OUT } = this.data.colorLayout.colorContent
 
@@ -231,7 +231,7 @@ export class ColorPositionCalculator {
    * @param remainingCapacity Sisa ruang di seksi terakhir.
    * @returns Array gap untuk seksi OUT.
    */
-  private calculateOutGaps(remainingCapacity: number): number[] {
+  private calculateOutGaps(remainingCapacity: number): Array<number> {
     const { OUT, edgeTriple } = this.data.colorLayout.colorContent
     const { fringe } = this.data.fabricContent
 
@@ -244,7 +244,7 @@ export class ColorPositionCalculator {
       totalOutGap -
       (edgeTriple ? 0 : OUT.count) -
       (fringe || 0)
-    const results: number[] = [firstValue]
+    const results: Array<number> = [firstValue]
 
     for (let i = 0; i < OUT.count; i++) {
       const n =

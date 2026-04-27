@@ -1,7 +1,8 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { getColorLayoutByIdQueryOptions } from '@/features/color-layout/hooks/use-color-layout'
+import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import type { ColorContent } from '@/types/ColorLayout'
+import { getColorLayoutByIdQueryOptions } from '@/features/color-layout/hooks/use-color-layout'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,7 +13,6 @@ import {
 import { ColorLayoutForm } from '@/features/color-layout/components/color-layout-form'
 import { ErrorFallback } from '@/components/error-boundary'
 
-import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 
 const RouteComponent = () => {
   const { colorLayoutId } = Route.useParams()

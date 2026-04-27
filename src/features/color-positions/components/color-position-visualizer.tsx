@@ -1,4 +1,6 @@
 import React from 'react'
+import { MoveDown, Printer } from 'lucide-react'
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import { useColorMap } from '@/features/colors/hooks/use-color'
 import {
   cn,
@@ -6,14 +8,12 @@ import {
   getColorClass,
   isEdgeMarker,
 } from '@/lib/utils'
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 import { Card, CardAction, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { MoveDown, Printer } from 'lucide-react'
 
 interface ColorPositionVisualizerProps {
-  positionResults: number[][]
+  positionResults: Array<Array<number>>
   dataColor: ColorPositionWithRelations
 }
 

@@ -1,9 +1,9 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { type ColorLayout, type ColorContent } from '@/types/ColorLayout'
+import { ColorLayoutTableRowActions } from './color-layout-table-row-actions'
+import type { ColumnDef } from '@tanstack/react-table'
+import type {ColorContent, ColorLayout} from '@/types/ColorLayout';
 
 import { Checkbox } from '@/components/ui/checkbox'
 
-import { ColorLayoutTableRowActions } from './color-layout-table-row-actions'
 
 // Define a type that includes the joined fabric data balance from the API
 export type ColorLayoutWithFabric = Omit<ColorLayout, 'colorContent'> & {
@@ -14,7 +14,7 @@ export type ColorLayoutWithFabric = Omit<ColorLayout, 'colorContent'> & {
   }
 }
 
-export const colorLayoutTableColumns: ColumnDef<ColorLayoutWithFabric>[] = [
+export const colorLayoutTableColumns: Array<ColumnDef<ColorLayoutWithFabric>> = [
   {
     id: 'select',
     header: ({ table }) => (

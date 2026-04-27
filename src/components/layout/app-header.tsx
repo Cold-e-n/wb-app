@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
 
 import { SidebarTrigger } from '../ui/sidebar'
 import { Separator } from '../ui/separator'
 import { ThemeSwitcher } from '../theme-switcher'
+import { cn } from '@/lib/utils'
 
 type AppHeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean

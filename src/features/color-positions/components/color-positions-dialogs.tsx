@@ -1,11 +1,11 @@
+import { useColorPositionsContext } from './color-positions-provider'
+import { ColorPositionsForm } from './color-positions-form'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useColorPositionsContext } from './color-positions-provider'
-import { ColorPositionsForm } from './color-positions-form'
 
 export const ColorPositionsDialogs = () => {
   const { open, setOpen, currentRow, setCurrentRow } =

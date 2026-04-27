@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button'
+import { X } from 'lucide-react'
+import React from 'react'
+import { Badge } from '../ui/badge'
+import { Separator } from '../ui/separator'
+import type { Table } from '@tanstack/react-table'
+import { cn } from '@/lib/utils'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
-import { Table } from '@tanstack/react-table'
-import { X } from 'lucide-react'
-import React from 'react'
-import { Badge } from '../ui/badge'
-import { Separator } from '../ui/separator'
+import { Button } from '@/components/ui/button'
 
 type DataTableBulkActionsProps<TData> = {
   table: Table<TData>

@@ -1,13 +1,14 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
-import { useTheme, Theme } from '@/providers/theme-provider'
-
+import { Monitor, Moon, Sun } from 'lucide-react'
 import { Button } from './ui/button'
-import { Sun, Moon, Monitor } from 'lucide-react'
+import type { Theme } from '@/providers/theme-provider';
+import { cn } from '@/lib/utils'
+import { useTheme } from '@/providers/theme-provider'
+
 
 export const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme()
-  const themes: Theme[] = ['system', 'light', 'dark']
+  const themes: Array<Theme> = ['system', 'light', 'dark']
 
   const getNextTheme = (currentTheme: Theme): Theme => {
     const currentIndex = themes.indexOf(currentTheme)

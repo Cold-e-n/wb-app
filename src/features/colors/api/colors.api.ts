@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
-import { prisma } from '@/db'
 import { z } from 'zod'
+import { prisma } from '@/db'
 import { createSlug } from '@/lib/utils'
 import { createColorsSchema, updateColorSchema } from '@/types/Color'
 

@@ -1,6 +1,4 @@
-import { cn } from '@/lib/utils'
 import { CaretSortIcon, EyeNoneIcon } from '@radix-ui/react-icons'
-import { Column } from '@tanstack/react-table'
 import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
@@ -11,6 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import type { Column } from '@tanstack/react-table'
+import { cn } from '@/lib/utils'
 
 type DataTableColumnHeaderProps<TData, TValue> =
   React.HTMLAttributes<HTMLDivElement> & {

@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
-import { useColor } from '@/features/colors/hooks/use-color'
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 import { Button } from './ui/button'
 import {
   Command,
@@ -11,7 +10,8 @@ import {
   CommandList,
 } from './ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useColor } from '@/features/colors/hooks/use-color'
 
 interface ColorsComboboxProps {
   value?: string | null

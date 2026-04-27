@@ -1,11 +1,11 @@
 import { Outlet } from '@tanstack/react-router'
-import { cn } from '@/lib/utils'
 
 import { SidebarInset, SidebarProvider } from '../ui/sidebar'
 
 import { AppHeader } from './app-header'
 import { AppSidebar } from './app-sidebar'
 import { AppContent } from './app-content'
+import { cn } from '@/lib/utils'
 
 export const AuthenticatedLayout = ({
   defaultOpen,

@@ -54,8 +54,8 @@ export const ModelName = {
   Color: 'Color',
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
-  DailyReport: 'DailyReport',
-  Fabric: 'Fabric'
+  Fabric: 'Fabric',
+  WeavingMachine: 'WeavingMachine'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -109,36 +109,6 @@ export const ColorPositionScalarFieldEnum = {
 export type ColorPositionScalarFieldEnum = (typeof ColorPositionScalarFieldEnum)[keyof typeof ColorPositionScalarFieldEnum]
 
 
-export const DailyReportScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  machine: 'machine',
-  processType: 'processType',
-  operator: 'operator',
-  noWb: 'noWb',
-  noMc: 'noMc',
-  cones: 'cones',
-  length: 'length',
-  sectionBeam: 'sectionBeam',
-  speed: 'speed',
-  start: 'start',
-  finish: 'finish',
-  duration: 'duration',
-  theoriticalTime: 'theoriticalTime',
-  availableTime: 'availableTime',
-  effMachine: 'effMachine',
-  effProduction: 'effProduction',
-  remark: 'remark',
-  lostStart: 'lostStart',
-  lostFinish: 'lostFinish',
-  lostDesc: 'lostDesc',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DailyReportScalarFieldEnum = (typeof DailyReportScalarFieldEnum)[keyof typeof DailyReportScalarFieldEnum]
-
-
 export const FabricScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -150,6 +120,17 @@ export const FabricScalarFieldEnum = {
 } as const
 
 export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
+
+
+export const WeavingMachineScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  width: 'width',
+  type: 'type'
+} as const
+
+export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
 
 
 export const SortOrder = {

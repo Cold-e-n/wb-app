@@ -1,20 +1,20 @@
 import * as React from 'react'
 import { Link } from '@tanstack/react-router'
-import { useIsMobile } from '@/hooks/use-mobile'
-
+import { MoreHorizontal } from 'lucide-react'
 import { ButtonGroup } from '../ui/button-group'
+
 import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
   DropdownMenuShortcut,
+  DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { useIsMobile } from '@/hooks/use-mobile'
 
-import { MoreHorizontal } from 'lucide-react'
 
 export type DataTableRowActionItem = {
   type: 'item' | 'separator'
@@ -28,7 +28,7 @@ export type DataTableRowActionItem = {
 }
 
 type DataTableRowActionsProps = {
-  items: DataTableRowActionItem[]
+  items: Array<DataTableRowActionItem>
   side?: 'top' | 'right' | 'bottom' | 'left'
   align?: 'start' | 'center' | 'end'
 }

@@ -9,19 +9,19 @@
 * 🟢 You can import this file directly.
 */
 
-export const MachineType = {
+export const WbMachineType = {
   BENNINGER: 'BENNINGER',
-  KARL_MAYER: 'KARL_MAYER',
-  W_MO: 'W_MO',
-  W_TSUDAKOMA: 'W_TSUDAKOMA'
+  KARLMAYER: 'KARLMAYER',
+  MO: 'MO',
+  TSUDAKOMA: 'TSUDAKOMA'
 } as const
 
-export type MachineType = (typeof MachineType)[keyof typeof MachineType]
+export type WbMachineType = (typeof WbMachineType)[keyof typeof WbMachineType]
 
 
-export const ProcessType = {
+export const WbProcessType = {
   WARPING: 'WARPING',
   BEAMING: 'BEAMING'
 } as const
 
-export type ProcessType = (typeof ProcessType)[keyof typeof ProcessType]
+export type WbProcessType = (typeof WbProcessType)[keyof typeof WbProcessType]

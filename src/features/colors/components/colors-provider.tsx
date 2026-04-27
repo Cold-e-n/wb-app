@@ -1,5 +1,5 @@
+import type {Color} from '@/types/Color';
 import { createPageProvider } from '@/providers/create-page-provider'
-import { type Color } from '@/types/Color'
 
 type ColorDialogType = 'create' | 'update' | 'delete'
 

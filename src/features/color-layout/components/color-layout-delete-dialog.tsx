@@ -1,3 +1,5 @@
+import { useColorLayoutMutation } from '../hooks/use-color-layout'
+import { useColorLayoutContext } from './color-layout-provider'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,8 +10,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { useColorLayoutContext } from './color-layout-provider'
-import { useColorLayoutMutation } from '../hooks/use-color-layout'
 
 export const ColorLayoutDeleteDialog = () => {
   const { open, setOpen, currentRow } = useColorLayoutContext()

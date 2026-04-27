@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
+import type { ColorContent } from '@/types/ColorLayout'
 import { cn } from '@/lib/utils'
-import { ColorContent } from '@/types/ColorLayout'
 
 interface ColorLayoutGridProps {
   colorContent: ColorContent
@@ -11,7 +11,7 @@ export const ColorLayoutGrid = ({ colorContent }: ColorLayoutGridProps) => {
   const hasEdgeTriple = !!colorContent.edgeTriple && isDouble
 
   const { sheets, cellLabels, edgeTripleSepIndices } = useMemo(() => {
-    const result: (number | string)[] = []
+    const result: Array<number | string> = []
     const labels = new Map<
       number,
       { type: 'marker' | 'cell'; text: string }

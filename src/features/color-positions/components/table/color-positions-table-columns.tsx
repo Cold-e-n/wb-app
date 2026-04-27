@@ -1,9 +1,9 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
+import type { ColumnDef } from '@tanstack/react-table'
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColorPositionsTableRowActions } from '@/features/color-positions/components/table/color-positions-table-row-actions'
 
-export const colorPositionsTableColumns: ColumnDef<ColorPositionWithRelations>[] =
+export const colorPositionsTableColumns: Array<ColumnDef<ColorPositionWithRelations>> =
   [
     {
       id: 'select',

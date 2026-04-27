@@ -57,12 +57,12 @@ export type ColorLayout = Prisma.ColorLayoutModel
  */
 export type ColorPosition = Prisma.ColorPositionModel
 /**
- * Model DailyReport
- * 
- */
-export type DailyReport = Prisma.DailyReportModel
-/**
  * Model Fabric
  * 
  */
 export type Fabric = Prisma.FabricModel
+/**
+ * Model WeavingMachine
+ * 
+ */
+export type WeavingMachine = Prisma.WeavingMachineModel

@@ -1,5 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
+import { Link, createFileRoute  } from '@tanstack/react-router'
+import { MoveLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,
@@ -9,7 +9,6 @@ import {
 
 import { ColorLayoutForm } from '@/features/color-layout/components/color-layout-form'
 
-import { MoveLeft } from 'lucide-react'
 
 const RouteComponent = () => {
   return (

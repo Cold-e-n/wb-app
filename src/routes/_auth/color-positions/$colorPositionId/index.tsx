@@ -1,6 +1,7 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { CircleAlert, MoveLeft } from 'lucide-react'
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import { getColorPositionByIdQueryOptions } from '@/features/color-positions/hooks/use-color-positions'
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 
 import { ColorPositionsDetails } from '@/features/color-positions/components/color-positions-details'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -12,7 +13,6 @@ import {
 } from '@/components/ui/tooltip'
 import { ErrorFallback } from '@/components/error-boundary'
 
-import { CircleAlert, MoveLeft } from 'lucide-react'
 
 const RouteComponent = () => {
   const router = useRouter()
@@ -54,7 +54,7 @@ const RouteComponent = () => {
         </Alert>
       </div>
 
-      <ColorPositionsDetails data={data as ColorPositionWithRelations} />
+      <ColorPositionsDetails data={data} />
     </div>
   )
 }

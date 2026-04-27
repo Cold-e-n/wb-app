@@ -387,8 +387,8 @@ export const ModelName = {
   Color: 'Color',
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
-  DailyReport: 'DailyReport',
-  Fabric: 'Fabric'
+  Fabric: 'Fabric',
+  WeavingMachine: 'WeavingMachine'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "color" | "colorLayout" | "colorPosition" | "dailyReport" | "fabric"
+    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "weavingMachine"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -630,80 +630,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    DailyReport: {
-      payload: Prisma.$DailyReportPayload<ExtArgs>
-      fields: Prisma.DailyReportFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.DailyReportFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.DailyReportFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
-        }
-        findFirst: {
-          args: Prisma.DailyReportFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.DailyReportFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
-        }
-        findMany: {
-          args: Prisma.DailyReportFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>[]
-        }
-        create: {
-          args: Prisma.DailyReportCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
-        }
-        createMany: {
-          args: Prisma.DailyReportCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.DailyReportCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>[]
-        }
-        delete: {
-          args: Prisma.DailyReportDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
-        }
-        update: {
-          args: Prisma.DailyReportUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
-        }
-        deleteMany: {
-          args: Prisma.DailyReportDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.DailyReportUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.DailyReportUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>[]
-        }
-        upsert: {
-          args: Prisma.DailyReportUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
-        }
-        aggregate: {
-          args: Prisma.DailyReportAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyReport>
-        }
-        groupBy: {
-          args: Prisma.DailyReportGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DailyReportGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.DailyReportCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DailyReportCountAggregateOutputType> | number
-        }
-      }
-    }
     Fabric: {
       payload: Prisma.$FabricPayload<ExtArgs>
       fields: Prisma.FabricFieldRefs
@@ -775,6 +701,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FabricCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FabricCountAggregateOutputType> | number
+        }
+      }
+    }
+    WeavingMachine: {
+      payload: Prisma.$WeavingMachinePayload<ExtArgs>
+      fields: Prisma.WeavingMachineFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WeavingMachineFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WeavingMachineFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        findFirst: {
+          args: Prisma.WeavingMachineFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WeavingMachineFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        findMany: {
+          args: Prisma.WeavingMachineFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
+        }
+        create: {
+          args: Prisma.WeavingMachineCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        createMany: {
+          args: Prisma.WeavingMachineCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WeavingMachineCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
+        }
+        delete: {
+          args: Prisma.WeavingMachineDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        update: {
+          args: Prisma.WeavingMachineUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        deleteMany: {
+          args: Prisma.WeavingMachineDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WeavingMachineUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WeavingMachineUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
+        }
+        upsert: {
+          args: Prisma.WeavingMachineUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        aggregate: {
+          args: Prisma.WeavingMachineAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWeavingMachine>
+        }
+        groupBy: {
+          args: Prisma.WeavingMachineGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeavingMachineGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WeavingMachineCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeavingMachineCountAggregateOutputType> | number
         }
       }
     }
@@ -852,36 +852,6 @@ export const ColorPositionScalarFieldEnum = {
 export type ColorPositionScalarFieldEnum = (typeof ColorPositionScalarFieldEnum)[keyof typeof ColorPositionScalarFieldEnum]
 
 
-export const DailyReportScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  machine: 'machine',
-  processType: 'processType',
-  operator: 'operator',
-  noWb: 'noWb',
-  noMc: 'noMc',
-  cones: 'cones',
-  length: 'length',
-  sectionBeam: 'sectionBeam',
-  speed: 'speed',
-  start: 'start',
-  finish: 'finish',
-  duration: 'duration',
-  theoriticalTime: 'theoriticalTime',
-  availableTime: 'availableTime',
-  effMachine: 'effMachine',
-  effProduction: 'effProduction',
-  remark: 'remark',
-  lostStart: 'lostStart',
-  lostFinish: 'lostFinish',
-  lostDesc: 'lostDesc',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DailyReportScalarFieldEnum = (typeof DailyReportScalarFieldEnum)[keyof typeof DailyReportScalarFieldEnum]
-
-
 export const FabricScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -893,6 +863,17 @@ export const FabricScalarFieldEnum = {
 } as const
 
 export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
+
+
+export const WeavingMachineScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  width: 'width',
+  type: 'type'
+} as const
+
+export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -985,30 +966,9 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
- * Reference to a field of type 'MachineType'
+ * Reference to a field of type 'Boolean'
  */
-export type EnumMachineTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MachineType'>
-    
-
-
-/**
- * Reference to a field of type 'MachineType[]'
- */
-export type ListEnumMachineTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MachineType[]'>
-    
-
-
-/**
- * Reference to a field of type 'ProcessType'
- */
-export type EnumProcessTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProcessType'>
-    
-
-
-/**
- * Reference to a field of type 'ProcessType[]'
- */
-export type ListEnumProcessTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProcessType[]'>
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1023,27 +983,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal'
- */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal[]'
- */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1158,8 +1097,8 @@ export type GlobalOmitConfig = {
   color?: Prisma.ColorOmit
   colorLayout?: Prisma.ColorLayoutOmit
   colorPosition?: Prisma.ColorPositionOmit
-  dailyReport?: Prisma.DailyReportOmit
   fabric?: Prisma.FabricOmit
+  weavingMachine?: Prisma.WeavingMachineOmit
 }
 
 /* Types for Logging */

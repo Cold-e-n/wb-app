@@ -1,24 +1,24 @@
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { Table } from '@tanstack/react-table'
 import React from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { DataTableFacetedFilter } from './faceted-filter'
 import { DataTableViewOptions } from './view-options'
+import type { Table } from '@tanstack/react-table'
 
 type DataTableToolbarProps<TData> = {
   table: Table<TData>
   searchPlaceholder?: string
   searchKey?: string
-  filters?: {
+  filters?: Array<{
     columnId: string
     title: string
-    options: {
+    options: Array<{
       label: string
       value: string
       icon?: React.ComponentType<{ className?: string }>
-    }[]
-  }[]
+    }>
+  }>
   viewOptions: boolean
 }
 

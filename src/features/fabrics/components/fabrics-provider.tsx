@@ -1,5 +1,5 @@
+import type {Fabric} from '@/types/Fabric';
 import { createPageProvider } from '@/providers/create-page-provider'
-import { type Fabric } from '@/types/Fabric'
 
 type FabricsDialogType = 'create' | 'update' | 'detail' | 'delete'
 

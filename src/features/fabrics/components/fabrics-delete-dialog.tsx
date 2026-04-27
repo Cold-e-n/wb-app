@@ -1,9 +1,9 @@
+import { AlertCircle, Trash2 } from 'lucide-react'
 import { useFabricsMutation } from '../hooks/use-fabric'
 
 import { useFabricsContext } from './fabrics-provider'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 
-import { AlertCircle, Trash2 } from 'lucide-react'
 
 export const FabricsDeleteDialog = () => {
   const { open, setOpen, currentRow, setCurrentRow } = useFabricsContext()

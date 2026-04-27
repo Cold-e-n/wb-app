@@ -3,9 +3,10 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+import { Loader2, LogIn } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -18,7 +19,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 
-import { Loader2, LogIn } from 'lucide-react'
 import { PasswordInput } from '@/components/password-input'
 
 export const SignInForm = ({

@@ -1,6 +1,6 @@
 import { useFabricById } from '../hooks/use-fabric'
-import { Fabric } from '@/types/Fabric'
-import { ColorContent } from '@/types/ColorLayout'
+import type { Fabric } from '@/types/Fabric'
+import type { ColorContent } from '@/types/ColorLayout'
 
 import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
 

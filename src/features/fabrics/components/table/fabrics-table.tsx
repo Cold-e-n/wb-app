@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
 import {
-  FilterFn,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -9,15 +7,19 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+  useReactTable
 } from '@tanstack/react-table'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import { getRouteApi } from '@tanstack/react-router'
+import { fabricsTableColumns as columns } from './fabrics-table-columns'
+import type {
+  FilterFn,
+  SortingState,
+  VisibilityState} from '@tanstack/react-table';
+import type {Fabric} from '@/types/Fabric';
+import { cn } from '@/lib/utils'
 import { useTableUrlState } from '@/hooks/use-table-url-state'
 
-import { type Fabric } from '@/types/Fabric'
 
 import {
   Table,
@@ -27,12 +29,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { fabricsTableColumns as columns } from './fabrics-table-columns'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
 
 type FabricsTableProps = {
-  data: Fabric[]
+  data: Array<Fabric>
 }
 
 const fuzzyFilter: FilterFn<Fabric> = (row, columnId, value, addMeta) => {

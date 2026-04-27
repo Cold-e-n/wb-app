@@ -5,9 +5,9 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import * as Api from '../api/fabrics.api'
 
-import { toast } from 'sonner'
 
 export const getFabricsQueryOptions = queryOptions({
   queryKey: ['fabrics'],
@@ -40,7 +40,7 @@ export const useFabricsMutation = () => {
   }
 
   const createMutation = useMutation({
-    mutationFn: async (data: { fabrics: { name: string }[] }) => {
+    mutationFn: async (data: { fabrics: Array<{ name: string }> }) => {
       return Api.createFabrics({ data })
     },
     onSuccess: (_, items) => {

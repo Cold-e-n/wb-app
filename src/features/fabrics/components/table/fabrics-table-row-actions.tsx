@@ -1,10 +1,10 @@
-import { Row } from '@tanstack/react-table'
-import { fabricSchema } from '@/types/Fabric'
+import { BookSearch, Edit2, Trash2 } from 'lucide-react'
 import { useFabricsContext } from '../fabrics-provider'
+import type { Row } from '@tanstack/react-table'
+import { fabricSchema } from '@/types/Fabric'
 
 import { DataTableRowActions } from '@/components/data-table/row-actions'
 
-import { Edit2, BookSearch, Trash2 } from 'lucide-react'
 
 type FabricsTableRowActionsProps<TData> = {
   row: Row<TData>

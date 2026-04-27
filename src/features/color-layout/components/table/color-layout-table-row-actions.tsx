@@ -1,10 +1,10 @@
-import { Row } from '@tanstack/react-table'
-import { colorLayoutSchema } from '@/types/ColorLayout'
+import { BookSearch, Edit2, Trash2 } from 'lucide-react'
 import { useColorLayoutContext } from '../color-layout-provider'
+import type { Row } from '@tanstack/react-table'
+import { colorLayoutSchema } from '@/types/ColorLayout'
 
 import { DataTableRowActions } from '@/components/data-table/row-actions'
 
-import { Edit2, BookSearch, Trash2 } from 'lucide-react'
 
 type ColorLayoutTableRowActionsProps<TData> = {
   row: Row<TData>

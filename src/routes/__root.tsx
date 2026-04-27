@@ -1,21 +1,21 @@
 import { StrictMode } from 'react'
-import { AppSplash, SPLASH_STYLES } from '@/components/app-splash'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import {
-  createRootRouteWithContext,
   HeadContent,
   Outlet,
   Scripts,
+  createRootRouteWithContext,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
-import type { QueryClient } from '@tanstack/react-query'
 
 import appCss from '../styles/tangerine.css?url'
 import printCss from '../styles/print.css?url'
 
-import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '../providers/theme-provider'
+import type { QueryClient } from '@tanstack/react-query'
+import { Toaster } from '@/components/ui/sonner'
+import { AppSplash, SPLASH_STYLES } from '@/components/app-splash'
 import { NotFoundError } from '@/features/errors/NotFoundError'
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(

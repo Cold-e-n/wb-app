@@ -5,10 +5,10 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
-import * as Api from '../api/color-positions.api'
 import { toast } from 'sonner'
-import { fabricContentSchema } from '@/types/ColorPosition'
-import { z } from 'zod'
+import * as Api from '../api/color-positions.api'
+import type { fabricContentSchema } from '@/types/ColorPosition'
+import type { z } from 'zod'
 
 export const getColorPositionsQueryOptions = queryOptions({
   queryKey: ['colorPositions'],

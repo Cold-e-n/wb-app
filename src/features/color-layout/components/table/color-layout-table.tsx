@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
 import {
-  FilterFn,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -9,12 +7,19 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+  useReactTable
 } from '@tanstack/react-table'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import { getRouteApi } from '@tanstack/react-router'
+import {
+  
+  colorLayoutTableColumns as columns
+} from './color-layout-table-columns'
+import type {ColorLayoutWithFabric} from './color-layout-table-columns';
+import type {
+  FilterFn,
+  SortingState,
+  VisibilityState} from '@tanstack/react-table';
 import { useTableUrlState } from '@/hooks/use-table-url-state'
 
 import {
@@ -25,15 +30,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  colorLayoutTableColumns as columns,
-  type ColorLayoutWithFabric,
-} from './color-layout-table-columns'
+import { cn } from '@/lib/utils'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
 
 type ColorLayoutTableProps = {
-  data: ColorLayoutWithFabric[]
+  data: Array<ColorLayoutWithFabric>
 }
 
 const fuzzyFilter: FilterFn<ColorLayoutWithFabric> = (

@@ -1,7 +1,9 @@
-import { z } from 'zod'
 import { useForm } from '@tanstack/react-form'
-import { ColorPosition, colorPositionFormSchema } from '@/types/ColorPosition'
+import { XIcon } from 'lucide-react'
 import { useColorPositionsMutation } from '../hooks/use-color-positions'
+import type { z } from 'zod'
+import type { ColorPosition} from '@/types/ColorPosition';
+import { colorPositionFormSchema } from '@/types/ColorPosition'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -29,7 +31,6 @@ import {
 } from '@/components/ui/input-group'
 import { FabricsCombobox } from '@/components/fabrics-combobox'
 
-import { XIcon } from 'lucide-react'
 
 interface ColorPositionsFormProps {
   mode?: 'create' | 'edit'

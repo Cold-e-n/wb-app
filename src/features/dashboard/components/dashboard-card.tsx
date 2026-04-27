@@ -1,17 +1,17 @@
+import {
+  AlignHorizontalJustifyCenter,
+  Blocks,
+  Palette,
+  Scroll,
+} from 'lucide-react'
 import { useDashboardStats } from '../hooks/use-dashboard'
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardAction,
   CardContent,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card'
-import {
-  Scroll,
-  Palette,
-  AlignHorizontalJustifyCenter,
-  Blocks,
-} from 'lucide-react'
 
 type StatCard = {
   title: string
@@ -22,7 +22,7 @@ type StatCard = {
 export const DashboardCard = () => {
   const { data } = useDashboardStats()
 
-  const cards: StatCard[] = [
+  const cards: Array<StatCard> = [
     {
       title: 'Total Kain',
       value: data.totalFabrics,

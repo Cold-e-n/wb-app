@@ -1,16 +1,16 @@
 import { Link } from '@tanstack/react-router'
-import { useDashboardStats } from '../hooks/use-dashboard'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { ArrowRight, Inbox } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
+import { useDashboardStats } from '../hooks/use-dashboard'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 
 export const RecentPositions = () => {
   const { data } = useDashboardStats()

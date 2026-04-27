@@ -5,8 +5,8 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
-import * as Api from '../api/color-layout.api'
 import { toast } from 'sonner'
+import * as Api from '../api/color-layout.api'
 
 export const getColorLayoutQueryOptions = queryOptions({
   queryKey: ['colorLayouts'],

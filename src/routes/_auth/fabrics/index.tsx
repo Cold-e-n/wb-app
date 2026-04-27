@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Fabrics } from '@/features/fabrics'
 import { FabricsProvider } from '@/features/fabrics/components/fabrics-provider'
 import { getFabricsQueryOptions } from '@/features/fabrics/hooks/use-fabric'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { ErrorFallback } from '@/components/error-boundary'
 
 const RouteComponent = () => {

@@ -1,9 +1,9 @@
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
+import { Equal } from 'lucide-react'
+import { ColorPositionVisualizer } from './color-position-visualizer'
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import { ColorPositionCalculator } from '@/calculations/ColorPosition'
 import { Card, CardContent } from '@/components/ui/card'
 import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
-import { ColorPositionVisualizer } from './color-position-visualizer'
-import { Equal } from 'lucide-react'
 
 type ColorPositionsDetailsProps = {
   data: ColorPositionWithRelations

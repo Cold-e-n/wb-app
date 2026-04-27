@@ -14,10 +14,10 @@ export type SidebarDataType = {
 
 export type SidebarGroupType = {
   title: string
-  items: SidebarDataType[]
+  items: Array<SidebarDataType>
 }
 
-export const sidebarData: SidebarGroupType[] = [
+export const sidebarData: Array<SidebarGroupType> = [
   {
     title: 'Overview',
     items: [

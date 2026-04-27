@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
 import {
-  FilterFn,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -9,14 +7,19 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+  useReactTable
 } from '@tanstack/react-table'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import { getRouteApi } from '@tanstack/react-router'
+import { colorPositionsTableColumns as columns } from './color-positions-table-columns'
+import type {
+  FilterFn,
+  SortingState,
+  VisibilityState} from '@tanstack/react-table';
+import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import { useTableUrlState } from '@/hooks/use-table-url-state'
 
+import { cn } from '@/lib/utils'
 import {
   Table,
   TableBody,
@@ -25,13 +28,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { colorPositionsTableColumns as columns } from './color-positions-table-columns'
-import { type ColorPositionWithRelations } from '@/types/ColorPosition'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
 
 type ColorPositionsTableProps = {
-  data: ColorPositionWithRelations[]
+  data: Array<ColorPositionWithRelations>
 }
 
 const fuzzyFilter: FilterFn<ColorPositionWithRelations> = (

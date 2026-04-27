@@ -1,13 +1,13 @@
 import { Link } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
 
 import { Plus } from 'lucide-react'
 import { ColorLayoutTable } from './table/color-layout-table'
-import { ColorLayoutWithFabric } from './table/color-layout-table-columns'
 import { ColorLayoutDeleteDialog } from './color-layout-delete-dialog'
+import type { ColorLayoutWithFabric } from './table/color-layout-table-columns'
+import { Button } from '@/components/ui/button'
 
 type ColorLayoutProps = {
-  data: ColorLayoutWithFabric[]
+  data: Array<ColorLayoutWithFabric>
 }
 
 export const ColorLayout = ({ data }: ColorLayoutProps) => {

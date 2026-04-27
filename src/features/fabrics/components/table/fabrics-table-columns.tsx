@@ -1,11 +1,11 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { type Fabric } from '@/types/Fabric'
+import { FabricsTableRowActions } from './fabrics-table-row-actions'
+import type { ColumnDef } from '@tanstack/react-table'
+import type {Fabric} from '@/types/Fabric';
 
 import { Checkbox } from '@/components/ui/checkbox'
 
-import { FabricsTableRowActions } from './fabrics-table-row-actions'
 
-export const fabricsTableColumns: ColumnDef<Fabric>[] = [
+export const fabricsTableColumns: Array<ColumnDef<Fabric>> = [
   {
     id: 'select',
     header: ({ table }) => (

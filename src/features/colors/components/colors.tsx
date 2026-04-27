@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 import { useColorsContext } from './colors-provider'
 import { ColorsTable } from './table/colors-table'
 import { ColorsDialogs } from './colors-dialogs'
 import { ColorsDeleteDialog } from './colors-delete-dialog'
 
-import { Plus } from 'lucide-react'
 
-import { type Color } from '@/types/Color'
+import type {Color} from '@/types/Color';
+import { Button } from '@/components/ui/button'
 
 type ColorsProps = {
-  data: Color[]
+  data: Array<Color>
 }
 
 export const Colors = ({ data }: ColorsProps) => {
