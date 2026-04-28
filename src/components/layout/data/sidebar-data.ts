@@ -1,6 +1,7 @@
 import {
   AlignHorizontalJustifyCenter,
   Blocks,
+  Cog,
   LayoutGrid,
   Palette,
   Scroll,
@@ -45,6 +46,11 @@ export const sidebarData: Array<SidebarGroupType> = [
         title: 'Layout Benang Warna',
         href: '/color-layouts',
         icon: AlignHorizontalJustifyCenter,
+      },
+      {
+        title: 'Mesin Weaving',
+        href: '/weaving-machines',
+        icon: Cog,
       },
     ],
   },

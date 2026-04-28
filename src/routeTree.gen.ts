@@ -13,6 +13,7 @@ import { Route as GuestRouteRouteImport } from './routes/_guest/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuestSignInRouteImport } from './routes/_guest/sign-in'
+import { Route as AuthWeavingMachinesRouteImport } from './routes/_auth/weaving-machines'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/dashboard'
 import { Route as AuthColorRouteImport } from './routes/_auth/color'
 import { Route as AuthFabricsIndexRouteImport } from './routes/_auth/fabrics/index'
@@ -41,6 +42,11 @@ const GuestSignInRoute = GuestSignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
   getParentRoute: () => GuestRouteRoute,
+} as any)
+const AuthWeavingMachinesRoute = AuthWeavingMachinesRouteImport.update({
+  id: '/weaving-machines',
+  path: '/weaving-machines',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 const AuthDashboardRoute = AuthDashboardRouteImport.update({
   id: '/dashboard',
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/color': typeof AuthColorRoute
   '/dashboard': typeof AuthDashboardRoute
+  '/weaving-machines': typeof AuthWeavingMachinesRoute
   '/sign-in': typeof GuestSignInRoute
   '/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
   '/color-layouts/': typeof AuthColorLayoutsIndexRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/color': typeof AuthColorRoute
   '/dashboard': typeof AuthDashboardRoute
+  '/weaving-machines': typeof AuthWeavingMachinesRoute
   '/sign-in': typeof GuestSignInRoute
   '/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
   '/color-layouts': typeof AuthColorLayoutsIndexRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/_guest': typeof GuestRouteRouteWithChildren
   '/_auth/color': typeof AuthColorRoute
   '/_auth/dashboard': typeof AuthDashboardRoute
+  '/_auth/weaving-machines': typeof AuthWeavingMachinesRoute
   '/_guest/sign-in': typeof GuestSignInRoute
   '/_auth/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
   '/_auth/color-layouts/': typeof AuthColorLayoutsIndexRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/'
     | '/color'
     | '/dashboard'
+    | '/weaving-machines'
     | '/sign-in'
     | '/color-layouts/add-new'
     | '/color-layouts/'
@@ -162,6 +172,7 @@ export interface FileRouteTypes {
     | '/'
     | '/color'
     | '/dashboard'
+    | '/weaving-machines'
     | '/sign-in'
     | '/color-layouts/add-new'
     | '/color-layouts'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/_guest'
     | '/_auth/color'
     | '/_auth/dashboard'
+    | '/_auth/weaving-machines'
     | '/_guest/sign-in'
     | '/_auth/color-layouts/add-new'
     | '/_auth/color-layouts/'
@@ -224,6 +236,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sign-in'
       preLoaderRoute: typeof GuestSignInRouteImport
       parentRoute: typeof GuestRouteRoute
+    }
+    '/_auth/weaving-machines': {
+      id: '/_auth/weaving-machines'
+      path: '/weaving-machines'
+      fullPath: '/weaving-machines'
+      preLoaderRoute: typeof AuthWeavingMachinesRouteImport
+      parentRoute: typeof AuthRouteRoute
     }
     '/_auth/dashboard': {
       id: '/_auth/dashboard'
@@ -301,6 +320,7 @@ declare module '@tanstack/react-router' {
 interface AuthRouteRouteChildren {
   AuthColorRoute: typeof AuthColorRoute
   AuthDashboardRoute: typeof AuthDashboardRoute
+  AuthWeavingMachinesRoute: typeof AuthWeavingMachinesRoute
   AuthColorLayoutsAddNewRoute: typeof AuthColorLayoutsAddNewRoute
   AuthColorLayoutsIndexRoute: typeof AuthColorLayoutsIndexRoute
   AuthColorPositionsIndexRoute: typeof AuthColorPositionsIndexRoute
@@ -314,6 +334,7 @@ interface AuthRouteRouteChildren {
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthColorRoute: AuthColorRoute,
   AuthDashboardRoute: AuthDashboardRoute,
+  AuthWeavingMachinesRoute: AuthWeavingMachinesRoute,
   AuthColorLayoutsAddNewRoute: AuthColorLayoutsAddNewRoute,
   AuthColorLayoutsIndexRoute: AuthColorLayoutsIndexRoute,
   AuthColorPositionsIndexRoute: AuthColorPositionsIndexRoute,

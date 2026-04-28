@@ -1,7 +1,7 @@
-import {  clsx } from 'clsx'
+import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import type {ClassValue} from 'clsx';
-import type {ColorContent} from '@/types/ColorLayout';
+import type { ClassValue } from 'clsx'
+import type { ColorContent } from '@/types/ColorLayout'
 
 export function cn(...inputs: Array<ClassValue>) {
   return twMerge(clsx(inputs))
@@ -93,6 +93,23 @@ export const isEdgeMarker = (
 
   if (!edgeTriple || layoutType !== 'double') return false
   return regularIdx === 0 || regularIdx === colorCount - 1
+}
+
+export const incrementMachineName = (name: string): string => {
+  const match = name.match(/^(.*?)(\d+)$/)
+
+  if (!match) return name
+
+  const prefix = match[1]
+  const numberPart = match[2]
+  const nextNumber = parseInt(numberPart, 10) + 1
+  const hasLeadingZero = numberPart.startsWith('0') && numberPart.length > 1
+
+  if (hasLeadingZero) {
+    return `${prefix}${nextNumber.toString().padStart(numberPart.length, '0')}`
+  }
+
+  return `${prefix}${nextNumber}`
 }
 
 /**
