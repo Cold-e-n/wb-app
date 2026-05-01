@@ -40,6 +40,8 @@ export type WeavingMachineMinAggregateOutputType = {
   slug: string | null
   width: number | null
   type: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WeavingMachineMaxAggregateOutputType = {
@@ -48,6 +50,8 @@ export type WeavingMachineMaxAggregateOutputType = {
   slug: string | null
   width: number | null
   type: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WeavingMachineCountAggregateOutputType = {
@@ -56,6 +60,8 @@ export type WeavingMachineCountAggregateOutputType = {
   slug: number
   width: number
   type: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -74,6 +80,8 @@ export type WeavingMachineMinAggregateInputType = {
   slug?: true
   width?: true
   type?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WeavingMachineMaxAggregateInputType = {
@@ -82,6 +90,8 @@ export type WeavingMachineMaxAggregateInputType = {
   slug?: true
   width?: true
   type?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WeavingMachineCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type WeavingMachineCountAggregateInputType = {
   slug?: true
   width?: true
   type?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -185,6 +197,8 @@ export type WeavingMachineGroupByOutputType = {
   slug: string
   width: number
   type: string
+  createdAt: Date
+  updatedAt: Date | null
   _count: WeavingMachineCountAggregateOutputType | null
   _avg: WeavingMachineAvgAggregateOutputType | null
   _sum: WeavingMachineSumAggregateOutputType | null
@@ -216,6 +230,8 @@ export type WeavingMachineWhereInput = {
   slug?: Prisma.StringFilter<"WeavingMachine"> | string
   width?: Prisma.IntFilter<"WeavingMachine"> | number
   type?: Prisma.StringFilter<"WeavingMachine"> | string
+  createdAt?: Prisma.DateTimeFilter<"WeavingMachine"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"WeavingMachine"> | Date | string | null
 }
 
 export type WeavingMachineOrderByWithRelationInput = {
@@ -224,6 +240,8 @@ export type WeavingMachineOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   width?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type WeavingMachineWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +253,8 @@ export type WeavingMachineWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.WeavingMachineWhereInput | Prisma.WeavingMachineWhereInput[]
   width?: Prisma.IntFilter<"WeavingMachine"> | number
   type?: Prisma.StringFilter<"WeavingMachine"> | string
+  createdAt?: Prisma.DateTimeFilter<"WeavingMachine"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"WeavingMachine"> | Date | string | null
 }, "id" | "name" | "slug">
 
 export type WeavingMachineOrderByWithAggregationInput = {
@@ -243,6 +263,8 @@ export type WeavingMachineOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   width?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.WeavingMachineCountOrderByAggregateInput
   _avg?: Prisma.WeavingMachineAvgOrderByAggregateInput
   _max?: Prisma.WeavingMachineMaxOrderByAggregateInput
@@ -259,6 +281,8 @@ export type WeavingMachineScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"WeavingMachine"> | string
   width?: Prisma.IntWithAggregatesFilter<"WeavingMachine"> | number
   type?: Prisma.StringWithAggregatesFilter<"WeavingMachine"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"WeavingMachine"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WeavingMachine"> | Date | string | null
 }
 
 export type WeavingMachineCreateInput = {
@@ -267,6 +291,8 @@ export type WeavingMachineCreateInput = {
   slug: string
   width: number
   type: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type WeavingMachineUncheckedCreateInput = {
@@ -275,6 +301,8 @@ export type WeavingMachineUncheckedCreateInput = {
   slug: string
   width: number
   type: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type WeavingMachineUpdateInput = {
@@ -283,6 +311,8 @@ export type WeavingMachineUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WeavingMachineUncheckedUpdateInput = {
@@ -291,6 +321,8 @@ export type WeavingMachineUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WeavingMachineCreateManyInput = {
@@ -299,6 +331,8 @@ export type WeavingMachineCreateManyInput = {
   slug: string
   width: number
   type: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type WeavingMachineUpdateManyMutationInput = {
@@ -307,6 +341,8 @@ export type WeavingMachineUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WeavingMachineUncheckedUpdateManyInput = {
@@ -315,6 +351,8 @@ export type WeavingMachineUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   width?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WeavingMachineCountOrderByAggregateInput = {
@@ -323,6 +361,8 @@ export type WeavingMachineCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   width?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WeavingMachineAvgOrderByAggregateInput = {
@@ -335,6 +375,8 @@ export type WeavingMachineMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   width?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WeavingMachineMinOrderByAggregateInput = {
@@ -343,6 +385,8 @@ export type WeavingMachineMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   width?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WeavingMachineSumOrderByAggregateInput = {
@@ -365,6 +409,8 @@ export type WeavingMachineSelect<ExtArgs extends runtime.Types.Extensions.Intern
   slug?: boolean
   width?: boolean
   type?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["weavingMachine"]>
 
 export type WeavingMachineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -373,6 +419,8 @@ export type WeavingMachineSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   slug?: boolean
   width?: boolean
   type?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["weavingMachine"]>
 
 export type WeavingMachineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -381,6 +429,8 @@ export type WeavingMachineSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   slug?: boolean
   width?: boolean
   type?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["weavingMachine"]>
 
 export type WeavingMachineSelectScalar = {
@@ -389,9 +439,11 @@ export type WeavingMachineSelectScalar = {
   slug?: boolean
   width?: boolean
   type?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type WeavingMachineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "width" | "type", ExtArgs["result"]["weavingMachine"]>
+export type WeavingMachineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "width" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["weavingMachine"]>
 
 export type $WeavingMachinePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WeavingMachine"
@@ -402,6 +454,8 @@ export type $WeavingMachinePayload<ExtArgs extends runtime.Types.Extensions.Inte
     slug: string
     width: number
     type: string
+    createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["weavingMachine"]>
   composites: {}
 }
@@ -830,6 +884,8 @@ export interface WeavingMachineFieldRefs {
   readonly slug: Prisma.FieldRef<"WeavingMachine", 'String'>
   readonly width: Prisma.FieldRef<"WeavingMachine", 'Int'>
   readonly type: Prisma.FieldRef<"WeavingMachine", 'String'>
+  readonly createdAt: Prisma.FieldRef<"WeavingMachine", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"WeavingMachine", 'DateTime'>
 }
     
 
