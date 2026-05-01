@@ -388,7 +388,8 @@ export const ModelName = {
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
   Fabric: 'Fabric',
-  WeavingMachine: 'WeavingMachine'
+  WeavingMachine: 'WeavingMachine',
+  Yarns: 'Yarns'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "weavingMachine"
+    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "weavingMachine" | "yarns"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -778,6 +779,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Yarns: {
+      payload: Prisma.$YarnsPayload<ExtArgs>
+      fields: Prisma.YarnsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.YarnsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.YarnsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+        }
+        findFirst: {
+          args: Prisma.YarnsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.YarnsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+        }
+        findMany: {
+          args: Prisma.YarnsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>[]
+        }
+        create: {
+          args: Prisma.YarnsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+        }
+        createMany: {
+          args: Prisma.YarnsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.YarnsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>[]
+        }
+        delete: {
+          args: Prisma.YarnsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+        }
+        update: {
+          args: Prisma.YarnsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+        }
+        deleteMany: {
+          args: Prisma.YarnsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.YarnsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.YarnsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>[]
+        }
+        upsert: {
+          args: Prisma.YarnsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+        }
+        aggregate: {
+          args: Prisma.YarnsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYarns>
+        }
+        groupBy: {
+          args: Prisma.YarnsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YarnsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.YarnsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YarnsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -870,10 +945,23 @@ export const WeavingMachineScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   width: 'width',
-  type: 'type'
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
+
+
+export const YarnsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type YarnsScalarFieldEnum = (typeof YarnsScalarFieldEnum)[keyof typeof YarnsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1099,6 +1187,7 @@ export type GlobalOmitConfig = {
   colorPosition?: Prisma.ColorPositionOmit
   fabric?: Prisma.FabricOmit
   weavingMachine?: Prisma.WeavingMachineOmit
+  yarns?: Prisma.YarnsOmit
 }
 
 /* Types for Logging */

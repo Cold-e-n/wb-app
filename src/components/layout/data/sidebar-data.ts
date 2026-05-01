@@ -5,6 +5,7 @@ import {
   LayoutGrid,
   Palette,
   Scroll,
+  Volleyball,
 } from 'lucide-react'
 
 export type SidebarDataType = {
@@ -33,19 +34,14 @@ export const sidebarData: Array<SidebarGroupType> = [
     title: 'General',
     items: [
       {
-        title: 'Benang Warna',
-        href: '/color',
-        icon: Palette,
+        title: 'Benang',
+        href: '/yarns',
+        icon: Volleyball,
       },
       {
         title: 'Kain',
         href: '/fabrics',
         icon: Scroll,
-      },
-      {
-        title: 'Layout Benang Warna',
-        href: '/color-layouts',
-        icon: AlignHorizontalJustifyCenter,
       },
       {
         title: 'Mesin Weaving',
@@ -55,8 +51,18 @@ export const sidebarData: Array<SidebarGroupType> = [
     ],
   },
   {
-    title: 'Production',
+    title: 'Warping/Beaming',
     items: [
+      {
+        title: 'Benang Warna',
+        href: '/color',
+        icon: Palette,
+      },
+      {
+        title: 'Layout Benang Warna',
+        href: '/color-layouts',
+        icon: AlignHorizontalJustifyCenter,
+      },
       {
         title: 'Posisi Benang Warna',
         href: '/color-positions',
