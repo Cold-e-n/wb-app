@@ -121,9 +121,10 @@ export const FabricsCombobox = ({
                         currentItem === comboboxValue ? '' : currentItem
                       setComboboxValue(newValue)
 
-                      // Find selected fabric to get colorLayoutId
-                      const selected = fabrics?.find((f) => f.id === newValue)
-                      onChange?.(newValue, selected?.colorLayoutId || undefined)
+                      const selected = fabrics?.find(
+                        (f) => f.id === currentItem,
+                      )
+                      onChange?.(newValue, selected?.colorLayout?.id)
 
                       setOpen(false)
                     }}

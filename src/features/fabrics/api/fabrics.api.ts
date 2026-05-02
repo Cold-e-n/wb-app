@@ -14,6 +14,7 @@ export const getFabrics = createServerFn({
         name: true,
         slug: true,
         hasColor: true,
+        colorLayout: true,
       },
       orderBy: {
         name: 'asc',

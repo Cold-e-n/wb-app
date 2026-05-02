@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form'
 import { XIcon } from 'lucide-react'
 import { useColorPositionsMutation } from '../hooks/use-color-positions'
 import type { z } from 'zod'
-import type { ColorPosition} from '@/types/ColorPosition';
+import type { ColorPosition } from '@/types/ColorPosition'
 import { colorPositionFormSchema } from '@/types/ColorPosition'
 
 import { Button } from '@/components/ui/button'
@@ -30,7 +30,6 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group'
 import { FabricsCombobox } from '@/components/fabrics-combobox'
-
 
 interface ColorPositionsFormProps {
   mode?: 'create' | 'edit'
@@ -138,8 +137,8 @@ export const ColorPositionsForm = ({
                   <FabricsCombobox
                     fieldName={field.name}
                     value={field.state.value}
-                    onChange={(value, colorLayoutId) => {
-                      field.handleChange(value)
+                    onChange={(fabicId, colorLayoutId) => {
+                      field.handleChange(fabicId)
 
                       // Auto-fill colorLayoutId saat fabric dipilih
                       if (colorLayoutId) {
