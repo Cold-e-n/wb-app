@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.4.2
- * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.4.2",
-  engine: "94a226be1cf2967af2541cca5529f0f7ba866919"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 /**
@@ -389,7 +389,7 @@ export const ModelName = {
   ColorPosition: 'ColorPosition',
   Fabric: 'Fabric',
   WeavingMachine: 'WeavingMachine',
-  Yarns: 'Yarns'
+  Yarn: 'Yarn'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "weavingMachine" | "yarns"
+    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "weavingMachine" | "yarn"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -779,77 +779,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Yarns: {
-      payload: Prisma.$YarnsPayload<ExtArgs>
-      fields: Prisma.YarnsFieldRefs
+    Yarn: {
+      payload: Prisma.$YarnPayload<ExtArgs>
+      fields: Prisma.YarnFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.YarnsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload> | null
+          args: Prisma.YarnFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.YarnsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+          args: Prisma.YarnFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
         }
         findFirst: {
-          args: Prisma.YarnsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload> | null
+          args: Prisma.YarnFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.YarnsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+          args: Prisma.YarnFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
         }
         findMany: {
-          args: Prisma.YarnsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>[]
+          args: Prisma.YarnFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
         }
         create: {
-          args: Prisma.YarnsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+          args: Prisma.YarnCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
         }
         createMany: {
-          args: Prisma.YarnsCreateManyArgs<ExtArgs>
+          args: Prisma.YarnCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.YarnsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>[]
+          args: Prisma.YarnCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
         }
         delete: {
-          args: Prisma.YarnsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+          args: Prisma.YarnDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
         }
         update: {
-          args: Prisma.YarnsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+          args: Prisma.YarnUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
         }
         deleteMany: {
-          args: Prisma.YarnsDeleteManyArgs<ExtArgs>
+          args: Prisma.YarnDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.YarnsUpdateManyArgs<ExtArgs>
+          args: Prisma.YarnUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.YarnsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>[]
+          args: Prisma.YarnUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
         }
         upsert: {
-          args: Prisma.YarnsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnsPayload>
+          args: Prisma.YarnUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
         }
         aggregate: {
-          args: Prisma.YarnsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateYarns>
+          args: Prisma.YarnAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYarn>
         }
         groupBy: {
-          args: Prisma.YarnsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.YarnsGroupByOutputType>[]
+          args: Prisma.YarnGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YarnGroupByOutputType>[]
         }
         count: {
-          args: Prisma.YarnsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.YarnsCountAggregateOutputType> | number
+          args: Prisma.YarnCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YarnCountAggregateOutputType> | number
         }
       }
     }
@@ -932,7 +932,6 @@ export const FabricScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   hasColor: 'hasColor',
-  colorLayoutId: 'colorLayoutId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -953,7 +952,7 @@ export const WeavingMachineScalarFieldEnum = {
 export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
 
 
-export const YarnsScalarFieldEnum = {
+export const YarnScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -961,7 +960,7 @@ export const YarnsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type YarnsScalarFieldEnum = (typeof YarnsScalarFieldEnum)[keyof typeof YarnsScalarFieldEnum]
+export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1180,6 +1179,21 @@ export type PrismaClientOptions = ({
    * ```
    */
   comments?: runtime.SqlCommenterPlugin[]
+  /**
+   * Optional maximum size for the query plan cache. If not provided, a default size will be used.
+   * A value of `0` can be used to disable the cache entirely. A higher cache size can improve
+   * performance for applications that execute a large number of unique queries, while a smaller
+   * cache size can reduce memory usage.
+   * 
+   * @example
+   * ```
+   * const prisma = new PrismaClient({
+   *   adapter,
+   *   queryPlanCacheMaxSize: 100,
+   * })
+   * ```
+   */
+  queryPlanCacheMaxSize?: number
 }
 export type GlobalOmitConfig = {
   color?: Prisma.ColorOmit
@@ -1187,7 +1201,7 @@ export type GlobalOmitConfig = {
   colorPosition?: Prisma.ColorPositionOmit
   fabric?: Prisma.FabricOmit
   weavingMachine?: Prisma.WeavingMachineOmit
-  yarns?: Prisma.YarnsOmit
+  yarn?: Prisma.YarnOmit
 }
 
 /* Types for Logging */

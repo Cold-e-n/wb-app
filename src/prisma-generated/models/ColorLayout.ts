@@ -154,7 +154,7 @@ export type ColorLayoutGroupByOutputType = {
   _max: ColorLayoutMaxAggregateOutputType | null
 }
 
-type GetColorLayoutGroupByPayload<T extends ColorLayoutGroupByArgs> = Prisma.PrismaPromise<
+export type GetColorLayoutGroupByPayload<T extends ColorLayoutGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ColorLayoutGroupByOutputType, T['by']> &
       {
@@ -1179,6 +1179,11 @@ export type ColorLayoutFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` ColorLayouts.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ColorLayouts.
+   */
   distinct?: Prisma.ColorLayoutScalarFieldEnum | Prisma.ColorLayoutScalarFieldEnum[]
 }
 

@@ -4,11 +4,11 @@ import { prisma } from '@/db'
 import { createSlug } from '@/lib/utils'
 import { createYarnSchema, updateYarnSchema } from '@/types/Yarn'
 
-export const getYarns = createServerFn({
+export const getYarn = createServerFn({
   method: 'GET',
 }).handler(async () => {
   try {
-    const yarns = await prisma.yarns.findMany({
+    const yarn = await prisma.yarn.findMany({
       select: {
         id: true,
         name: true,
@@ -19,9 +19,9 @@ export const getYarns = createServerFn({
       },
     })
 
-    return yarns
+    return yarn
   } catch (error) {
-    console.error('Failed to fetch yarns:', error)
+    console.error('Failed to fetch yarn:', error)
     throw new Error('Gagal mengambil data benang.')
   }
 })
@@ -32,7 +32,7 @@ export const getYarnById = createServerFn({
   .inputValidator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
     try {
-      const yarn = await prisma.yarns.findUnique({
+      const yarn = await prisma.yarn.findUnique({
         where: { id: data.id },
       })
 
@@ -43,24 +43,24 @@ export const getYarnById = createServerFn({
     }
   })
 
-export const createYarns = createServerFn({
+export const createYarn = createServerFn({
   method: 'POST',
 })
   .inputValidator(createYarnSchema)
   .handler(async ({ data }) => {
     try {
-      const yarnsToCreate = data.yarns.map((yarn) => ({
+      const yarnToCreate = data.yarns.map((yarn) => ({
         name: yarn.name,
         slug: createSlug(yarn.name),
       }))
 
-      const createdYarns = await prisma.yarns.createMany({
-        data: yarnsToCreate,
+      const createdyarn = await prisma.yarn.createMany({
+        data: yarnToCreate,
       })
 
-      return createdYarns
+      return createdyarn
     } catch (error) {
-      console.error('Failed to create yarns:', error)
+      console.error('Failed to create yarn:', error)
       throw new Error(
         'Gagal menambahkan benang. Pastikan nama belum digunakan.',
       )
@@ -73,7 +73,7 @@ export const updateYarn = createServerFn({
   .inputValidator(updateYarnSchema)
   .handler(async ({ data }) => {
     try {
-      const updatedYarn = await prisma.yarns.update({
+      const updatedYarn = await prisma.yarn.update({
         where: { id: data.id },
         data: {
           name: data.name,
@@ -84,24 +84,22 @@ export const updateYarn = createServerFn({
       return updatedYarn
     } catch (error) {
       console.error('Failed to update yarn:', error)
-      throw new Error(
-        'Gagal mengupdate benang. Pastikan nama belum digunakan.',
-      )
+      throw new Error('Gagal mengupdate benang. Pastikan nama belum digunakan.')
     }
   })
 
 // Schema for deleting a yarn
-const deleteYarnSchema = z.object({
+const deleteyarnchema = z.object({
   id: z.string(),
 })
 
 export const deleteYarn = createServerFn({
   method: 'POST',
 })
-  .inputValidator(deleteYarnSchema)
+  .inputValidator(deleteyarnchema)
   .handler(async ({ data }) => {
     try {
-      const deletedYarn = await prisma.yarns.delete({
+      const deletedYarn = await prisma.yarn.delete({
         where: { id: data.id },
       })
 

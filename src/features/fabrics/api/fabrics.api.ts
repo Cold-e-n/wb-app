@@ -14,7 +14,6 @@ export const getFabrics = createServerFn({
         name: true,
         slug: true,
         hasColor: true,
-        colorLayoutId: true,
       },
       orderBy: {
         name: 'asc',
@@ -83,7 +82,6 @@ export const updateFabric = createServerFn({
       const existingFabric = await prisma.fabric.findUnique({
         where: { id: data.id },
         select: {
-          colorLayoutId: true,
           colorLayout: {
             select: {
               colorContent: true,
@@ -111,12 +109,6 @@ export const updateFabric = createServerFn({
               },
             },
           }),
-          ...(!data.hasColor &&
-            existingFabric?.colorLayoutId && {
-              colorLayout: {
-                delete: true,
-              },
-            }),
         },
       })
 

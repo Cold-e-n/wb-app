@@ -206,7 +206,7 @@ export type WeavingMachineGroupByOutputType = {
   _max: WeavingMachineMaxAggregateOutputType | null
 }
 
-type GetWeavingMachineGroupByPayload<T extends WeavingMachineGroupByArgs> = Prisma.PrismaPromise<
+export type GetWeavingMachineGroupByPayload<T extends WeavingMachineGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<WeavingMachineGroupByOutputType, T['by']> &
       {
@@ -1062,6 +1062,11 @@ export type WeavingMachineFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` WeavingMachines.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of WeavingMachines.
+   */
   distinct?: Prisma.WeavingMachineScalarFieldEnum | Prisma.WeavingMachineScalarFieldEnum[]
 }
 

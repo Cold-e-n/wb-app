@@ -67,7 +67,7 @@ export type Fabric = Prisma.FabricModel
  */
 export type WeavingMachine = Prisma.WeavingMachineModel
 /**
- * Model Yarns
+ * Model Yarn
  * 
  */
-export type Yarns = Prisma.YarnsModel
+export type Yarn = Prisma.YarnModel

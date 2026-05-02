@@ -11,7 +11,7 @@ import * as Api from '../api/yarns.api'
 
 export const getYarnsQueryOptions = queryOptions({
   queryKey: ['yarns'],
-  queryFn: () => Api.getYarns(),
+  queryFn: () => Api.getYarn(),
 })
 
 export const getYarnByIdQueryOptions = (id: string | undefined) =>
@@ -51,7 +51,7 @@ export const useYarnsMutation = () => {
     mutationFn: async (data: {
       yarns: Array<{ name: string; slug: string }>
     }) => {
-      return Api.createYarns({ data })
+      return Api.createYarn({ data })
     },
     onSuccess: (_, items) => {
       toast.success('Benang berhasil ditambahkan', {

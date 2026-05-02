@@ -56,7 +56,7 @@ export const ModelName = {
   ColorPosition: 'ColorPosition',
   Fabric: 'Fabric',
   WeavingMachine: 'WeavingMachine',
-  Yarns: 'Yarns'
+  Yarn: 'Yarn'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -115,7 +115,6 @@ export const FabricScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   hasColor: 'hasColor',
-  colorLayoutId: 'colorLayoutId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -136,7 +135,7 @@ export const WeavingMachineScalarFieldEnum = {
 export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
 
 
-export const YarnsScalarFieldEnum = {
+export const YarnScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -144,7 +143,7 @@ export const YarnsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type YarnsScalarFieldEnum = (typeof YarnsScalarFieldEnum)[keyof typeof YarnsScalarFieldEnum]
+export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
 
 
 export const SortOrder = {

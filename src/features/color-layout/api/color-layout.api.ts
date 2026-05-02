@@ -86,7 +86,6 @@ export const createColorLayout = createServerFn({
           where: { id: data.fabricId },
           data: {
             hasColor: true,
-            colorLayoutId: layout.id,
           },
         })
 
@@ -158,7 +157,6 @@ export const deleteColorLayout = createServerFn({
             where: { id: layout.fabricId },
             data: {
               hasColor: false,
-              colorLayoutId: null,
             },
           })
         }
