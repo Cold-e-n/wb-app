@@ -55,6 +55,8 @@ export const ModelName = {
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
   Fabric: 'Fabric',
+  FabricSpec: 'FabricSpec',
+  FabricConstruction: 'FabricConstruction',
   WeavingMachine: 'WeavingMachine',
   Yarn: 'Yarn'
 } as const
@@ -122,6 +124,44 @@ export const FabricScalarFieldEnum = {
 export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
 
 
+export const FabricSpecScalarFieldEnum = {
+  id: 'id',
+  fabricId: 'fabricId',
+  width: 'width',
+  length: 'length',
+  warpYarnId: 'warpYarnId',
+  weftYarnId: 'weftYarnId',
+  color: 'color',
+  cutmarkPerRoll: 'cutmarkPerRoll',
+  totalEnds: 'totalEnds',
+  reedWidth: 'reedWidth',
+  reedNo: 'reedNo',
+  fringe: 'fringe',
+  pickPerInch: 'pickPerInch',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FabricSpecScalarFieldEnum = (typeof FabricSpecScalarFieldEnum)[keyof typeof FabricSpecScalarFieldEnum]
+
+
+export const FabricConstructionScalarFieldEnum = {
+  id: 'id',
+  fabricSpecId: 'fabricSpecId',
+  warpingMachine: 'warpingMachine',
+  coneCount: 'coneCount',
+  sectionCount: 'sectionCount',
+  sectionLength: 'sectionLength',
+  beamWidth: 'beamWidth',
+  spareEnds: 'spareEnds',
+  beamingLoss: 'beamingLoss',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FabricConstructionScalarFieldEnum = (typeof FabricConstructionScalarFieldEnum)[keyof typeof FabricConstructionScalarFieldEnum]
+
+
 export const WeavingMachineScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -160,6 +200,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

@@ -6,6 +6,7 @@ import {
   Palette,
   Scroll,
   Volleyball,
+  RulerDimensionLine,
 } from 'lucide-react'
 
 export type SidebarDataType = {
@@ -47,6 +48,16 @@ export const sidebarData: Array<SidebarGroupType> = [
         title: 'Mesin Weaving',
         href: '/weaving-machines',
         icon: Cog,
+      },
+    ],
+  },
+  {
+    title: 'Instruksi',
+    items: [
+      {
+        title: 'Spek Kain',
+        href: '/fabric-specs',
+        icon: RulerDimensionLine,
       },
     ],
   },

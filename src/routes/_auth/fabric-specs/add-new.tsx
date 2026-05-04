@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 
-import { ColorLayoutForm } from '@/features/color-layout/components/color-layout-form'
+import { FabricSpecsForm } from '@/features/fabric-specs/components/fabric-specs-form'
 
 const RouteComponent = () => {
   return (
@@ -24,7 +24,7 @@ const RouteComponent = () => {
                     asChild
                     className="-ml-2"
                   >
-                    <Link to="/color-layouts">
+                    <Link to="/fabric-specs">
                       <MoveLeft className="h-4 w-4" />
                     </Link>
                   </Button>
@@ -33,22 +33,22 @@ const RouteComponent = () => {
               </Tooltip>
             </div>
             <h1 className="text-2xl font-bold tracking-tight">
-              Tambah Layout Benang Warna
+              Tambah Spek Kain
             </h1>
           </div>
         </div>
       </div>
 
-      <ColorLayoutForm />
+      <FabricSpecsForm />
     </div>
   )
 }
 
-export const Route = createFileRoute('/_auth/color-layouts/add-new')({
+export const Route = createFileRoute('/_auth/fabric-specs/add-new')({
   head: () => ({
     meta: [
       {
-        title: `Tambah Layout Benang Warna - ${import.meta.env.VITE_APP_DEPARTMENT_NAME} App`,
+        title: `Tambah Spek Kain - ${import.meta.env.VITE_APP_DEPARTMENT_NAME} App`,
       },
     ],
   }),

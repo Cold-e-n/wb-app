@@ -388,6 +388,8 @@ export const ModelName = {
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
   Fabric: 'Fabric',
+  FabricSpec: 'FabricSpec',
+  FabricConstruction: 'FabricConstruction',
   WeavingMachine: 'WeavingMachine',
   Yarn: 'Yarn'
 } as const
@@ -405,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "weavingMachine" | "yarn"
+    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "fabricSpec" | "fabricConstruction" | "weavingMachine" | "yarn"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -705,6 +707,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FabricSpec: {
+      payload: Prisma.$FabricSpecPayload<ExtArgs>
+      fields: Prisma.FabricSpecFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FabricSpecFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FabricSpecFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>
+        }
+        findFirst: {
+          args: Prisma.FabricSpecFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FabricSpecFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>
+        }
+        findMany: {
+          args: Prisma.FabricSpecFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>[]
+        }
+        create: {
+          args: Prisma.FabricSpecCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>
+        }
+        createMany: {
+          args: Prisma.FabricSpecCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FabricSpecCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>[]
+        }
+        delete: {
+          args: Prisma.FabricSpecDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>
+        }
+        update: {
+          args: Prisma.FabricSpecUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>
+        }
+        deleteMany: {
+          args: Prisma.FabricSpecDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FabricSpecUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FabricSpecUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>[]
+        }
+        upsert: {
+          args: Prisma.FabricSpecUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricSpecPayload>
+        }
+        aggregate: {
+          args: Prisma.FabricSpecAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFabricSpec>
+        }
+        groupBy: {
+          args: Prisma.FabricSpecGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FabricSpecGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FabricSpecCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FabricSpecCountAggregateOutputType> | number
+        }
+      }
+    }
+    FabricConstruction: {
+      payload: Prisma.$FabricConstructionPayload<ExtArgs>
+      fields: Prisma.FabricConstructionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FabricConstructionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FabricConstructionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>
+        }
+        findFirst: {
+          args: Prisma.FabricConstructionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FabricConstructionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>
+        }
+        findMany: {
+          args: Prisma.FabricConstructionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>[]
+        }
+        create: {
+          args: Prisma.FabricConstructionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>
+        }
+        createMany: {
+          args: Prisma.FabricConstructionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FabricConstructionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>[]
+        }
+        delete: {
+          args: Prisma.FabricConstructionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>
+        }
+        update: {
+          args: Prisma.FabricConstructionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>
+        }
+        deleteMany: {
+          args: Prisma.FabricConstructionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FabricConstructionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FabricConstructionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>[]
+        }
+        upsert: {
+          args: Prisma.FabricConstructionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricConstructionPayload>
+        }
+        aggregate: {
+          args: Prisma.FabricConstructionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFabricConstruction>
+        }
+        groupBy: {
+          args: Prisma.FabricConstructionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FabricConstructionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FabricConstructionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FabricConstructionCountAggregateOutputType> | number
+        }
+      }
+    }
     WeavingMachine: {
       payload: Prisma.$WeavingMachinePayload<ExtArgs>
       fields: Prisma.WeavingMachineFieldRefs
@@ -939,6 +1089,44 @@ export const FabricScalarFieldEnum = {
 export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
 
 
+export const FabricSpecScalarFieldEnum = {
+  id: 'id',
+  fabricId: 'fabricId',
+  width: 'width',
+  length: 'length',
+  warpYarnId: 'warpYarnId',
+  weftYarnId: 'weftYarnId',
+  color: 'color',
+  cutmarkPerRoll: 'cutmarkPerRoll',
+  totalEnds: 'totalEnds',
+  reedWidth: 'reedWidth',
+  reedNo: 'reedNo',
+  fringe: 'fringe',
+  pickPerInch: 'pickPerInch',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FabricSpecScalarFieldEnum = (typeof FabricSpecScalarFieldEnum)[keyof typeof FabricSpecScalarFieldEnum]
+
+
+export const FabricConstructionScalarFieldEnum = {
+  id: 'id',
+  fabricSpecId: 'fabricSpecId',
+  warpingMachine: 'warpingMachine',
+  coneCount: 'coneCount',
+  sectionCount: 'sectionCount',
+  sectionLength: 'sectionLength',
+  beamWidth: 'beamWidth',
+  spareEnds: 'spareEnds',
+  beamingLoss: 'beamingLoss',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FabricConstructionScalarFieldEnum = (typeof FabricConstructionScalarFieldEnum)[keyof typeof FabricConstructionScalarFieldEnum]
+
+
 export const WeavingMachineScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -977,6 +1165,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1070,6 +1265,34 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WbMachineType'
+ */
+export type EnumWbMachineTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WbMachineType'>
+    
+
+
+/**
+ * Reference to a field of type 'WbMachineType[]'
+ */
+export type ListEnumWbMachineTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WbMachineType[]'>
     
 
 
@@ -1200,6 +1423,8 @@ export type GlobalOmitConfig = {
   colorLayout?: Prisma.ColorLayoutOmit
   colorPosition?: Prisma.ColorPositionOmit
   fabric?: Prisma.FabricOmit
+  fabricSpec?: Prisma.FabricSpecOmit
+  fabricConstruction?: Prisma.FabricConstructionOmit
   weavingMachine?: Prisma.WeavingMachineOmit
   yarn?: Prisma.YarnOmit
 }

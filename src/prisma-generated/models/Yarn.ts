@@ -182,6 +182,8 @@ export type YarnWhereInput = {
   slug?: Prisma.StringFilter<"Yarn"> | string
   createdAt?: Prisma.DateTimeFilter<"Yarn"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Yarn"> | Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecListRelationFilter
+  weftFabricSpecs?: Prisma.FabricSpecListRelationFilter
 }
 
 export type YarnOrderByWithRelationInput = {
@@ -190,6 +192,8 @@ export type YarnOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  warpFabricSpecs?: Prisma.FabricSpecOrderByRelationAggregateInput
+  weftFabricSpecs?: Prisma.FabricSpecOrderByRelationAggregateInput
 }
 
 export type YarnWhereUniqueInput = Prisma.AtLeast<{
@@ -201,6 +205,8 @@ export type YarnWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.YarnWhereInput | Prisma.YarnWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"Yarn"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Yarn"> | Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecListRelationFilter
+  weftFabricSpecs?: Prisma.FabricSpecListRelationFilter
 }, "id" | "name" | "slug">
 
 export type YarnOrderByWithAggregationInput = {
@@ -231,6 +237,8 @@ export type YarnCreateInput = {
   slug: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutWarpYarnInput
+  weftFabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutWeftYarnInput
 }
 
 export type YarnUncheckedCreateInput = {
@@ -239,6 +247,8 @@ export type YarnUncheckedCreateInput = {
   slug: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutWarpYarnInput
+  weftFabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutWeftYarnInput
 }
 
 export type YarnUpdateInput = {
@@ -247,6 +257,8 @@ export type YarnUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecUpdateManyWithoutWarpYarnNestedInput
+  weftFabricSpecs?: Prisma.FabricSpecUpdateManyWithoutWeftYarnNestedInput
 }
 
 export type YarnUncheckedUpdateInput = {
@@ -255,6 +267,8 @@ export type YarnUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutWarpYarnNestedInput
+  weftFabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutWeftYarnNestedInput
 }
 
 export type YarnCreateManyInput = {
@@ -281,6 +295,11 @@ export type YarnUncheckedUpdateManyInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type YarnScalarRelationFilter = {
+  is?: Prisma.YarnWhereInput
+  isNot?: Prisma.YarnWhereInput
+}
+
 export type YarnCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -305,6 +324,176 @@ export type YarnMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type YarnCreateNestedOneWithoutWarpFabricSpecsInput = {
+  create?: Prisma.XOR<Prisma.YarnCreateWithoutWarpFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWarpFabricSpecsInput>
+  connectOrCreate?: Prisma.YarnCreateOrConnectWithoutWarpFabricSpecsInput
+  connect?: Prisma.YarnWhereUniqueInput
+}
+
+export type YarnCreateNestedOneWithoutWeftFabricSpecsInput = {
+  create?: Prisma.XOR<Prisma.YarnCreateWithoutWeftFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWeftFabricSpecsInput>
+  connectOrCreate?: Prisma.YarnCreateOrConnectWithoutWeftFabricSpecsInput
+  connect?: Prisma.YarnWhereUniqueInput
+}
+
+export type YarnUpdateOneRequiredWithoutWarpFabricSpecsNestedInput = {
+  create?: Prisma.XOR<Prisma.YarnCreateWithoutWarpFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWarpFabricSpecsInput>
+  connectOrCreate?: Prisma.YarnCreateOrConnectWithoutWarpFabricSpecsInput
+  upsert?: Prisma.YarnUpsertWithoutWarpFabricSpecsInput
+  connect?: Prisma.YarnWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.YarnUpdateToOneWithWhereWithoutWarpFabricSpecsInput, Prisma.YarnUpdateWithoutWarpFabricSpecsInput>, Prisma.YarnUncheckedUpdateWithoutWarpFabricSpecsInput>
+}
+
+export type YarnUpdateOneRequiredWithoutWeftFabricSpecsNestedInput = {
+  create?: Prisma.XOR<Prisma.YarnCreateWithoutWeftFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWeftFabricSpecsInput>
+  connectOrCreate?: Prisma.YarnCreateOrConnectWithoutWeftFabricSpecsInput
+  upsert?: Prisma.YarnUpsertWithoutWeftFabricSpecsInput
+  connect?: Prisma.YarnWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.YarnUpdateToOneWithWhereWithoutWeftFabricSpecsInput, Prisma.YarnUpdateWithoutWeftFabricSpecsInput>, Prisma.YarnUncheckedUpdateWithoutWeftFabricSpecsInput>
+}
+
+export type YarnCreateWithoutWarpFabricSpecsInput = {
+  id?: string
+  name: string
+  slug: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  weftFabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutWeftYarnInput
+}
+
+export type YarnUncheckedCreateWithoutWarpFabricSpecsInput = {
+  id?: string
+  name: string
+  slug: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  weftFabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutWeftYarnInput
+}
+
+export type YarnCreateOrConnectWithoutWarpFabricSpecsInput = {
+  where: Prisma.YarnWhereUniqueInput
+  create: Prisma.XOR<Prisma.YarnCreateWithoutWarpFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWarpFabricSpecsInput>
+}
+
+export type YarnCreateWithoutWeftFabricSpecsInput = {
+  id?: string
+  name: string
+  slug: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutWarpYarnInput
+}
+
+export type YarnUncheckedCreateWithoutWeftFabricSpecsInput = {
+  id?: string
+  name: string
+  slug: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutWarpYarnInput
+}
+
+export type YarnCreateOrConnectWithoutWeftFabricSpecsInput = {
+  where: Prisma.YarnWhereUniqueInput
+  create: Prisma.XOR<Prisma.YarnCreateWithoutWeftFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWeftFabricSpecsInput>
+}
+
+export type YarnUpsertWithoutWarpFabricSpecsInput = {
+  update: Prisma.XOR<Prisma.YarnUpdateWithoutWarpFabricSpecsInput, Prisma.YarnUncheckedUpdateWithoutWarpFabricSpecsInput>
+  create: Prisma.XOR<Prisma.YarnCreateWithoutWarpFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWarpFabricSpecsInput>
+  where?: Prisma.YarnWhereInput
+}
+
+export type YarnUpdateToOneWithWhereWithoutWarpFabricSpecsInput = {
+  where?: Prisma.YarnWhereInput
+  data: Prisma.XOR<Prisma.YarnUpdateWithoutWarpFabricSpecsInput, Prisma.YarnUncheckedUpdateWithoutWarpFabricSpecsInput>
+}
+
+export type YarnUpdateWithoutWarpFabricSpecsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  weftFabricSpecs?: Prisma.FabricSpecUpdateManyWithoutWeftYarnNestedInput
+}
+
+export type YarnUncheckedUpdateWithoutWarpFabricSpecsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  weftFabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutWeftYarnNestedInput
+}
+
+export type YarnUpsertWithoutWeftFabricSpecsInput = {
+  update: Prisma.XOR<Prisma.YarnUpdateWithoutWeftFabricSpecsInput, Prisma.YarnUncheckedUpdateWithoutWeftFabricSpecsInput>
+  create: Prisma.XOR<Prisma.YarnCreateWithoutWeftFabricSpecsInput, Prisma.YarnUncheckedCreateWithoutWeftFabricSpecsInput>
+  where?: Prisma.YarnWhereInput
+}
+
+export type YarnUpdateToOneWithWhereWithoutWeftFabricSpecsInput = {
+  where?: Prisma.YarnWhereInput
+  data: Prisma.XOR<Prisma.YarnUpdateWithoutWeftFabricSpecsInput, Prisma.YarnUncheckedUpdateWithoutWeftFabricSpecsInput>
+}
+
+export type YarnUpdateWithoutWeftFabricSpecsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecUpdateManyWithoutWarpYarnNestedInput
+}
+
+export type YarnUncheckedUpdateWithoutWeftFabricSpecsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  warpFabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutWarpYarnNestedInput
+}
+
+
+/**
+ * Count Type YarnCountOutputType
+ */
+
+export type YarnCountOutputType = {
+  warpFabricSpecs: number
+  weftFabricSpecs: number
+}
+
+export type YarnCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warpFabricSpecs?: boolean | YarnCountOutputTypeCountWarpFabricSpecsArgs
+  weftFabricSpecs?: boolean | YarnCountOutputTypeCountWeftFabricSpecsArgs
+}
+
+/**
+ * YarnCountOutputType without action
+ */
+export type YarnCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the YarnCountOutputType
+   */
+  select?: Prisma.YarnCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * YarnCountOutputType without action
+ */
+export type YarnCountOutputTypeCountWarpFabricSpecsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FabricSpecWhereInput
+}
+
+/**
+ * YarnCountOutputType without action
+ */
+export type YarnCountOutputTypeCountWeftFabricSpecsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FabricSpecWhereInput
+}
 
 
 export type YarnSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -313,6 +502,9 @@ export type YarnSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   slug?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  warpFabricSpecs?: boolean | Prisma.Yarn$warpFabricSpecsArgs<ExtArgs>
+  weftFabricSpecs?: boolean | Prisma.Yarn$weftFabricSpecsArgs<ExtArgs>
+  _count?: boolean | Prisma.YarnCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["yarn"]>
 
 export type YarnSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -340,10 +532,20 @@ export type YarnSelectScalar = {
 }
 
 export type YarnOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "createdAt" | "updatedAt", ExtArgs["result"]["yarn"]>
+export type YarnInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warpFabricSpecs?: boolean | Prisma.Yarn$warpFabricSpecsArgs<ExtArgs>
+  weftFabricSpecs?: boolean | Prisma.Yarn$weftFabricSpecsArgs<ExtArgs>
+  _count?: boolean | Prisma.YarnCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type YarnIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type YarnIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $YarnPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Yarn"
-  objects: {}
+  objects: {
+    warpFabricSpecs: Prisma.$FabricSpecPayload<ExtArgs>[]
+    weftFabricSpecs: Prisma.$FabricSpecPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -744,6 +946,8 @@ readonly fields: YarnFieldRefs;
  */
 export interface Prisma__YarnClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  warpFabricSpecs<T extends Prisma.Yarn$warpFabricSpecsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Yarn$warpFabricSpecsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FabricSpecPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  weftFabricSpecs<T extends Prisma.Yarn$weftFabricSpecsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Yarn$weftFabricSpecsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FabricSpecPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -795,6 +999,10 @@ export type YarnFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
+  /**
    * Filter, which Yarn to fetch.
    */
   where: Prisma.YarnWhereUniqueInput
@@ -813,6 +1021,10 @@ export type YarnFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
+  /**
    * Filter, which Yarn to fetch.
    */
   where: Prisma.YarnWhereUniqueInput
@@ -830,6 +1042,10 @@ export type YarnFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Yarn
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
   /**
    * Filter, which Yarn to fetch.
    */
@@ -879,6 +1095,10 @@ export type YarnFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
+  /**
    * Filter, which Yarn to fetch.
    */
   where?: Prisma.YarnWhereInput
@@ -926,6 +1146,10 @@ export type YarnFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Yarn
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
   /**
    * Filter, which Yarns to fetch.
    */
@@ -975,6 +1199,10 @@ export type YarnCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
+  /**
    * The data needed to create a Yarn.
    */
   data: Prisma.XOR<Prisma.YarnCreateInput, Prisma.YarnUncheckedCreateInput>
@@ -1022,6 +1250,10 @@ export type YarnUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Yarn
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
   /**
    * The data needed to update a Yarn.
    */
@@ -1089,6 +1321,10 @@ export type YarnUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
+  /**
    * The filter to search for the Yarn to update in case it exists.
    */
   where: Prisma.YarnWhereUniqueInput
@@ -1115,6 +1351,10 @@ export type YarnDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
+  /**
    * Filter which Yarn to delete.
    */
   where: Prisma.YarnWhereUniqueInput
@@ -1135,6 +1375,54 @@ export type YarnDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Yarn.warpFabricSpecs
+ */
+export type Yarn$warpFabricSpecsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FabricSpec
+   */
+  select?: Prisma.FabricSpecSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FabricSpec
+   */
+  omit?: Prisma.FabricSpecOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FabricSpecInclude<ExtArgs> | null
+  where?: Prisma.FabricSpecWhereInput
+  orderBy?: Prisma.FabricSpecOrderByWithRelationInput | Prisma.FabricSpecOrderByWithRelationInput[]
+  cursor?: Prisma.FabricSpecWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FabricSpecScalarFieldEnum | Prisma.FabricSpecScalarFieldEnum[]
+}
+
+/**
+ * Yarn.weftFabricSpecs
+ */
+export type Yarn$weftFabricSpecsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FabricSpec
+   */
+  select?: Prisma.FabricSpecSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FabricSpec
+   */
+  omit?: Prisma.FabricSpecOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FabricSpecInclude<ExtArgs> | null
+  where?: Prisma.FabricSpecWhereInput
+  orderBy?: Prisma.FabricSpecOrderByWithRelationInput | Prisma.FabricSpecOrderByWithRelationInput[]
+  cursor?: Prisma.FabricSpecWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FabricSpecScalarFieldEnum | Prisma.FabricSpecScalarFieldEnum[]
+}
+
+/**
  * Yarn without action
  */
 export type YarnDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1146,4 +1434,8 @@ export type YarnDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Yarn
    */
   omit?: Prisma.YarnOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.YarnInclude<ExtArgs> | null
 }

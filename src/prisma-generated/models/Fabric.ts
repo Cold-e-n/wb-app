@@ -192,6 +192,7 @@ export type FabricWhereInput = {
   updatedAt?: Prisma.DateTimeNullableFilter<"Fabric"> | Date | string | null
   colorLayout?: Prisma.XOR<Prisma.ColorLayoutNullableScalarRelationFilter, Prisma.ColorLayoutWhereInput> | null
   colorPositions?: Prisma.ColorPositionListRelationFilter
+  fabricSpecs?: Prisma.FabricSpecListRelationFilter
 }
 
 export type FabricOrderByWithRelationInput = {
@@ -203,6 +204,7 @@ export type FabricOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   colorLayout?: Prisma.ColorLayoutOrderByWithRelationInput
   colorPositions?: Prisma.ColorPositionOrderByRelationAggregateInput
+  fabricSpecs?: Prisma.FabricSpecOrderByRelationAggregateInput
 }
 
 export type FabricWhereUniqueInput = Prisma.AtLeast<{
@@ -217,6 +219,7 @@ export type FabricWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeNullableFilter<"Fabric"> | Date | string | null
   colorLayout?: Prisma.XOR<Prisma.ColorLayoutNullableScalarRelationFilter, Prisma.ColorLayoutWhereInput> | null
   colorPositions?: Prisma.ColorPositionListRelationFilter
+  fabricSpecs?: Prisma.FabricSpecListRelationFilter
 }, "id" | "name" | "slug">
 
 export type FabricOrderByWithAggregationInput = {
@@ -252,6 +255,7 @@ export type FabricCreateInput = {
   updatedAt?: Date | string | null
   colorLayout?: Prisma.ColorLayoutCreateNestedOneWithoutFabricInput
   colorPositions?: Prisma.ColorPositionCreateNestedManyWithoutFabricInput
+  fabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutFabricInput
 }
 
 export type FabricUncheckedCreateInput = {
@@ -263,6 +267,7 @@ export type FabricUncheckedCreateInput = {
   updatedAt?: Date | string | null
   colorLayout?: Prisma.ColorLayoutUncheckedCreateNestedOneWithoutFabricInput
   colorPositions?: Prisma.ColorPositionUncheckedCreateNestedManyWithoutFabricInput
+  fabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutFabricInput
 }
 
 export type FabricUpdateInput = {
@@ -274,6 +279,7 @@ export type FabricUpdateInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorLayout?: Prisma.ColorLayoutUpdateOneWithoutFabricNestedInput
   colorPositions?: Prisma.ColorPositionUpdateManyWithoutFabricNestedInput
+  fabricSpecs?: Prisma.FabricSpecUpdateManyWithoutFabricNestedInput
 }
 
 export type FabricUncheckedUpdateInput = {
@@ -285,6 +291,7 @@ export type FabricUncheckedUpdateInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorLayout?: Prisma.ColorLayoutUncheckedUpdateOneWithoutFabricNestedInput
   colorPositions?: Prisma.ColorPositionUncheckedUpdateManyWithoutFabricNestedInput
+  fabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutFabricNestedInput
 }
 
 export type FabricCreateManyInput = {
@@ -378,6 +385,20 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type FabricCreateNestedOneWithoutFabricSpecsInput = {
+  create?: Prisma.XOR<Prisma.FabricCreateWithoutFabricSpecsInput, Prisma.FabricUncheckedCreateWithoutFabricSpecsInput>
+  connectOrCreate?: Prisma.FabricCreateOrConnectWithoutFabricSpecsInput
+  connect?: Prisma.FabricWhereUniqueInput
+}
+
+export type FabricUpdateOneRequiredWithoutFabricSpecsNestedInput = {
+  create?: Prisma.XOR<Prisma.FabricCreateWithoutFabricSpecsInput, Prisma.FabricUncheckedCreateWithoutFabricSpecsInput>
+  connectOrCreate?: Prisma.FabricCreateOrConnectWithoutFabricSpecsInput
+  upsert?: Prisma.FabricUpsertWithoutFabricSpecsInput
+  connect?: Prisma.FabricWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FabricUpdateToOneWithWhereWithoutFabricSpecsInput, Prisma.FabricUpdateWithoutFabricSpecsInput>, Prisma.FabricUncheckedUpdateWithoutFabricSpecsInput>
+}
+
 export type FabricCreateWithoutColorLayoutInput = {
   id?: string
   name: string
@@ -386,6 +407,7 @@ export type FabricCreateWithoutColorLayoutInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   colorPositions?: Prisma.ColorPositionCreateNestedManyWithoutFabricInput
+  fabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutFabricInput
 }
 
 export type FabricUncheckedCreateWithoutColorLayoutInput = {
@@ -396,6 +418,7 @@ export type FabricUncheckedCreateWithoutColorLayoutInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   colorPositions?: Prisma.ColorPositionUncheckedCreateNestedManyWithoutFabricInput
+  fabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutFabricInput
 }
 
 export type FabricCreateOrConnectWithoutColorLayoutInput = {
@@ -422,6 +445,7 @@ export type FabricUpdateWithoutColorLayoutInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorPositions?: Prisma.ColorPositionUpdateManyWithoutFabricNestedInput
+  fabricSpecs?: Prisma.FabricSpecUpdateManyWithoutFabricNestedInput
 }
 
 export type FabricUncheckedUpdateWithoutColorLayoutInput = {
@@ -432,6 +456,7 @@ export type FabricUncheckedUpdateWithoutColorLayoutInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorPositions?: Prisma.ColorPositionUncheckedUpdateManyWithoutFabricNestedInput
+  fabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutFabricNestedInput
 }
 
 export type FabricCreateWithoutColorPositionsInput = {
@@ -442,6 +467,7 @@ export type FabricCreateWithoutColorPositionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   colorLayout?: Prisma.ColorLayoutCreateNestedOneWithoutFabricInput
+  fabricSpecs?: Prisma.FabricSpecCreateNestedManyWithoutFabricInput
 }
 
 export type FabricUncheckedCreateWithoutColorPositionsInput = {
@@ -452,6 +478,7 @@ export type FabricUncheckedCreateWithoutColorPositionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   colorLayout?: Prisma.ColorLayoutUncheckedCreateNestedOneWithoutFabricInput
+  fabricSpecs?: Prisma.FabricSpecUncheckedCreateNestedManyWithoutFabricInput
 }
 
 export type FabricCreateOrConnectWithoutColorPositionsInput = {
@@ -478,6 +505,7 @@ export type FabricUpdateWithoutColorPositionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorLayout?: Prisma.ColorLayoutUpdateOneWithoutFabricNestedInput
+  fabricSpecs?: Prisma.FabricSpecUpdateManyWithoutFabricNestedInput
 }
 
 export type FabricUncheckedUpdateWithoutColorPositionsInput = {
@@ -488,6 +516,67 @@ export type FabricUncheckedUpdateWithoutColorPositionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorLayout?: Prisma.ColorLayoutUncheckedUpdateOneWithoutFabricNestedInput
+  fabricSpecs?: Prisma.FabricSpecUncheckedUpdateManyWithoutFabricNestedInput
+}
+
+export type FabricCreateWithoutFabricSpecsInput = {
+  id?: string
+  name: string
+  slug: string
+  hasColor?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  colorLayout?: Prisma.ColorLayoutCreateNestedOneWithoutFabricInput
+  colorPositions?: Prisma.ColorPositionCreateNestedManyWithoutFabricInput
+}
+
+export type FabricUncheckedCreateWithoutFabricSpecsInput = {
+  id?: string
+  name: string
+  slug: string
+  hasColor?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  colorLayout?: Prisma.ColorLayoutUncheckedCreateNestedOneWithoutFabricInput
+  colorPositions?: Prisma.ColorPositionUncheckedCreateNestedManyWithoutFabricInput
+}
+
+export type FabricCreateOrConnectWithoutFabricSpecsInput = {
+  where: Prisma.FabricWhereUniqueInput
+  create: Prisma.XOR<Prisma.FabricCreateWithoutFabricSpecsInput, Prisma.FabricUncheckedCreateWithoutFabricSpecsInput>
+}
+
+export type FabricUpsertWithoutFabricSpecsInput = {
+  update: Prisma.XOR<Prisma.FabricUpdateWithoutFabricSpecsInput, Prisma.FabricUncheckedUpdateWithoutFabricSpecsInput>
+  create: Prisma.XOR<Prisma.FabricCreateWithoutFabricSpecsInput, Prisma.FabricUncheckedCreateWithoutFabricSpecsInput>
+  where?: Prisma.FabricWhereInput
+}
+
+export type FabricUpdateToOneWithWhereWithoutFabricSpecsInput = {
+  where?: Prisma.FabricWhereInput
+  data: Prisma.XOR<Prisma.FabricUpdateWithoutFabricSpecsInput, Prisma.FabricUncheckedUpdateWithoutFabricSpecsInput>
+}
+
+export type FabricUpdateWithoutFabricSpecsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  hasColor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  colorLayout?: Prisma.ColorLayoutUpdateOneWithoutFabricNestedInput
+  colorPositions?: Prisma.ColorPositionUpdateManyWithoutFabricNestedInput
+}
+
+export type FabricUncheckedUpdateWithoutFabricSpecsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  hasColor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  colorLayout?: Prisma.ColorLayoutUncheckedUpdateOneWithoutFabricNestedInput
+  colorPositions?: Prisma.ColorPositionUncheckedUpdateManyWithoutFabricNestedInput
 }
 
 
@@ -497,10 +586,12 @@ export type FabricUncheckedUpdateWithoutColorPositionsInput = {
 
 export type FabricCountOutputType = {
   colorPositions: number
+  fabricSpecs: number
 }
 
 export type FabricCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   colorPositions?: boolean | FabricCountOutputTypeCountColorPositionsArgs
+  fabricSpecs?: boolean | FabricCountOutputTypeCountFabricSpecsArgs
 }
 
 /**
@@ -520,6 +611,13 @@ export type FabricCountOutputTypeCountColorPositionsArgs<ExtArgs extends runtime
   where?: Prisma.ColorPositionWhereInput
 }
 
+/**
+ * FabricCountOutputType without action
+ */
+export type FabricCountOutputTypeCountFabricSpecsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FabricSpecWhereInput
+}
+
 
 export type FabricSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -530,6 +628,7 @@ export type FabricSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   colorLayout?: boolean | Prisma.Fabric$colorLayoutArgs<ExtArgs>
   colorPositions?: boolean | Prisma.Fabric$colorPositionsArgs<ExtArgs>
+  fabricSpecs?: boolean | Prisma.Fabric$fabricSpecsArgs<ExtArgs>
   _count?: boolean | Prisma.FabricCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fabric"]>
 
@@ -564,6 +663,7 @@ export type FabricOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type FabricInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   colorLayout?: boolean | Prisma.Fabric$colorLayoutArgs<ExtArgs>
   colorPositions?: boolean | Prisma.Fabric$colorPositionsArgs<ExtArgs>
+  fabricSpecs?: boolean | Prisma.Fabric$fabricSpecsArgs<ExtArgs>
   _count?: boolean | Prisma.FabricCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FabricIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -574,6 +674,7 @@ export type $FabricPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     colorLayout: Prisma.$ColorLayoutPayload<ExtArgs> | null
     colorPositions: Prisma.$ColorPositionPayload<ExtArgs>[]
+    fabricSpecs: Prisma.$FabricSpecPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -978,6 +1079,7 @@ export interface Prisma__FabricClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   colorLayout<T extends Prisma.Fabric$colorLayoutArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fabric$colorLayoutArgs<ExtArgs>>): Prisma.Prisma__ColorLayoutClient<runtime.Types.Result.GetResult<Prisma.$ColorLayoutPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   colorPositions<T extends Prisma.Fabric$colorPositionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fabric$colorPositionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ColorPositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fabricSpecs<T extends Prisma.Fabric$fabricSpecsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fabric$fabricSpecsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FabricSpecPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1446,6 +1548,30 @@ export type Fabric$colorPositionsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.ColorPositionScalarFieldEnum | Prisma.ColorPositionScalarFieldEnum[]
+}
+
+/**
+ * Fabric.fabricSpecs
+ */
+export type Fabric$fabricSpecsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FabricSpec
+   */
+  select?: Prisma.FabricSpecSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FabricSpec
+   */
+  omit?: Prisma.FabricSpecOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FabricSpecInclude<ExtArgs> | null
+  where?: Prisma.FabricSpecWhereInput
+  orderBy?: Prisma.FabricSpecOrderByWithRelationInput | Prisma.FabricSpecOrderByWithRelationInput[]
+  cursor?: Prisma.FabricSpecWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FabricSpecScalarFieldEnum | Prisma.FabricSpecScalarFieldEnum[]
 }
 
 /**

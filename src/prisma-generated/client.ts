@@ -62,6 +62,16 @@ export type ColorPosition = Prisma.ColorPositionModel
  */
 export type Fabric = Prisma.FabricModel
 /**
+ * Model FabricSpec
+ * 
+ */
+export type FabricSpec = Prisma.FabricSpecModel
+/**
+ * Model FabricConstruction
+ * 
+ */
+export type FabricConstruction = Prisma.FabricConstructionModel
+/**
  * Model WeavingMachine
  * 
  */

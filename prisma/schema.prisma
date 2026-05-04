@@ -62,8 +62,57 @@ model Fabric {
 
   colorLayout    ColorLayout?
   colorPositions ColorPosition[]
+  fabricSpecs    FabricSpec[]
 
   @@map("fabrics")
+}
+
+model FabricSpec {
+  id       String @id @default(cuid())
+  fabricId String @map("fabric_id")
+
+  width          Int     @map("width")
+  length         Int     @map("length")
+  warpYarnId     String  @map("warp_yarn_id")
+  weftYarnId     String  @map("weft_yarn_id")
+  color          String? @map("color")
+  cutmarkPerRoll Json    @map("cutmark_per_roll")
+  totalEnds      Int     @map("total_ends")
+  reedWidth      Decimal @map("reed_width") @db.Decimal(8, 2)
+  reedNo         String  @map("reed_no")
+  fringe         Int?    @map("fringe")
+  pickPerInch    Int     @map("pick_per_inch")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  fabric              Fabric               @relation(fields: [fabricId], references: [id])
+  fabricConstructions FabricConstruction[]
+  warpYarn            Yarn                 @relation("warpYarnRelation", fields: [warpYarnId], references: [id])
+  weftYarn            Yarn                 @relation("weftYarnRelation", fields: [weftYarnId], references: [id])
+
+  @@unique([fabricId, width, length, warpYarnId, weftYarnId])
+  @@map("fabric_specs")
+}
+
+model FabricConstruction {
+  id           String @id @default(cuid())
+  fabricSpecId String @map("fabric_spec_id")
+
+  warpingMachine WbMachineType @map("warping_machine")
+  coneCount      Int           @map("cone_count")
+  sectionCount   Int           @map("section_count")
+  sectionLength  Int           @map("section_length")
+  beamWidth      Decimal       @map("beam_width") @db.Decimal(8, 2)
+  spareEnds      Int           @map("spare_ends")
+  beamingLoss    Int?          @map("beaming_loss")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  fabricSpec FabricSpec @relation(fields: [fabricSpecId], references: [id])
+
+  @@map("fabric_constructions")
 }
 
 model WeavingMachine {
@@ -86,6 +135,9 @@ model Yarn {
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
+
+  warpFabricSpecs FabricSpec[] @relation("warpYarnRelation")
+  weftFabricSpecs FabricSpec[] @relation("weftYarnRelation")
 
   @@map("yarns")
 }

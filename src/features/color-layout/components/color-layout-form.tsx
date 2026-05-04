@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { useNavigate } from '@tanstack/react-router'
 import { useColorLayoutMutation } from '../hooks/use-color-layout'
-import type {
-  ColorContent,
-  ColorLayoutFormValues} from '@/types/ColorLayout';
-import {
-  colorLayoutFormSchema
-} from '@/types/ColorLayout'
+import type { ColorContent, ColorLayoutFormValues } from '@/types/ColorLayout'
+import { colorLayoutFormSchema } from '@/types/ColorLayout'
 
 import {
   Accordion,
