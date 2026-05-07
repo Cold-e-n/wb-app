@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 import {
   ColorPositions,
   ColorPositionsProvider,
