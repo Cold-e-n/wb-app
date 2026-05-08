@@ -11,7 +11,7 @@ import * as Api from '../api/fabric-specs.api'
 export const getFabricSpecsQueryOptions = queryOptions({
   queryKey: ['fabricSpecs'],
   queryFn: Api.getFabricSpecs,
-  staleTime: Infinity,
+  staleTime: 0,
 })
 
 export const getFabricSpecByIdQueryOptions = (id: string) =>

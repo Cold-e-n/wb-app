@@ -1,16 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import type { FabricSpecWithFabric } from '@/types/FabricSpec'
+import type { FabricSpecWithRelation } from '@/types/FabricSpec'
 import { getFabricSpecsQueryOptions } from '@/features/fabric-specs/hooks/use-fabric-specs'
 
 import { FabricSpecs } from '@/features/fabric-specs'
 import { ErrorFallback } from '@/components/error-boundary'
+import { FabricSpecsProvider } from '@/features/fabric-specs'
 
 const RouteComponent = () => {
-  const { data: fabricSpecs } = useSuspenseQuery(getFabricSpecsQueryOptions)
+  const { fabricSpecs } = Route.useLoaderData()
 
   return (
-    <FabricSpecs data={fabricSpecs as unknown as Array<FabricSpecWithFabric>} />
+    <FabricSpecsProvider>
+      <FabricSpecs
+        data={fabricSpecs as unknown as Array<FabricSpecWithRelation>}
+      />
+    </FabricSpecsProvider>
   )
 }
 
@@ -19,9 +23,14 @@ export const Route = createFileRoute('/_auth/fabric-specs/')({
     const fabricSpecs = await context.queryClient.fetchQuery(
       getFabricSpecsQueryOptions,
     )
+
+    if (!fabricSpecs) {
+      throw new Error('No fabric specs found')
+    }
+
     return { fabricSpecs }
   },
-  staleTime: Infinity,
+  staleTime: 1000 * 30,
   head: () => ({
     meta: [
       {

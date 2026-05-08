@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import type { FabricSpecWithFabric } from '@/types/FabricSpec'
+import type { FabricSpecWithRelation } from '@/types/FabricSpec'
 import { Button } from '@/components/ui/button'
 import { FabricSpecsProvider } from './fabric-specs-provider'
 import { FabricSpecsTable } from './table/fabric-specs-table'
@@ -7,7 +7,7 @@ import { FabricSpecsDeleteDialog } from './fabric-specs-delete-dialog'
 import { Plus } from 'lucide-react'
 
 type FabricSpecsProps = {
-  data: Array<FabricSpecWithFabric>
+  data: Array<FabricSpecWithRelation>
 }
 
 export const FabricSpecs = ({ data }: FabricSpecsProps) => {

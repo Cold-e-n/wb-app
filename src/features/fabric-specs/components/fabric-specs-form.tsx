@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { useNavigate, useRouter } from '@tanstack/react-router'
 import { useFabricSpecMutation } from '../hooks/use-fabric-specs'
-import { useColor } from '@/features/colors/hooks/use-color'
+import { useColorLayout } from '@/features/color-layout/hooks/use-color-layout'
 
 import type { FabricSpecForm, FabricSpecFormValues } from '@/types/FabricSpec'
 
@@ -51,13 +51,19 @@ export const FabricSpecsForm = ({
   const navigate = useNavigate()
   const router = useRouter()
   const { createMutation, updateMutation, isPending } = useFabricSpecMutation()
-  const { data: colors } = useColor()
+  const { data: colorLayouts } = useColorLayout()
 
   const getInitialValues = useMemo((): FabricSpecFormValues => {
     if (mode === 'edit' && initialData) {
       const safeColor = initialData.color ?? '-'
-      const isManual = safeColor.includes(' ')
+      const parts = safeColor.split(' ')
+      const colorId = parts[0]
+
+      // Determine if it's a layout or manual input
+      // If it exists in colorLayouts, it's a layout. Otherwise if it's not '-', it's manual.
+      const isLayout = colorLayouts?.some((l) => l.id === colorId)
       const isNone = safeColor === '-' || !safeColor
+      const isManual = !isLayout && !isNone
 
       return {
         ...initialData,
@@ -67,11 +73,9 @@ export const FabricSpecsForm = ({
           length: number
         }[]) ?? [{ roll: 1, length: 1 }],
         hasColorLayout: !isNone,
-        colorInputType: isManual ? 'manual' : 'layout',
-        manualColorName: isManual ? safeColor.split(' ')[0] : '',
-        manualColorDescription: isManual
-          ? safeColor.split(' ').slice(1).join(' ')
-          : '',
+        colorInputType: isLayout ? 'layout' : 'manual',
+        manualColorName: isManual ? colorId : '',
+        manualColorDescription: isManual ? parts.slice(1).join(' ') : '',
       } as FabricSpecFormValues
     }
 
@@ -93,7 +97,7 @@ export const FabricSpecsForm = ({
       manualColorName: '',
       manualColorDescription: '',
     }
-  }, [mode, initialData])
+  }, [mode, initialData, colorLayouts])
 
   const form = useForm({
     defaultValues: getInitialValues,
@@ -104,12 +108,8 @@ export const FabricSpecsForm = ({
         if (value.colorInputType === 'layout') {
           finalColorValue = value.color
         } else {
-          const colorName =
-            colors?.find((c) => c.id === value.manualColorName)?.name ??
-            value.manualColorName
-
           finalColorValue =
-            `${colorName} ${value.manualColorDescription}`.trim()
+            `${value.manualColorName} ${value.manualColorDescription}`.trim()
         }
       }
 
@@ -182,7 +182,17 @@ export const FabricSpecsForm = ({
 
             <div className="flex items-center gap-2">
               {/* Lebar */}
-              <form.Field name="width">
+              <form.Field
+                name="width"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value <= 0) {
+                      return 'Lebar harus lebih dari 0'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -203,7 +213,7 @@ export const FabricSpecsForm = ({
                             onBlur={field.handleBlur}
                             onChange={(e) => {
                               const val = e.target.value
-                              field.handleChange(val === '' ? 1 : Number(val))
+                              field.handleChange(val === '' ? 0 : Number(val))
                             }}
                             placeholder="Masukkan lebar"
                           />
@@ -227,7 +237,17 @@ export const FabricSpecsForm = ({
               </div>
 
               {/* Panjang */}
-              <form.Field name="length">
+              <form.Field
+                name="length"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value <= 0) {
+                      return 'Panjang harus lebih dari 0'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -248,7 +268,7 @@ export const FabricSpecsForm = ({
                             onBlur={field.handleBlur}
                             onChange={(e) => {
                               const val = e.target.value
-                              field.handleChange(val === '' ? 1 : Number(val))
+                              field.handleChange(val === '' ? 0 : Number(val))
                             }}
                             placeholder="Masukkan panjang"
                           />
@@ -270,7 +290,17 @@ export const FabricSpecsForm = ({
 
             <div className="grid grid-cols-2 gap-4">
               {/* Lusi */}
-              <form.Field name="warpYarnId">
+              <form.Field
+                name="warpYarnId"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value.trim() === '') {
+                      return 'Benang Lusi harus dipilih'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -295,7 +325,17 @@ export const FabricSpecsForm = ({
               </form.Field>
 
               {/* Pakan */}
-              <form.Field name="weftYarnId">
+              <form.Field
+                name="weftYarnId"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value.trim() === '') {
+                      return 'Benang Pakan harus dipilih'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -414,15 +454,14 @@ export const FabricSpecsForm = ({
                           onClick={() => {
                             const currentValues = field.state.value
 
-                            const lastRollValue =
+                            const lastLengthValue =
                               currentValues.length > 0
-                                ? currentValues[currentValues.length - 1].roll
+                                ? currentValues[currentValues.length - 1].length
                                 : 0
 
                             field.pushValue({
-                              roll: lastRollValue + 1,
-                              length:
-                                currentValues[0].length * (lastRollValue + 1),
+                              roll: 1,
+                              length: lastLengthValue || 1,
                             })
                           }}
                         >
@@ -449,7 +488,17 @@ export const FabricSpecsForm = ({
 
             <div className="grid grid-cols-2 gap-4">
               {/* Lebar Sisir */}
-              <form.Field name="reedWidth">
+              <form.Field
+                name="reedWidth"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value <= 0) {
+                      return 'Lebar sisir harus lebih dari 0'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -467,13 +516,18 @@ export const FabricSpecsForm = ({
                             min="1.00"
                             max="10000"
                             step="0.01"
-                            value={field.state.value.toFixed(2)}
+                            value={field.state.value}
                             onBlur={field.handleBlur}
                             onChange={(e) => {
                               const val = e.target.value
-                              field.handleChange(
-                                val === '' ? 1.0 : Number(parseFloat(val)),
-                              )
+                              if (val === '') {
+                                field.handleChange(0)
+                                return
+                              }
+                              const parsed = parseFloat(val)
+                              if (!isNaN(parsed)) {
+                                field.handleChange(parsed)
+                              }
                             }}
                             placeholder="Masukkan lebar sisir"
                           />
@@ -493,7 +547,17 @@ export const FabricSpecsForm = ({
               </form.Field>
 
               {/* Nomor Sisir */}
-              <form.Field name="reedNo">
+              <form.Field
+                name="reedNo"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value.trim() === '') {
+                      return 'Nomor sisir harus diisi'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -531,7 +595,17 @@ export const FabricSpecsForm = ({
 
             <div className="grid grid-cols-2 gap-4">
               {/* Jumlah Helai Lusi */}
-              <form.Field name="totalEnds">
+              <form.Field
+                name="totalEnds"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value <= 0) {
+                      return 'Total helai lusi harus lebih dari 0'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -574,7 +648,17 @@ export const FabricSpecsForm = ({
               </form.Field>
 
               {/* Jumlah Helai Pakan/Inch */}
-              <form.Field name="pickPerInch">
+              <form.Field
+                name="pickPerInch"
+                validators={{
+                  onBlur: ({ value }) => {
+                    if (!value || value <= 0) {
+                      return 'Pick per inch harus lebih dari 0'
+                    }
+                    return undefined
+                  },
+                }}
+              >
                 {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched &&
@@ -732,39 +816,90 @@ export const FabricSpecsForm = ({
                                     </label>
                                   </div>
 
-                                  {/* Conditional input — ini aman pakai && karena
-                                      tidak ada state internal yang perlu dijaga */}
-                                  {typeField.state.value === 'layout' ? (
-                                    <form.Field name="color">
-                                      {(field) => (
-                                        <Field>
-                                          <FieldLabel>
-                                            Pilih Layout Benang Warna
-                                          </FieldLabel>
-                                          <ColorLayoutsCombobox
-                                            fieldName={field.name}
-                                            value={field.state.value}
-                                            onChange={(value) =>
-                                              field.handleChange(value)
-                                            }
-                                          />
-                                        </Field>
-                                      )}
-                                    </form.Field>
-                                  ) : (
-                                    <div className="space-y-4">
-                                      <form.Field name="manualColorName">
-                                        {(nameField) => (
-                                          <Field>
-                                            <FieldLabel>Pilih Warna</FieldLabel>
-                                            <ColorsCombobox
-                                              value={nameField.state.value}
-                                              onChange={(val) =>
-                                                nameField.handleChange(val)
+                                  {/* Conditional input */}
+                                  {typeField.state.value === 'layout' &&
+                                  colorLayouts ? (
+                                    <form.Field
+                                      name="color"
+                                      validators={{
+                                        onBlur: ({ value }) => {
+                                          if (!value || value === '-') {
+                                            return 'Layout harus dipilih'
+                                          }
+                                          return undefined
+                                        },
+                                      }}
+                                    >
+                                      {(field) => {
+                                        const isInvalid =
+                                          field.state.meta.isTouched &&
+                                          field.state.meta.errors.length > 0
+
+                                        return (
+                                          <Field data-invalid={isInvalid}>
+                                            <FieldLabel>
+                                              Pilih Layout Benang Warna
+                                            </FieldLabel>
+                                            <ColorLayoutsCombobox
+                                              fieldName={field.name}
+                                              value={field.state.value}
+                                              onChange={(value) =>
+                                                field.handleChange(value)
                                               }
                                             />
+                                            {isInvalid && (
+                                              <FieldError>
+                                                {field.state.meta.errors.join(
+                                                  ', ',
+                                                )}
+                                              </FieldError>
+                                            )}
                                           </Field>
-                                        )}
+                                        )
+                                      }}
+                                    </form.Field>
+                                  ) : typeField.state.value === 'layout' ? (
+                                    <div>Loading...</div>
+                                  ) : (
+                                    <div className="space-y-4">
+                                      <form.Field
+                                        name="manualColorName"
+                                        validators={{
+                                          onBlur: ({ value }) => {
+                                            if (!value || value.trim() === '') {
+                                              return 'Warna harus dipilih'
+                                            }
+                                            return undefined
+                                          },
+                                        }}
+                                      >
+                                        {(nameField) => {
+                                          const isInvalid =
+                                            nameField.state.meta.isTouched &&
+                                            nameField.state.meta.errors.length >
+                                              0
+
+                                          return (
+                                            <Field data-invalid={isInvalid}>
+                                              <FieldLabel>
+                                                Pilih Warna
+                                              </FieldLabel>
+                                              <ColorsCombobox
+                                                value={nameField.state.value}
+                                                onChange={(val) =>
+                                                  nameField.handleChange(val)
+                                                }
+                                              />
+                                              {isInvalid && (
+                                                <FieldError>
+                                                  {nameField.state.meta.errors.join(
+                                                    ', ',
+                                                  )}
+                                                </FieldError>
+                                              )}
+                                            </Field>
+                                          )
+                                        }}
                                       </form.Field>
 
                                       <form.Field name="manualColorDescription">

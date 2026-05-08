@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ErrorFallback } from '@/components/error-boundary'
-import { FabricSpecsForm } from '@/features/fabric-specs/components/fabric-specs-form'
+import { FabricSpecsForm } from '@/features/fabric-specs'
 import { MoveLeft } from 'lucide-react'
 
 const RouteComponent = () => {

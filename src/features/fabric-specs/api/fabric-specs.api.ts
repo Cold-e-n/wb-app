@@ -177,7 +177,10 @@ export const updateFabricSpec = createServerFn({
       const { id, ...updateData } = data
       const fabricSpec = await prisma.fabricSpec.update({
         where: { id },
-        data: updateData,
+        data: {
+          ...updateData,
+          updatedAt: new Date(),
+        },
       })
 
       return {

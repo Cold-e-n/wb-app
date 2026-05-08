@@ -1,5 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
-import { useColorLayoutById } from '@/features/color-layout/hooks/use-color-layout'
+import { useColorLayout } from '@/features/color-layout/hooks/use-color-layout'
+import { useColor } from '@/features/colors/hooks/use-color'
 import type { FabricSpecWithRelation } from '@/types/FabricSpec'
 import type { ColorContent } from '@/types/ColorLayout'
 
@@ -17,18 +18,66 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
-import { MoveLeft } from 'lucide-react'
+import { Separator } from '@/components/ui/separator'
+import { Calendar, MoveLeft } from 'lucide-react'
 
 interface FabricSpecDetailProps {
   fabricSpec: FabricSpecWithRelation
 }
 
+// ─── Helper ───────────────────────────────────────────────────────────────────
+
+// Hanya fetch color layout kalau value-nya memang cuid (bukan nama warna manual)
+const isColorLayoutId = (value: string | null | undefined): boolean => {
+  return !!value && /^c[a-z0-9]{24,}$/i.test(value)
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+const SpecItem = ({
+  label,
+  value,
+  suffix,
+}: {
+  label: string
+  value: React.ReactNode
+  suffix?: string
+}) => (
+  <div className="flex items-center gap-3 p-3 rounded-lg border bg-background/50 hover:border-primary/40 transition-colors group">
+    <div className="flex flex-col min-w-0 space-y-2">
+      <span className="text-sm font-semibold tracking-widest text-muted-foreground">
+        {label}
+      </span>
+      <span className="font-mono tracking-tight truncate">
+        {value}
+        {suffix && (
+          <span className="ml-1 font-normal text-muted-foreground">
+            {suffix}
+          </span>
+        )}
+      </span>
+    </div>
+  </div>
+)
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
 export const FabricSpecDetail = ({ fabricSpec }: FabricSpecDetailProps) => {
   const router = useRouter()
-  const { data: colorLayout } = useColorLayoutById(fabricSpec.color || '')
+
+  const colorParts = (fabricSpec.color ?? '-').split(' ')
+  const colorId = colorParts[0]
+  const colorDescription = colorParts.slice(1).join(' ')
+
+  const colorLayoutId = isColorLayoutId(colorId) ? colorId : ''
+  const { data: colorLayouts } = useColorLayout()
+  const { data: colors } = useColor()
+
+  const colorLayout = colorLayouts?.find((l) => l.id === colorLayoutId)
   const colorLayoutContent = colorLayout?.colorContent as
     | ColorContent
     | undefined
+  const colorName = colors?.find((c) => c.id === colorId)?.name ?? colorId
 
   const displayDate = new Date(
     fabricSpec.updatedAt ?? fabricSpec.createdAt ?? new Date(),
@@ -36,141 +85,190 @@ export const FabricSpecDetail = ({ fabricSpec }: FabricSpecDetailProps) => {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   })
 
+  const colorDisplay = () => {
+    if (colorLayoutContent) {
+      return <ColorInfoDisplay colorContent={colorLayoutContent} />
+    }
+
+    if (colorId === '-' || !colorId) {
+      return <span className="text-sm font-mono font-medium">-</span>
+    }
+
+    return (
+      <div className="font-jetbrains-mono">
+        {`${colorName} ${colorDescription ? ` ${colorDescription}` : ''}`}
+      </div>
+    )
+  }
+
   return (
-    <div className="flex flex-1 flex-col gap-4 sm:gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="space-y-1">
-          <div className="flex items-center gap-5 mb-1">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="-ml-2"
-                  onClick={() => router.history.go(-1)}
-                >
-                  <MoveLeft className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Kembali</TooltipContent>
-            </Tooltip>
-            <h1 className="text-2xl font-bold tracking-tight">Detail Spek</h1>
+    <div className="flex flex-1 flex-col gap-6">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => router.history.go(-1)}
+              >
+                <MoveLeft className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Kembali</TooltipContent>
+          </Tooltip>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">
+              Detail Spek Kain
+            </h1>
           </div>
         </div>
       </div>
 
-      <Card className="font-jetbrains-mono">
-        <CardHeader>
-          <CardTitle className="text-xl border-b pb-4">
-            <h1>{fabricSpec.fabric.name}</h1>
-          </CardTitle>
-        </CardHeader>
+      {/* Content */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        {/* Kiri — Spesifikasi Teknis */}
+        <div className="xl:col-span-2 space-y-6">
+          <Card>
+            <CardHeader className="border-b bg-muted/30">
+              <CardTitle className="text-2xl font-bold">
+                {fabricSpec.fabric.name}
+              </CardTitle>
+            </CardHeader>
 
-        <CardContent>
-          <div className="flex flex-1 flex-col">
-            <div className="flex flex-wrap gap-6">
-              <div className="flex-1 border p-4 rounded-lg">
-                <div className="grid grid-cols-2 gap-4 space-y-4">
-                  {/* Lebar */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Lebar</div>
-                    <div className="text-lg">{fabricSpec.width} cm</div>
-                  </div>
-
-                  {/* Panjang*/}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Panjang</div>
-                    <div className="text-lg">
-                      {fabricSpec.length.toLocaleString()} meter
-                    </div>
-                  </div>
-
-                  {/* Lusi */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Lusi</div>
-                    <div className="text-lg">{fabricSpec.warpYarn.name}</div>
-                  </div>
-
-                  {/* Pakan */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Pakan</div>
-                    <div className="text-lg">{fabricSpec.weftYarn.name}</div>
-                  </div>
-
-                  {/* lebar Sisir */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Lebar Sisir</div>
-                    <div className="text-lg">{fabricSpec.reedWidth} inch</div>
-                  </div>
-
-                  {/* Nomor Sisir */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Nomor Sisir</div>
-                    <div className="text-lg">#{fabricSpec.reedNo}</div>
-                  </div>
-
-                  {/* Jumlah Helai Lusi */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Jumlah Helai Lusi</div>
-                    <div className="text-lg">
-                      {fabricSpec.totalEnds.toLocaleString()} Helai
-                    </div>
-                  </div>
-
-                  {/* Jumlah Helai Pakan/Inch */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Jumlah Helai Pakan/Inch</div>
-                    <div className="text-lg">{fabricSpec.pickPerInch}</div>
-                  </div>
-
-                  {/* Pinggiran */}
-                  <div className="border-b pb-2 space-y-2">
-                    <div className="text-sm">Pinggiran</div>
-                    <div className="text-lg">
-                      {fabricSpec.fringe === 0
-                        ? 'Tidak Pakai Pinggiran'
-                        : `${fabricSpec.fringe} Helai`}
-                    </div>
-                  </div>
+            <CardContent className="space-y-6">
+              {/* Dimensi & Material */}
+              <section>
+                <h3 className="font-bold text-muted-foreground tracking-wider mb-4 flex items-center gap-2">
+                  Dimensi & Material
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <SpecItem
+                    label="Lebar"
+                    value={fabricSpec.width}
+                    suffix="cm"
+                  />
+                  <SpecItem
+                    label="Panjang"
+                    value={fabricSpec.length.toLocaleString()}
+                    suffix="meter"
+                  />
+                  <SpecItem
+                    label="Benang Lusi"
+                    value={fabricSpec.warpYarn.name}
+                  />
+                  <SpecItem
+                    label="Benang Pakan"
+                    value={fabricSpec.weftYarn.name}
+                  />
                 </div>
+              </section>
 
-                {/* Benang Warna yang Masuk */}
-                <div className="border-b pb-2 space-y-2 mt-5">
-                  <div className="text-sm">Benang Warna yang Masuk</div>
-                  <div className="text-lg">
-                    {colorLayoutContent ? (
-                      <ColorInfoDisplay colorContent={colorLayoutContent} />
-                    ) : (
-                      fabricSpec.color
-                    )}
-                  </div>
+              <Separator />
+
+              {/* Weaving */}
+              <section>
+                <h3 className="font-bold text-muted-foreground tracking-wider mb-4 flex items-center gap-2">
+                  Weaving
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <SpecItem
+                    label="Nomor Sisir"
+                    value={`#${fabricSpec.reedNo}`}
+                  />
+                  <SpecItem
+                    label="Lebar Sisir"
+                    value={Number(fabricSpec.reedWidth).toFixed(2)}
+                    suffix="inch"
+                  />
+                  <SpecItem
+                    label="Total Helai Lusi"
+                    value={fabricSpec.totalEnds.toLocaleString()}
+                    suffix="helai"
+                  />
+                  <SpecItem
+                    label="Pick Per Inch"
+                    value={fabricSpec.pickPerInch}
+                  />
+                  <SpecItem
+                    label="Pinggiran"
+                    value={
+                      fabricSpec.fringe === 0 || !fabricSpec.fringe
+                        ? '-'
+                        : fabricSpec.fringe
+                    }
+                    suffix={
+                      fabricSpec.fringe !== 0 && fabricSpec.fringe
+                        ? 'helai'
+                        : undefined
+                    }
+                  />
                 </div>
-              </div>
+              </section>
 
-              <div className="border p-4 rounded-lg min-w-sm">
-                <h3 className="text-[18px] mb-3">Cutmark</h3>
-                <div className="space-y-2">
-                  {fabricSpec.cutmarkPerRoll.map((cutmark, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center bg-accent/50 p-3 rounded border"
-                    >
-                      <span>{cutmark.roll} Roll</span>
-                      <span className="text-muted-foreground">
-                        {cutmark.length.toLocaleString()} meter
+              <Separator />
+
+              {/* Benang Warna */}
+              <section>
+                <h3 className="font-bold text-muted-foreground tracking-wider mb-4 flex items-center gap-2">
+                  Benang Warna
+                </h3>
+                <div className="p-4 rounded-lg bg-muted/40 border border-dashed">
+                  {colorDisplay()}
+                </div>
+              </section>
+            </CardContent>
+
+            <CardFooter className="border-t bg-muted/10 py-3 justify-end gap-1.5 text-xs text-muted-foreground">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>Update Terakhir: {displayDate}</span>
+            </CardFooter>
+          </Card>
+        </div>
+
+        {/* Kanan — Cutmark */}
+        <div className="xl:col-span-1">
+          <Card className="xl:sticky xl:top-6">
+            <CardHeader className="border-b bg-muted/30">
+              <CardTitle className="font-bold">Cutmark</CardTitle>
+            </CardHeader>
+
+            <CardContent className="pt-4">
+              <div
+                className={
+                  fabricSpec.cutmarkPerRoll.length > 6
+                    ? 'space-y-2 max-h-100 overflow-y-auto pr-1'
+                    : 'space-y-2'
+                }
+              >
+                {fabricSpec.cutmarkPerRoll.map((cutmark, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center p-3 rounded-lg border-l-4 border-l-primary border bg-background hover:bg-accent/30 transition-colors"
+                  >
+                    <div className="">
+                      <span className="font-mono font-bold">
+                        {cutmark.roll} Roll
                       </span>
                     </div>
-                  ))}
-                </div>
+                    <div className="text-right">
+                      <span className="font-mono text-primary">
+                        {cutmark.length.toLocaleString()}
+                      </span>
+                      <span className="text-muted-foreground"> meter</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          </div>
-        </CardContent>
-
-        <CardFooter>Last Update: {displayDate}</CardFooter>
-      </Card>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   )
 }

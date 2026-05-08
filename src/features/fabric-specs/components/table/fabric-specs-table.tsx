@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import { getRouteApi } from '@tanstack/react-router'
-import { type FabricSpecWithFabric, columns } from './fabric-specs-table-columns'
+import { type FabricSpecWithRelation, columns } from './fabric-specs-table-columns'
 import type { FilterFn, SortingState, VisibilityState } from '@tanstack/react-table'
 import { useTableUrlState } from '@/hooks/use-table-url-state'
 import {
@@ -26,10 +26,10 @@ import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
 
 type FabricSpecsTableProps = {
-  data: Array<FabricSpecWithFabric>
+  data: Array<FabricSpecWithRelation>
 }
 
-const fuzzyFilter: FilterFn<FabricSpecWithFabric> = (
+const fuzzyFilter: FilterFn<FabricSpecWithRelation> = (
   row,
   columnId,
   value,
