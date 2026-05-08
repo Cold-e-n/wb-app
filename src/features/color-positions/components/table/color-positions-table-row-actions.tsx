@@ -1,4 +1,4 @@
-import { BookSearch, Pencil, Trash } from 'lucide-react'
+import { BookSearch, Pencil, Trash2 } from 'lucide-react'
 import { useColorPositionsContext } from '../color-positions-provider'
 import type { Row } from '@tanstack/react-table'
 import type {ColorPositionWithRelations} from '@/types/ColorPosition';
@@ -38,8 +38,7 @@ export const ColorPositionsTableRowActions = <TData,>({
         {
           type: 'item',
           label: 'Hapus',
-          icon: Trash,
-          variant: 'destructive',
+          icon: Trash2,
           onClick: () => {
             setCurrentRow(colorPosition)
             setOpen('delete')

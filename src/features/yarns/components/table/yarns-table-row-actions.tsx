@@ -1,4 +1,4 @@
-import { Edit2, Trash2 } from 'lucide-react'
+import { Edit2, Trash2, Pencil } from 'lucide-react'
 import { useYarnsContext } from '../yarns-provider'
 import type { Row } from '@tanstack/react-table'
 import { yarnSchema } from '@/types/Yarn'
@@ -21,7 +21,7 @@ export const YarnsTableRowActions = <TData,>({
         {
           type: 'item',
           label: 'Edit',
-          icon: Edit2,
+          icon: Pencil,
           onClick: () => {
             setCurrentRow(yarn)
             setOpen('update')
@@ -34,7 +34,6 @@ export const YarnsTableRowActions = <TData,>({
           type: 'item',
           label: 'Hapus',
           icon: Trash2,
-          variant: 'destructive',
           onClick: () => {
             setCurrentRow(yarn)
             setOpen('delete')

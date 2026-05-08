@@ -4,6 +4,7 @@ import { MoreHorizontal } from 'lucide-react'
 import { ButtonGroup } from '../ui/button-group'
 
 import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -100,7 +101,7 @@ export const DataTableRowActions = ({
           const buttonContent = (
             <Button
               onClick={item.href ? undefined : item.onClick}
-              variant="outline"
+              variant={item.variant ?? 'outline'}
               size="icon"
               disabled={item.disabled}
               asChild={!!item.href}

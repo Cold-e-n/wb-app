@@ -118,7 +118,7 @@ export const ColorPositionsTable = ({ data }: ColorPositionsTableProps) => {
         viewOptions={false}
       />
 
-      <div className="border rounded-md overflow-hidden">
+      <div className="border rounded-md overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -1,4 +1,4 @@
-import { Edit2, Trash2 } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 import { useColorsContext } from '../colors-provider'
 import type { Row } from '@tanstack/react-table'
 import { colorSchema } from '@/types/Color'
@@ -22,7 +22,7 @@ export const ColorsTableRowActions = <TData,>({
         {
           type: 'item',
           label: 'Edit',
-          icon: Edit2,
+          icon: Pencil,
           onClick: () => {
             setCurrentRow(color)
             setOpen('update')
@@ -35,7 +35,6 @@ export const ColorsTableRowActions = <TData,>({
           type: 'item',
           label: 'Hapus',
           icon: Trash2,
-          variant: 'destructive',
           onClick: () => {
             setCurrentRow(color)
             setOpen('delete')

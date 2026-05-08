@@ -121,7 +121,7 @@ export const ColorsTable = ({ data }: ColorsTableProps) => {
         viewOptions={false}
       />
 
-      <div className="border rounded-md overflow-hidden">
+      <div className="border rounded-md overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -175,7 +175,7 @@ export const ColorsTable = ({ data }: ColorsTableProps) => {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results
+                  Tidak ada data
                 </TableCell>
               </TableRow>
             )}

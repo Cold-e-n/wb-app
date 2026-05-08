@@ -1,4 +1,4 @@
-import { BookSearch, Edit2, Trash2 } from 'lucide-react'
+import { BookSearch, Pencil, Trash2 } from 'lucide-react'
 import { useColorLayoutContext } from '../color-layout-provider'
 import type { Row } from '@tanstack/react-table'
 import { colorLayoutSchema } from '@/types/ColorLayout'
@@ -29,7 +29,7 @@ export const ColorLayoutTableRowActions = <TData,>({
         {
           type: 'item',
           label: 'Edit',
-          icon: Edit2,
+          icon: Pencil,
           href: `/color-layouts/${colorLayout.id}/edit`,
         },
         {
@@ -39,7 +39,6 @@ export const ColorLayoutTableRowActions = <TData,>({
           type: 'item',
           label: 'Hapus',
           icon: Trash2,
-          variant: 'destructive',
           onClick: () => {
             setCurrentRow(colorLayout)
             setOpen('delete')

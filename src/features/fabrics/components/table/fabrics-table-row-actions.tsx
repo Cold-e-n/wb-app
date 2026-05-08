@@ -1,4 +1,4 @@
-import { BookSearch, Edit2, Trash2 } from 'lucide-react'
+import { BookSearch, Pencil, Trash2 } from 'lucide-react'
 import { useFabricsContext } from '../fabrics-provider'
 import type { Row } from '@tanstack/react-table'
 import { fabricSchema } from '@/types/Fabric'
@@ -31,7 +31,7 @@ export const FabricsTableRowActions = <TData,>({
         {
           type: 'item' as const,
           label: 'Edit',
-          icon: Edit2,
+          icon: Pencil,
           onClick: () => {
             setCurrentRow(fabric)
             setOpen('update')
@@ -44,7 +44,6 @@ export const FabricsTableRowActions = <TData,>({
           type: 'item',
           label: 'Hapus',
           icon: Trash2,
-          variant: 'destructive',
           onClick: () => {
             setCurrentRow(fabric)
             setOpen('delete')
