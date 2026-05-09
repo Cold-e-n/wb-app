@@ -88,7 +88,9 @@ export const ColorsCombobox = ({
                 Loading...
               </>
             ) : selectedColor ? (
-              selectedColor.name
+              selectedColor.name.length > 50
+                ? `${selectedColor.name.slice(0, 50)} [...]`
+                : selectedColor.name
             ) : (
               'Pilih Benang Warna'
             )}
@@ -101,6 +103,7 @@ export const ColorsCombobox = ({
           style={{ width: 'var(--radix-popover-trigger-width)' }}
         >
           <Command
+            value={comboboxValue}
             filter={(itemValue, search) => {
               const color = colors?.find((f) => f.id === itemValue)
               if (!color) return 0

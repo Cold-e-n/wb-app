@@ -11,7 +11,7 @@ export const ColorLayoutsCombobox = ({
   onChange?: (value: string) => void
 }) => {
   const { data: colorLayouts, isLoading, error } = useColorLayout()
-  const items = colorLayouts?.map((layout) => ({
+  const items = colorLayouts.map((layout) => ({
     value: layout.id,
     label: layout.fabric.name,
   }))
@@ -25,6 +25,7 @@ export const ColorLayoutsCombobox = ({
       fieldName={fieldName ?? 'yarnId'}
       placeholder="Pilih Layout Benang Warna"
       searchPlaceholder="cari layout benang warna ..."
+      truncateLimit={50}
       onChange={(val) => onChange?.(val)}
     />
   )
