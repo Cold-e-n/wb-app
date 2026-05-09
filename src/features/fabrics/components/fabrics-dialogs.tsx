@@ -225,7 +225,7 @@ export const FabricsDialogs = () => {
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => field.pushValue({ name: '' })}
+                          onClick={() => field.pushValue({ name: '', hasColor: false })}
                           disabled={field.state.value.length >= 5}
                         >
                           Tambah Kain Lain

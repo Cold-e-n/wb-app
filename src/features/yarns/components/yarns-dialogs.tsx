@@ -36,7 +36,7 @@ const formSchema = z.object({
         name: z
           .string()
           .min(3, 'Nama untuk Benang tidak boleh kurang dari 3 karakter')
-          .max(50, 'Nama benang maksimal 50 karakter')
+          .max(1000, 'Nama benang maksimal 1000 karakter')
           .trim(),
       }),
     )
@@ -58,16 +58,14 @@ export const YarnsDialogs = () => {
 
     onSubmit: async ({ value }) => {
       if (open === 'update' && currentRow) {
-        updateMutation.mutate(
-          { id: currentRow.id, name: value.yarns[0].name },
-          { onSuccess: () => handleOpenChange(false) },
-        )
+        await updateMutation.mutateAsync({
+          id: currentRow.id,
+          name: value.yarns[0].name,
+        })
       } else {
-        createMutation.mutate(
-          { yarns: value.yarns },
-          { onSuccess: () => handleOpenChange(false) },
-        )
+        await createMutation.mutateAsync({ yarns: value.yarns as any })
       }
+      handleOpenChange(false)
     },
   })
 
@@ -89,8 +87,7 @@ export const YarnsDialogs = () => {
     }
   }
 
-  const dialogTitle =
-    open === 'update' ? 'Edit Benang' : 'Tambah Benang'
+  const dialogTitle = open === 'update' ? 'Edit Benang' : 'Tambah Benang'
 
   return (
     <Dialog

@@ -2,6 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import type { FabricSpecWithRelation } from '@/types/FabricSpec'
 
 import { Checkbox } from '@/components/ui/checkbox'
+import { truncate } from '@/lib/utils'
 import { FabricSpecsTableRowActions } from './fabric-specs-table-row-actions'
 
 export const columns: ColumnDef<FabricSpecWithRelation>[] = [
@@ -32,7 +33,9 @@ export const columns: ColumnDef<FabricSpecWithRelation>[] = [
     header: 'Nama Kain',
     cell: ({ row }) => {
       return (
-        <span className="font-medium">{row.original.fabric?.name ?? '-'}</span>
+        <span className="font-medium">
+          {truncate(row.original.fabric?.name ?? '-', 35)}
+        </span>
       )
     },
   },
@@ -53,7 +56,9 @@ export const columns: ColumnDef<FabricSpecWithRelation>[] = [
     header: 'Lusi',
     cell: ({ row }) => {
       return (
-        <span className="font-medium">{row.original.warpYarn?.name ?? '-'}</span>
+        <span className="font-medium">
+          {truncate(row.original.warpYarn?.name ?? '-', 40)}
+        </span>
       )
     },
   },
@@ -62,7 +67,9 @@ export const columns: ColumnDef<FabricSpecWithRelation>[] = [
     header: 'Pakan',
     cell: ({ row }) => {
       return (
-        <span className="font-medium">{row.original.weftYarn?.name ?? '-'}</span>
+        <span className="font-medium tracking-tight">
+          {truncate(row.original.weftYarn?.name ?? '-', 35)}
+        </span>
       )
     },
   },

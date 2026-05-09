@@ -106,10 +106,11 @@ export const FabricSpecsForm = ({
 
       if (value.hasColorLayout) {
         if (value.colorInputType === 'layout') {
-          finalColorValue = value.color
+          finalColorValue = value.color || '-'
         } else {
           finalColorValue =
-            `${value.manualColorName} ${value.manualColorDescription}`.trim()
+            `${value.manualColorName} ${value.manualColorDescription}`.trim() ||
+            '-'
         }
       }
 
@@ -819,17 +820,7 @@ export const FabricSpecsForm = ({
                                   {/* Conditional input */}
                                   {typeField.state.value === 'layout' &&
                                   colorLayouts ? (
-                                    <form.Field
-                                      name="color"
-                                      validators={{
-                                        onBlur: ({ value }) => {
-                                          if (!value || value === '-') {
-                                            return 'Layout harus dipilih'
-                                          }
-                                          return undefined
-                                        },
-                                      }}
-                                    >
+                                    <form.Field name="color">
                                       {(field) => {
                                         const isInvalid =
                                           field.state.meta.isTouched &&
@@ -862,17 +853,7 @@ export const FabricSpecsForm = ({
                                     <div>Loading...</div>
                                   ) : (
                                     <div className="space-y-4">
-                                      <form.Field
-                                        name="manualColorName"
-                                        validators={{
-                                          onBlur: ({ value }) => {
-                                            if (!value || value.trim() === '') {
-                                              return 'Warna harus dipilih'
-                                            }
-                                            return undefined
-                                          },
-                                        }}
-                                      >
+                                      <form.Field name="manualColorName">
                                         {(nameField) => {
                                           const isInvalid =
                                             nameField.state.meta.isTouched &&

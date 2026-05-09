@@ -30,7 +30,7 @@ export const Route = createFileRoute('/_auth/fabric-specs/')({
 
     return { fabricSpecs }
   },
-  staleTime: 1000 * 30,
+  staleTime: Infinity,
   head: () => ({
     meta: [
       {

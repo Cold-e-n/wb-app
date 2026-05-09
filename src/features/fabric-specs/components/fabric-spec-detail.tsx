@@ -48,7 +48,7 @@ const SpecItem = ({
       <span className="text-sm font-semibold tracking-widest text-muted-foreground">
         {label}
       </span>
-      <span className="font-mono tracking-tight truncate">
+      <span className="font-mono tracking-tight">
         {value}
         {suffix && (
           <span className="ml-1 font-normal text-muted-foreground">
