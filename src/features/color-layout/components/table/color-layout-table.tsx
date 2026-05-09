@@ -21,6 +21,8 @@ import type {
   SortingState,
   VisibilityState} from '@tanstack/react-table';
 import { useTableUrlState } from '@/hooks/use-table-url-state'
+import { DataTableBulkActions } from '@/components/data-table/bulk-actions'
+import { useColorLayoutMutation } from '../../hooks/use-color-layout'
 
 import {
   Table,
@@ -60,6 +62,7 @@ const route = getRouteApi('/_auth/color-layouts/')
 
 export const ColorLayoutTable = ({ data }: ColorLayoutTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({})
+  const { deleteManyMutation } = useColorLayoutMutation()
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -158,7 +161,7 @@ export const ColorLayoutTable = ({ data }: ColorLayoutTableProps) => {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-selected={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
@@ -191,6 +194,12 @@ export const ColorLayoutTable = ({ data }: ColorLayoutTableProps) => {
       </div>
 
       <DataTablePagination table={table} className="mt-auto" />
+      <DataTableBulkActions
+        table={table}
+        onDelete={(rows) => {
+          deleteManyMutation.mutate({ ids: rows.map((r) => r.id) })
+        }}
+      />
     </div>
   )
 }

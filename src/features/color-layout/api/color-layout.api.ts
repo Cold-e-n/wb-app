@@ -172,3 +172,49 @@ export const deleteColorLayout = createServerFn({
       )
     }
   })
+
+export const deleteManyColorLayouts = createServerFn({
+  method: 'POST',
+})
+  .inputValidator(z.object({ ids: z.array(z.string()) }))
+  .handler(async ({ data }) => {
+    try {
+      const result = await prisma.$transaction(async (tx) => {
+        // Find fabrics associated with these layouts
+        const layouts = await tx.colorLayout.findMany({
+          where: {
+            id: { in: data.ids },
+          },
+          select: { fabricId: true },
+        })
+
+        const deleteResult = await tx.colorLayout.deleteMany({
+          where: {
+            id: { in: data.ids },
+          },
+        })
+
+        // Update fabrics to hasColor: false
+        const fabricIds = layouts.map((l) => l.fabricId)
+        if (fabricIds.length > 0) {
+          await tx.fabric.updateMany({
+            where: {
+              id: { in: fabricIds },
+            },
+            data: {
+              hasColor: false,
+            },
+          })
+        }
+
+        return deleteResult
+      })
+
+      return result
+    } catch (error) {
+      console.error('Failed to delete many color layouts:', error)
+      throw new Error(
+        'Gagal menghapus layout terpilih. Beberapa data mungkin masih digunakan.',
+      )
+    }
+  })

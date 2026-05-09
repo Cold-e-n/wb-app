@@ -30,6 +30,8 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
+import { DataTableBulkActions } from '@/components/data-table/bulk-actions'
+import { useYarnsMutation } from '../../hooks/use-yarn'
 
 type YarnsTableProps = {
   data: Array<Yarn>
@@ -52,6 +54,7 @@ const route = getRouteApi('/_auth/yarns')
 
 export const YarnsTable = ({ data }: YarnsTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({})
+  const { deleteManyMutation } = useYarnsMutation()
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -150,7 +153,7 @@ export const YarnsTable = ({ data }: YarnsTableProps) => {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-selected={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
@@ -183,6 +186,12 @@ export const YarnsTable = ({ data }: YarnsTableProps) => {
       </div>
 
       <DataTablePagination table={table} className="mt-auto" />
+      <DataTableBulkActions
+        table={table}
+        onDelete={(rows) => {
+          deleteManyMutation.mutate({ ids: rows.map((r) => r.id) })
+        }}
+      />
     </div>
   )
 }

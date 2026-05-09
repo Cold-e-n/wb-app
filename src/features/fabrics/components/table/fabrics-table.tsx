@@ -31,6 +31,8 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
+import { DataTableBulkActions } from '@/components/data-table/bulk-actions'
+import { useFabricsMutation } from '../../hooks/use-fabric'
 
 type FabricsTableProps = {
   data: Array<Fabric>
@@ -53,6 +55,7 @@ const route = getRouteApi('/_auth/fabrics/')
 
 export const FabricsTable = ({ data }: FabricsTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({})
+  const { deleteManyMutation } = useFabricsMutation()
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -151,7 +154,7 @@ export const FabricsTable = ({ data }: FabricsTableProps) => {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-selected={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
@@ -184,6 +187,12 @@ export const FabricsTable = ({ data }: FabricsTableProps) => {
       </div>
 
       <DataTablePagination table={table} className="mt-auto" />
+      <DataTableBulkActions
+        table={table}
+        onDelete={(rows) => {
+          deleteManyMutation.mutate({ ids: rows.map((r) => r.id) })
+        }}
+      />
     </div>
   )
 }

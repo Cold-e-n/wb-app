@@ -31,6 +31,8 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table/pagination'
 import { DataTableToolbar } from '@/components/data-table/toolbar'
+import { DataTableBulkActions } from '@/components/data-table/bulk-actions'
+import { useColorsMutation } from '../../hooks/use-color'
 
 type ColorsTableProps = {
   data: Array<Color>
@@ -53,6 +55,7 @@ const route = getRouteApi('/_auth/color')
 
 export const ColorsTable = ({ data }: ColorsTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({})
+  const { deleteManyMutation } = useColorsMutation()
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -151,7 +154,7 @@ export const ColorsTable = ({ data }: ColorsTableProps) => {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-selected={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
@@ -184,6 +187,12 @@ export const ColorsTable = ({ data }: ColorsTableProps) => {
       </div>
 
       <DataTablePagination table={table} className="mt-auto" />
+      <DataTableBulkActions
+        table={table}
+        onDelete={(rows) => {
+          deleteManyMutation.mutate({ ids: rows.map((r) => r.id) })
+        }}
+      />
     </div>
   )
 }
