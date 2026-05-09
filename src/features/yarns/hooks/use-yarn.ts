@@ -96,14 +96,31 @@ export const useYarnsMutation = () => {
     },
   })
 
+  const deleteManyMutation = useMutation({
+    mutationFn: async (data: { ids: string[] }) => {
+      return Api.deleteManyYarns({ data })
+    },
+    onSuccess: (result) => {
+      toast.success(`${result.count} benang berhasil dihapus`)
+      invalidate()
+    },
+    onError: (error) => {
+      toast.error('Gagal menghapus benang terpilih', {
+        description: error.message,
+      })
+    },
+  })
+
   return {
     invalidate,
     createMutation,
     updateMutation,
     deleteMutation,
+    deleteManyMutation,
     isPending:
       createMutation.isPending ||
       updateMutation.isPending ||
-      deleteMutation.isPending,
+      deleteMutation.isPending ||
+      deleteManyMutation.isPending,
   }
 }

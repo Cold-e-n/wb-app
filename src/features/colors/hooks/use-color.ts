@@ -95,14 +95,31 @@ export const useColorsMutation = () => {
     },
   })
 
+  const deleteManyMutation = useMutation({
+    mutationFn: async (data: { ids: string[] }) => {
+      return Api.deleteManyColors({ data })
+    },
+    onSuccess: (result) => {
+      toast.success(`${result.count} warna berhasil dihapus`)
+      invalidate()
+    },
+    onError: (error) => {
+      toast.error('Gagal menghapus warna terpilih', {
+        description: error.message,
+      })
+    },
+  })
+
   return {
     invalidate,
     createMutation,
     updateMutation,
     deleteMutation,
+    deleteManyMutation,
     isPending:
       createMutation.isPending ||
       updateMutation.isPending ||
-      deleteMutation.isPending,
+      deleteMutation.isPending ||
+      deleteManyMutation.isPending,
   }
 }

@@ -87,14 +87,31 @@ export const useFabricsMutation = () => {
     },
   })
 
+  const deleteManyMutation = useMutation({
+    mutationFn: async (data: { ids: string[] }) => {
+      return Api.deleteManyFabrics({ data })
+    },
+    onSuccess: (result) => {
+      toast.success(`${result.count} kain berhasil dihapus`)
+      invalidate()
+    },
+    onError: (error) => {
+      toast.error('Gagal menghapus kain terpilih', {
+        description: error.message,
+      })
+    },
+  })
+
   return {
     invalidate,
     createMutation,
     updateMutation,
     deleteMutation,
+    deleteManyMutation,
     isPending:
       createMutation.isPending ||
       updateMutation.isPending ||
-      deleteMutation.isPending,
+      deleteMutation.isPending ||
+      deleteManyMutation.isPending,
   }
 }

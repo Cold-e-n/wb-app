@@ -163,3 +163,24 @@ export const deleteColorPosition = createServerFn({
       throw new Error('Gagal menghapus posisi warna.')
     }
   })
+
+export const deleteManyColorPositions = createServerFn({
+  method: 'POST',
+})
+  .inputValidator(z.object({ ids: z.array(z.string()) }))
+  .handler(async ({ data }) => {
+    try {
+      const result = await prisma.colorPosition.deleteMany({
+        where: {
+          id: { in: data.ids },
+        },
+      })
+
+      return result
+    } catch (error) {
+      console.error('Failed to delete many color positions:', error)
+      throw new Error(
+        'Gagal menghapus posisi warna terpilih. Beberapa data mungkin masih digunakan.',
+      )
+    }
+  })

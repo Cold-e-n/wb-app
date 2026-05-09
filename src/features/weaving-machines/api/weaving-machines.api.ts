@@ -124,3 +124,24 @@ export const deleteWeavingMachine = createServerFn({
       )
     }
   })
+
+export const deleteManyWeavingMachines = createServerFn({
+  method: 'POST',
+})
+  .inputValidator(z.object({ ids: z.array(z.string()) }))
+  .handler(async ({ data }) => {
+    try {
+      const result = await prisma.weavingMachine.deleteMany({
+        where: {
+          id: { in: data.ids },
+        },
+      })
+
+      return result
+    } catch (error) {
+      console.error('Failed to delete many weaving machines:', error)
+      throw new Error(
+        'Gagal menghapus mesin terpilih. Beberapa data mungkin masih digunakan.',
+      )
+    }
+  })

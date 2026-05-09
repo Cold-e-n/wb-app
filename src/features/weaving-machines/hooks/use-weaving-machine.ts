@@ -93,14 +93,31 @@ export const useWeavingMachineMutation = () => {
     },
   })
 
+  const deleteManyMutation = useMutation({
+    mutationFn: async (data: { ids: string[] }) => {
+      return Api.deleteManyWeavingMachines({ data })
+    },
+    onSuccess: (result) => {
+      toast.success(`${result.count} mesin berhasil dihapus`)
+      invalidate()
+    },
+    onError: (error) => {
+      toast.error('Gagal menghapus mesin terpilih', {
+        description: error.message,
+      })
+    },
+  })
+
   return {
     invalidate,
     createMutation,
     updateMutation,
     deleteMutation,
+    deleteManyMutation,
     isPending:
       createMutation.isPending ||
       updateMutation.isPending ||
-      deleteMutation.isPending,
+      deleteMutation.isPending ||
+      deleteManyMutation.isPending,
   }
 }

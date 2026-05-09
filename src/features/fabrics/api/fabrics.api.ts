@@ -143,3 +143,24 @@ export const deleteFabric = createServerFn({
       )
     }
   })
+
+export const deleteManyFabrics = createServerFn({
+  method: 'POST',
+})
+  .inputValidator(z.object({ ids: z.array(z.string()) }))
+  .handler(async ({ data }) => {
+    try {
+      const result = await prisma.fabric.deleteMany({
+        where: {
+          id: { in: data.ids },
+        },
+      })
+
+      return result
+    } catch (error) {
+      console.error('Failed to delete many fabrics:', error)
+      throw new Error(
+        'Gagal menghapus kain terpilih. Beberapa data mungkin masih digunakan.',
+      )
+    }
+  })
