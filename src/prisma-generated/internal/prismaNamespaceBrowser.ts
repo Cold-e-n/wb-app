@@ -148,6 +148,7 @@ export type FabricSpecScalarFieldEnum = (typeof FabricSpecScalarFieldEnum)[keyof
 export const FabricConstructionScalarFieldEnum = {
   id: 'id',
   fabricSpecId: 'fabricSpecId',
+  rollCount: 'rollCount',
   warpingMachine: 'warpingMachine',
   coneCount: 'coneCount',
   sectionCount: 'sectionCount',

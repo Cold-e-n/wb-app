@@ -27,6 +27,7 @@ export type AggregateFabricConstruction = {
 }
 
 export type FabricConstructionAvgAggregateOutputType = {
+  rollCount: number | null
   coneCount: number | null
   sectionCount: number | null
   sectionLength: number | null
@@ -36,6 +37,7 @@ export type FabricConstructionAvgAggregateOutputType = {
 }
 
 export type FabricConstructionSumAggregateOutputType = {
+  rollCount: number | null
   coneCount: number | null
   sectionCount: number | null
   sectionLength: number | null
@@ -47,6 +49,7 @@ export type FabricConstructionSumAggregateOutputType = {
 export type FabricConstructionMinAggregateOutputType = {
   id: string | null
   fabricSpecId: string | null
+  rollCount: number | null
   warpingMachine: $Enums.WbMachineType | null
   coneCount: number | null
   sectionCount: number | null
@@ -61,6 +64,7 @@ export type FabricConstructionMinAggregateOutputType = {
 export type FabricConstructionMaxAggregateOutputType = {
   id: string | null
   fabricSpecId: string | null
+  rollCount: number | null
   warpingMachine: $Enums.WbMachineType | null
   coneCount: number | null
   sectionCount: number | null
@@ -75,6 +79,7 @@ export type FabricConstructionMaxAggregateOutputType = {
 export type FabricConstructionCountAggregateOutputType = {
   id: number
   fabricSpecId: number
+  rollCount: number
   warpingMachine: number
   coneCount: number
   sectionCount: number
@@ -89,6 +94,7 @@ export type FabricConstructionCountAggregateOutputType = {
 
 
 export type FabricConstructionAvgAggregateInputType = {
+  rollCount?: true
   coneCount?: true
   sectionCount?: true
   sectionLength?: true
@@ -98,6 +104,7 @@ export type FabricConstructionAvgAggregateInputType = {
 }
 
 export type FabricConstructionSumAggregateInputType = {
+  rollCount?: true
   coneCount?: true
   sectionCount?: true
   sectionLength?: true
@@ -109,6 +116,7 @@ export type FabricConstructionSumAggregateInputType = {
 export type FabricConstructionMinAggregateInputType = {
   id?: true
   fabricSpecId?: true
+  rollCount?: true
   warpingMachine?: true
   coneCount?: true
   sectionCount?: true
@@ -123,6 +131,7 @@ export type FabricConstructionMinAggregateInputType = {
 export type FabricConstructionMaxAggregateInputType = {
   id?: true
   fabricSpecId?: true
+  rollCount?: true
   warpingMachine?: true
   coneCount?: true
   sectionCount?: true
@@ -137,6 +146,7 @@ export type FabricConstructionMaxAggregateInputType = {
 export type FabricConstructionCountAggregateInputType = {
   id?: true
   fabricSpecId?: true
+  rollCount?: true
   warpingMachine?: true
   coneCount?: true
   sectionCount?: true
@@ -238,6 +248,7 @@ export type FabricConstructionGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type FabricConstructionGroupByOutputType = {
   id: string
   fabricSpecId: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -275,6 +286,7 @@ export type FabricConstructionWhereInput = {
   NOT?: Prisma.FabricConstructionWhereInput | Prisma.FabricConstructionWhereInput[]
   id?: Prisma.StringFilter<"FabricConstruction"> | string
   fabricSpecId?: Prisma.StringFilter<"FabricConstruction"> | string
+  rollCount?: Prisma.IntFilter<"FabricConstruction"> | number
   warpingMachine?: Prisma.EnumWbMachineTypeFilter<"FabricConstruction"> | $Enums.WbMachineType
   coneCount?: Prisma.IntFilter<"FabricConstruction"> | number
   sectionCount?: Prisma.IntFilter<"FabricConstruction"> | number
@@ -290,6 +302,7 @@ export type FabricConstructionWhereInput = {
 export type FabricConstructionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   fabricSpecId?: Prisma.SortOrder
+  rollCount?: Prisma.SortOrder
   warpingMachine?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
@@ -308,6 +321,7 @@ export type FabricConstructionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.FabricConstructionWhereInput[]
   NOT?: Prisma.FabricConstructionWhereInput | Prisma.FabricConstructionWhereInput[]
   fabricSpecId?: Prisma.StringFilter<"FabricConstruction"> | string
+  rollCount?: Prisma.IntFilter<"FabricConstruction"> | number
   warpingMachine?: Prisma.EnumWbMachineTypeFilter<"FabricConstruction"> | $Enums.WbMachineType
   coneCount?: Prisma.IntFilter<"FabricConstruction"> | number
   sectionCount?: Prisma.IntFilter<"FabricConstruction"> | number
@@ -323,6 +337,7 @@ export type FabricConstructionWhereUniqueInput = Prisma.AtLeast<{
 export type FabricConstructionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   fabricSpecId?: Prisma.SortOrder
+  rollCount?: Prisma.SortOrder
   warpingMachine?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
@@ -345,6 +360,7 @@ export type FabricConstructionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.FabricConstructionScalarWhereWithAggregatesInput | Prisma.FabricConstructionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"FabricConstruction"> | string
   fabricSpecId?: Prisma.StringWithAggregatesFilter<"FabricConstruction"> | string
+  rollCount?: Prisma.IntWithAggregatesFilter<"FabricConstruction"> | number
   warpingMachine?: Prisma.EnumWbMachineTypeWithAggregatesFilter<"FabricConstruction"> | $Enums.WbMachineType
   coneCount?: Prisma.IntWithAggregatesFilter<"FabricConstruction"> | number
   sectionCount?: Prisma.IntWithAggregatesFilter<"FabricConstruction"> | number
@@ -358,6 +374,7 @@ export type FabricConstructionScalarWhereWithAggregatesInput = {
 
 export type FabricConstructionCreateInput = {
   id?: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -373,6 +390,7 @@ export type FabricConstructionCreateInput = {
 export type FabricConstructionUncheckedCreateInput = {
   id?: string
   fabricSpecId: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -386,6 +404,7 @@ export type FabricConstructionUncheckedCreateInput = {
 
 export type FabricConstructionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -401,6 +420,7 @@ export type FabricConstructionUpdateInput = {
 export type FabricConstructionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fabricSpecId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -415,6 +435,7 @@ export type FabricConstructionUncheckedUpdateInput = {
 export type FabricConstructionCreateManyInput = {
   id?: string
   fabricSpecId: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -428,6 +449,7 @@ export type FabricConstructionCreateManyInput = {
 
 export type FabricConstructionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -442,6 +464,7 @@ export type FabricConstructionUpdateManyMutationInput = {
 export type FabricConstructionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fabricSpecId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -466,6 +489,7 @@ export type FabricConstructionOrderByRelationAggregateInput = {
 export type FabricConstructionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fabricSpecId?: Prisma.SortOrder
+  rollCount?: Prisma.SortOrder
   warpingMachine?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
@@ -478,6 +502,7 @@ export type FabricConstructionCountOrderByAggregateInput = {
 }
 
 export type FabricConstructionAvgOrderByAggregateInput = {
+  rollCount?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
   sectionLength?: Prisma.SortOrder
@@ -489,6 +514,7 @@ export type FabricConstructionAvgOrderByAggregateInput = {
 export type FabricConstructionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fabricSpecId?: Prisma.SortOrder
+  rollCount?: Prisma.SortOrder
   warpingMachine?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
@@ -503,6 +529,7 @@ export type FabricConstructionMaxOrderByAggregateInput = {
 export type FabricConstructionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fabricSpecId?: Prisma.SortOrder
+  rollCount?: Prisma.SortOrder
   warpingMachine?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
@@ -515,6 +542,7 @@ export type FabricConstructionMinOrderByAggregateInput = {
 }
 
 export type FabricConstructionSumOrderByAggregateInput = {
+  rollCount?: Prisma.SortOrder
   coneCount?: Prisma.SortOrder
   sectionCount?: Prisma.SortOrder
   sectionLength?: Prisma.SortOrder
@@ -571,6 +599,7 @@ export type EnumWbMachineTypeFieldUpdateOperationsInput = {
 
 export type FabricConstructionCreateWithoutFabricSpecInput = {
   id?: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -584,6 +613,7 @@ export type FabricConstructionCreateWithoutFabricSpecInput = {
 
 export type FabricConstructionUncheckedCreateWithoutFabricSpecInput = {
   id?: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -627,6 +657,7 @@ export type FabricConstructionScalarWhereInput = {
   NOT?: Prisma.FabricConstructionScalarWhereInput | Prisma.FabricConstructionScalarWhereInput[]
   id?: Prisma.StringFilter<"FabricConstruction"> | string
   fabricSpecId?: Prisma.StringFilter<"FabricConstruction"> | string
+  rollCount?: Prisma.IntFilter<"FabricConstruction"> | number
   warpingMachine?: Prisma.EnumWbMachineTypeFilter<"FabricConstruction"> | $Enums.WbMachineType
   coneCount?: Prisma.IntFilter<"FabricConstruction"> | number
   sectionCount?: Prisma.IntFilter<"FabricConstruction"> | number
@@ -640,6 +671,7 @@ export type FabricConstructionScalarWhereInput = {
 
 export type FabricConstructionCreateManyFabricSpecInput = {
   id?: string
+  rollCount: number
   warpingMachine: $Enums.WbMachineType
   coneCount: number
   sectionCount: number
@@ -653,6 +685,7 @@ export type FabricConstructionCreateManyFabricSpecInput = {
 
 export type FabricConstructionUpdateWithoutFabricSpecInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -666,6 +699,7 @@ export type FabricConstructionUpdateWithoutFabricSpecInput = {
 
 export type FabricConstructionUncheckedUpdateWithoutFabricSpecInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -679,6 +713,7 @@ export type FabricConstructionUncheckedUpdateWithoutFabricSpecInput = {
 
 export type FabricConstructionUncheckedUpdateManyWithoutFabricSpecInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
   warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
   coneCount?: Prisma.IntFieldUpdateOperationsInput | number
   sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -695,6 +730,7 @@ export type FabricConstructionUncheckedUpdateManyWithoutFabricSpecInput = {
 export type FabricConstructionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   fabricSpecId?: boolean
+  rollCount?: boolean
   warpingMachine?: boolean
   coneCount?: boolean
   sectionCount?: boolean
@@ -710,6 +746,7 @@ export type FabricConstructionSelect<ExtArgs extends runtime.Types.Extensions.In
 export type FabricConstructionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   fabricSpecId?: boolean
+  rollCount?: boolean
   warpingMachine?: boolean
   coneCount?: boolean
   sectionCount?: boolean
@@ -725,6 +762,7 @@ export type FabricConstructionSelectCreateManyAndReturn<ExtArgs extends runtime.
 export type FabricConstructionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   fabricSpecId?: boolean
+  rollCount?: boolean
   warpingMachine?: boolean
   coneCount?: boolean
   sectionCount?: boolean
@@ -740,6 +778,7 @@ export type FabricConstructionSelectUpdateManyAndReturn<ExtArgs extends runtime.
 export type FabricConstructionSelectScalar = {
   id?: boolean
   fabricSpecId?: boolean
+  rollCount?: boolean
   warpingMachine?: boolean
   coneCount?: boolean
   sectionCount?: boolean
@@ -751,7 +790,7 @@ export type FabricConstructionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FabricConstructionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fabricSpecId" | "warpingMachine" | "coneCount" | "sectionCount" | "sectionLength" | "beamWidth" | "spareEnds" | "beamingLoss" | "createdAt" | "updatedAt", ExtArgs["result"]["fabricConstruction"]>
+export type FabricConstructionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fabricSpecId" | "rollCount" | "warpingMachine" | "coneCount" | "sectionCount" | "sectionLength" | "beamWidth" | "spareEnds" | "beamingLoss" | "createdAt" | "updatedAt", ExtArgs["result"]["fabricConstruction"]>
 export type FabricConstructionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
 }
@@ -770,6 +809,7 @@ export type $FabricConstructionPayload<ExtArgs extends runtime.Types.Extensions.
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     fabricSpecId: string
+    rollCount: number
     warpingMachine: $Enums.WbMachineType
     coneCount: number
     sectionCount: number
@@ -1205,6 +1245,7 @@ export interface Prisma__FabricConstructionClient<T, Null = never, ExtArgs exten
 export interface FabricConstructionFieldRefs {
   readonly id: Prisma.FieldRef<"FabricConstruction", 'String'>
   readonly fabricSpecId: Prisma.FieldRef<"FabricConstruction", 'String'>
+  readonly rollCount: Prisma.FieldRef<"FabricConstruction", 'Int'>
   readonly warpingMachine: Prisma.FieldRef<"FabricConstruction", 'WbMachineType'>
   readonly coneCount: Prisma.FieldRef<"FabricConstruction", 'Int'>
   readonly sectionCount: Prisma.FieldRef<"FabricConstruction", 'Int'>

@@ -38,9 +38,9 @@ export const fabricFormSchema = z.object({
   name: z
     .string()
     .min(3, 'Nama kain minimal 3 karakter')
-    .max(50, 'Nama kain maksimal 50 karakter')
+    .max(1000, 'Nama kain maksimal 1000 karakter')
     .trim(),
-  hasColor: z.boolean().optional(),
+  hasColor: z.boolean().default(false),
 })
 
 export type FabricFormValues = z.infer<typeof fabricFormSchema>
