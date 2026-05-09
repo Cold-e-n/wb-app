@@ -22,6 +22,7 @@ export const YarnCombobox = ({
       fieldName={fieldName ?? 'yarnId'}
       placeholder="Pilih Benang"
       searchPlaceholder="cari benang ..."
+      truncateLimit={40}
       onChange={(val) => onChange?.(val)}
     />
   )

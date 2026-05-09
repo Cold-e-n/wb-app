@@ -161,3 +161,11 @@ export function getPageNumbers(currentPage: number, totalPages: number) {
 
   return rangeWithDots
 }
+
+/**
+ * Truncates a string to a specified length and appends a suffix.
+ */
+export function truncate(text: string, length: number = 40, suffix: string = '...') {
+  if (text.length <= length) return text
+  return text.slice(0, length) + suffix
+}

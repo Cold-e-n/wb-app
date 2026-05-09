@@ -30,19 +30,20 @@ interface BaseComboboxProps {
   searchPlaceholder?: string
   emptyText?: string
   disabled?: boolean
+  truncateLimit?: number
   onChange?: (value: string, item?: ComboboxItem) => void
 }
 
 interface StaticComboboxProps extends BaseComboboxProps {
   /** Data hardcode — gunakan ini untuk data statis */
-  items: ComboboxItem[]
+  items: Array<ComboboxItem>
   isLoading?: never
   error?: never
 }
 
 interface AsyncComboboxProps extends BaseComboboxProps {
   /** Data dari API/hook — gunakan ini untuk data dinamis */
-  items: ComboboxItem[] | undefined
+  items: Array<ComboboxItem> | undefined
   isLoading?: boolean
   error?: Error | null
 }
@@ -61,6 +62,7 @@ export const Combobox = ({
   items,
   isLoading = false,
   error,
+  truncateLimit = 40,
   onChange,
 }: ComboboxProps) => {
   const [open, setOpen] = React.useState(false)
@@ -127,7 +129,11 @@ export const Combobox = ({
                 Loading...
               </span>
             ) : selectedItem ? (
-              selectedItem.label
+              truncateLimit && selectedItem.label.length > truncateLimit ? (
+                `${selectedItem.label.slice(0, truncateLimit)}...`
+              ) : (
+                selectedItem.label
+              )
             ) : (
               <span className="text-muted-foreground">{placeholder}</span>
             )}
@@ -141,6 +147,7 @@ export const Combobox = ({
           style={{ width: 'var(--radix-popover-trigger-width)' }}
         >
           <Command
+            value={selectedValue}
             filter={(itemValue, search) => {
               const item = items?.find((i) => i.value === itemValue)
               if (!item) return 0

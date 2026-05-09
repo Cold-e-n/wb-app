@@ -87,7 +87,9 @@ export const FabricsCombobox = ({
                 Loading...
               </>
             ) : selectedFabric ? (
-              selectedFabric.name
+              selectedFabric.name.length > 50
+                ? `${selectedFabric.name.slice(0, 50)} [...]`
+                : selectedFabric.name
             ) : (
               'Pilih Kain'
             )}
@@ -100,6 +102,7 @@ export const FabricsCombobox = ({
           style={{ width: 'var(--radix-popover-trigger-width)' }}
         >
           <Command
+            value={comboboxValue}
             filter={(itemValue, search) => {
               const fabric = fabrics?.find((f) => f.id === itemValue)
               if (!fabric) return 0
