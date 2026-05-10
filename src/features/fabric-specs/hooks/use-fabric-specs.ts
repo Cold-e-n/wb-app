@@ -22,6 +22,14 @@ export const getFabricSpecByIdQueryOptions = (id: string) =>
     staleTime: Infinity,
   })
 
+export const getLatestFabricSpecQueryOptions = (fabricId: string) =>
+  queryOptions({
+    queryKey: ['fabricSpecs', 'latest', fabricId],
+    queryFn: () => Api.getLatestFabricSpecByFabricId({ data: { fabricId } }),
+    enabled: !!fabricId,
+    staleTime: 0,
+  })
+
 export const useFabricSpecs = () => {
   return useSuspenseQuery(getFabricSpecsQueryOptions)
 }
@@ -86,7 +94,7 @@ export const useFabricSpecMutation = () => {
   })
 
   const deleteManyMutation = useMutation({
-    mutationFn: async (data: { ids: string[] }) => {
+    mutationFn: async (data: { ids: Array<string> }) => {
       return Api.deleteManyFabricSpecs({ data })
     },
     onSuccess: (result) => {

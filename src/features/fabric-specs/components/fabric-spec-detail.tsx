@@ -178,13 +178,13 @@ export const FabricSpecDetail = ({ fabricSpec }: FabricSpecDetailProps) => {
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <SpecItem
-                    label="Nomor Sisir"
-                    value={`#${fabricSpec.reedNo}`}
-                  />
-                  <SpecItem
                     label="Lebar Sisir"
                     value={Number(fabricSpec.reedWidth).toFixed(2)}
                     suffix="inch"
+                  />
+                  <SpecItem
+                    label="Nomor Sisir"
+                    value={`#${fabricSpec.reedNo}`}
                   />
                   <SpecItem
                     label="Total Helai Lusi"

@@ -233,3 +233,26 @@ export const deleteManyFabricSpecs = createServerFn({
       )
     }
   })
+export const getLatestFabricSpecByFabricId = createServerFn({
+  method: 'GET',
+})
+  .inputValidator(z.object({ fabricId: z.string() }))
+  .handler(async ({ data }) => {
+    try {
+      const fabricSpec = await prisma.fabricSpec.findFirst({
+        where: { fabricId: data.fabricId },
+        orderBy: { createdAt: 'desc' },
+      })
+
+      if (!fabricSpec) return null
+
+      return {
+        ...fabricSpec,
+        color: fabricSpec.color ?? '-',
+        reedWidth: Number(fabricSpec.reedWidth),
+      }
+    } catch (error) {
+      console.error('Failed to fetch latest fabric spec:', error)
+      throw new Error('Gagal mengambil data spesifikasi kain terbaru.')
+    }
+  })

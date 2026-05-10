@@ -1,7 +1,11 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { useNavigate, useRouter } from '@tanstack/react-router'
-import { useFabricSpecMutation } from '../hooks/use-fabric-specs'
+import { useQueryClient } from '@tanstack/react-query'
+import {
+  useFabricSpecMutation,
+  getLatestFabricSpecQueryOptions,
+} from '../hooks/use-fabric-specs'
 import { useColorLayout } from '@/features/color-layout/hooks/use-color-layout'
 
 import type { FabricSpecForm, FabricSpecFormValues } from '@/types/FabricSpec'
@@ -48,8 +52,10 @@ export const FabricSpecsForm = ({
   mode = 'create',
   initialData,
 }: FabricSpecForm) => {
+  const latestFabricIdRef = useRef<string>('')
   const navigate = useNavigate()
   const router = useRouter()
+  const queryClient = useQueryClient()
   const { createMutation, updateMutation, isPending } = useFabricSpecMutation()
   const { data: colorLayouts } = useColorLayout()
 
@@ -169,7 +175,86 @@ export const FabricSpecsForm = ({
                     <FabricsCombobox
                       fieldName={field.name}
                       value={field.state.value}
-                      onChange={(value) => field.handleChange(value)}
+                      onChange={async (value) => {
+                        field.handleChange(value)
+
+                        latestFabricIdRef.current = value
+
+                        if (mode === 'create' && value) {
+                          try {
+                            const latestSpec = await queryClient.fetchQuery(
+                              getLatestFabricSpecQueryOptions(value),
+                            )
+
+                            if (latestFabricIdRef.current !== value) return
+
+                            if (latestSpec) {
+                              form.setFieldValue('width', latestSpec.width)
+                              form.setFieldValue('length', latestSpec.length)
+                              form.setFieldValue(
+                                'warpYarnId',
+                                latestSpec.warpYarnId,
+                              )
+                              form.setFieldValue(
+                                'weftYarnId',
+                                latestSpec.weftYarnId,
+                              )
+                              form.setFieldValue(
+                                'totalEnds',
+                                latestSpec.totalEnds,
+                              )
+                              form.setFieldValue(
+                                'reedWidth',
+                                latestSpec.reedWidth,
+                              )
+                              form.setFieldValue('reedNo', latestSpec.reedNo)
+                              form.setFieldValue(
+                                'fringe',
+                                latestSpec.fringe ?? 0,
+                              )
+                              form.setFieldValue(
+                                'pickPerInch',
+                                latestSpec.pickPerInch,
+                              )
+                              form.setFieldValue(
+                                'cutmarkPerRoll',
+                                latestSpec.cutmarkPerRoll as FabricSpecFormValues['cutmarkPerRoll'],
+                              )
+
+                              // Handle color parsing
+                              const safeColor = latestSpec.color ?? '-'
+                              const parts = safeColor.split(' ')
+                              const colorId = parts[0]
+                              const isLayout = colorLayouts?.some(
+                                (l) => l.id === colorId,
+                              )
+                              const isNone = safeColor === '-' || !safeColor
+                              const isManual = !isLayout && !isNone
+
+                              form.setFieldValue('hasColorLayout', !isNone)
+                              form.setFieldValue(
+                                'colorInputType',
+                                isLayout ? 'layout' : 'manual',
+                              )
+
+                              if (isLayout) {
+                                form.setFieldValue('color', colorId)
+                              } else if (isManual) {
+                                form.setFieldValue('manualColorName', colorId)
+                                form.setFieldValue(
+                                  'manualColorDescription',
+                                  parts.slice(1).join(' '),
+                                )
+                              }
+                            }
+                          } catch (error) {
+                            console.error(
+                              'Failed to auto-fill fabric spec:',
+                              error,
+                            )
+                          }
+                        }
+                      }}
                     />
                     {isInvalid && (
                       <FieldError>
@@ -206,7 +291,7 @@ export const FabricSpecsForm = ({
                       <FieldContent>
                         <InputGroup>
                           <InputGroupInput
-                            id="lebar"
+                            id="width"
                             type="number"
                             min="1"
                             max="10000"
@@ -457,11 +542,12 @@ export const FabricSpecsForm = ({
 
                             const lastLengthValue =
                               currentValues.length > 0
-                                ? currentValues[currentValues.length - 1].length
+                                ? currentValues[currentValues.length - 1]
+                                    .length * 2
                                 : 0
 
                             field.pushValue({
-                              roll: 1,
+                              roll: currentValues.length + 1,
                               length: lastLengthValue || 1,
                             })
                           }}
@@ -512,7 +598,7 @@ export const FabricSpecsForm = ({
                       <FieldContent>
                         <InputGroup>
                           <InputGroupInput
-                            id="lebar"
+                            id="reedWidth"
                             type="number"
                             min="1.00"
                             max="10000"
@@ -820,7 +906,32 @@ export const FabricSpecsForm = ({
                                   {/* Conditional input */}
                                   {typeField.state.value === 'layout' &&
                                   colorLayouts ? (
-                                    <form.Field name="color">
+                                    <form.Field
+                                      name="color"
+                                      validators={{
+                                        onBlur: ({ value }) => {
+                                          const hasLayout =
+                                            form.getFieldValue('hasColorLayout')
+                                          const inputType =
+                                            form.getFieldValue('colorInputType')
+
+                                          if (
+                                            hasLayout &&
+                                            inputType === 'layout'
+                                          ) {
+                                            if (
+                                              !value ||
+                                              value.trim() === '' ||
+                                              value === '-'
+                                            ) {
+                                              return 'Layout Warna harus dipilih.'
+                                            }
+                                          }
+
+                                          return undefined
+                                        },
+                                      }}
+                                    >
                                       {(field) => {
                                         const isInvalid =
                                           field.state.meta.isTouched &&
@@ -853,7 +964,35 @@ export const FabricSpecsForm = ({
                                     <div>Loading...</div>
                                   ) : (
                                     <div className="space-y-4">
-                                      <form.Field name="manualColorName">
+                                      <form.Field
+                                        name="manualColorName"
+                                        validators={{
+                                          onBlur: ({ value }) => {
+                                            const hasLayout =
+                                              form.getFieldValue(
+                                                'hasColorLayout',
+                                              )
+                                            const inputType =
+                                              form.getFieldValue(
+                                                'colorInputType',
+                                              )
+
+                                            if (
+                                              hasLayout &&
+                                              inputType === 'manual'
+                                            ) {
+                                              if (
+                                                !value ||
+                                                value.trim() === ''
+                                              ) {
+                                                return 'Benang Warna harus dipilih.'
+                                              }
+                                            }
+
+                                            return undefined
+                                          },
+                                        }}
+                                      >
                                         {(nameField) => {
                                           const isInvalid =
                                             nameField.state.meta.isTouched &&
