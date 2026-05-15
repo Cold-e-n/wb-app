@@ -1,4 +1,4 @@
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, Link } from '@tanstack/react-router'
 import { useColorLayout } from '@/features/color-layout/hooks/use-color-layout'
 import { useColor } from '@/features/colors/hooks/use-color'
 import type { FabricSpecWithRelation } from '@/types/FabricSpec'
@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/tooltip'
 import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
 import { Separator } from '@/components/ui/separator'
-import { Calendar, MoveLeft } from 'lucide-react'
+import { Calendar, MoveLeft, Pencil } from 'lucide-react'
 
 interface FabricSpecDetailProps {
   fabricSpec: FabricSpecWithRelation
@@ -122,11 +122,19 @@ export const FabricSpecDetail = ({ fabricSpec }: FabricSpecDetailProps) => {
             </TooltipTrigger>
             <TooltipContent>Kembali</TooltipContent>
           </Tooltip>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              Detail Spek Kain
-            </h1>
-          </div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Detail Spek Kain
+          </h1>
+        </div>
+        <div className="">
+          <Button variant="outline" asChild>
+            <Link
+              to="/fabric-specs/$fabricSpecId/edit"
+              params={{ fabricSpecId: fabricSpec.id }}
+            >
+              <Pencil className="h-4 w-4" /> Edit
+            </Link>
+          </Button>
         </div>
       </div>
 
