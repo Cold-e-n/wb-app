@@ -304,7 +304,7 @@ export const FabricSpecsForm = ({
                             placeholder="Masukkan lebar"
                           />
                           <InputGroupAddon align="inline-end">
-                            <span className="text-sm">cm</span>
+                            <span className="text-sm">mm</span>
                           </InputGroupAddon>
                         </InputGroup>
                         {isInvalid && (
@@ -813,7 +813,6 @@ export const FabricSpecsForm = ({
                               const val = e.target.value
                               field.handleChange(val === '' ? 0 : Number(val))
                             }}
-                            placeholder="Masukkan panjang"
                           />
                           <InputGroupAddon align="inline-end">
                             <span className="text-sm">Helai</span>

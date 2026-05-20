@@ -13,8 +13,9 @@ import {
 
 type DataTableBulkActionsProps<TData> = {
   table: Table<TData>
-  entityName: string
-  children: React.ReactNode
+  entityName?: string
+  onDelete?: (rows: TData[]) => void
+  children?: React.ReactNode
 }
 
 /**
@@ -29,7 +30,8 @@ type DataTableBulkActionsProps<TData> = {
  */
 export function DataTableBulkActions<TData>({
   table,
-  entityName,
+  entityName = 'item',
+  onDelete,
   children,
 }: DataTableBulkActionsProps<TData>): React.ReactNode | null {
   const selectedRows = table.getFilteredSelectedRowModel().rows
@@ -139,24 +141,29 @@ export function DataTableBulkActions<TData>({
           />
           {children}
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="destructive"
-                size="icon"
-                onClick={() => console.log('Deleted.')}
-                className="size-8"
-                aria-label="Delete selected users"
-                title="Delete selected users"
-              >
-                <Trash2 />
-                <span className="sr-only">Hapus item yang dipilih</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Hapus item yang dipilih</p>
-            </TooltipContent>
-          </Tooltip>
+          {onDelete && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => {
+                    const rows = selectedRows.map((r) => r.original)
+                    onDelete(rows)
+                  }}
+                  className="size-8"
+                  aria-label={`Hapus ${selectedCount} ${entityName} terpilih`}
+                  title={`Hapus ${selectedCount} ${entityName} terpilih`}
+                >
+                  <Trash2 />
+                  <span className="sr-only">Hapus item yang dipilih</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Hapus item yang dipilih</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </div>
     </>

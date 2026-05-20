@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { truncate } from '@/lib/utils'
 import { FabricSpecsTableRowActions } from './fabric-specs-table-row-actions'
 
-export const columns: ColumnDef<FabricSpecWithRelation>[] = [
+export const columns: Array<ColumnDef<FabricSpecWithRelation>> = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,7 +34,7 @@ export const columns: ColumnDef<FabricSpecWithRelation>[] = [
     cell: ({ row }) => {
       return (
         <span className="font-medium">
-          {truncate(row.original.fabric?.name ?? '-', 35)}
+          {truncate(row.original.fabric.name || '-', 35)}
         </span>
       )
     },
@@ -46,31 +46,39 @@ export const columns: ColumnDef<FabricSpecWithRelation>[] = [
       const { width, length } = row.original
       return (
         <span>
-          {width} cm x {length} meter
+          {width} mm x {length} meter
         </span>
       )
     },
   },
   {
+    accessorKey: 'warpYarn.name',
     id: 'warpYarn',
     header: 'Lusi',
     cell: ({ row }) => {
       return (
         <span className="font-medium">
-          {truncate(row.original.warpYarn?.name ?? '-', 40)}
+          {truncate(row.original.warpYarn.name || '-', 40)}
         </span>
       )
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
+    accessorKey: 'weftYarn.name',
     id: 'weftYarn',
     header: 'Pakan',
     cell: ({ row }) => {
       return (
         <span className="font-medium tracking-tight">
-          {truncate(row.original.weftYarn?.name ?? '-', 35)}
+          {truncate(row.original.weftYarn.name || '-', 35)}
         </span>
       )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {

@@ -11,8 +11,13 @@ import {
 } from '@tanstack/react-table'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import { getRouteApi } from '@tanstack/react-router'
-import { type FabricSpecWithRelation, columns } from './fabric-specs-table-columns'
-import type { FilterFn, SortingState, VisibilityState } from '@tanstack/react-table'
+import { columns } from './fabric-specs-table-columns'
+import type { FabricSpecWithRelation } from '@/types/FabricSpec'
+import type {
+  FilterFn,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table'
 import { useTableUrlState } from '@/hooks/use-table-url-state'
 import {
   Table,
@@ -48,7 +53,8 @@ export const FabricSpecsTable = ({ data }: FabricSpecsTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({})
   const { deleteManyMutation } = useFabricSpecMutation()
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
 
   const {
     globalFilter,
@@ -69,7 +75,39 @@ export const FabricSpecsTable = ({ data }: FabricSpecsTableProps) => {
       enabled: true,
       key: 'filter',
     },
+    columnFilters: [
+      { columnId: 'warpYarn', searchKey: 'warpYarn', type: 'array' },
+      { columnId: 'weftYarn', searchKey: 'weftYarn', type: 'array' },
+    ],
   })
+
+  const warpYarnOptions = React.useMemo(() => {
+    const uniqueWarpYarns = Array.from(
+      new Set(
+        data
+          .map((item) => item.warpYarn?.name)
+          .filter((name): name is string => !!name),
+      ),
+    ).sort()
+    return uniqueWarpYarns.map((name) => ({
+      label: name,
+      value: name,
+    }))
+  }, [data])
+
+  const weftYarnOptions = React.useMemo(() => {
+    const uniqueWeftYarns = Array.from(
+      new Set(
+        data
+          .map((item) => item.weftYarn?.name)
+          .filter((name): name is string => !!name),
+      ),
+    ).sort()
+    return uniqueWeftYarns.map((name) => ({
+      label: name,
+      value: name,
+    }))
+  }, [data])
 
   const table = useReactTable({
     data,
@@ -110,8 +148,20 @@ export const FabricSpecsTable = ({ data }: FabricSpecsTableProps) => {
     <div className="flex flex-col gap-4">
       <DataTableToolbar
         table={table}
-        searchPlaceholder="Cari spesifikasi..."
+        searchPlaceholder="Cari spesifikasi kain..."
         viewOptions={false}
+        filters={[
+          {
+            columnId: 'warpYarn',
+            title: 'Lusi',
+            options: warpYarnOptions,
+          },
+          {
+            columnId: 'weftYarn',
+            title: 'Pakan',
+            options: weftYarnOptions,
+          },
+        ]}
       />
 
       <div className="border rounded-md overflow-auto">
@@ -120,10 +170,7 @@ export const FabricSpecsTable = ({ data }: FabricSpecsTableProps) => {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    colSpan={header.colSpan}
-                  >
+                  <TableHead key={header.id} colSpan={header.colSpan}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -136,7 +183,7 @@ export const FabricSpecsTable = ({ data }: FabricSpecsTableProps) => {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
