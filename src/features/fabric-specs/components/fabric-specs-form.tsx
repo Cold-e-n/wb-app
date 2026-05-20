@@ -540,15 +540,17 @@ export const FabricSpecsForm = ({
                           onClick={() => {
                             const currentValues = field.state.value
 
-                            const lastLengthValue =
-                              currentValues.length > 0
-                                ? currentValues[currentValues.length - 1]
-                                    .length * 2
-                                : 0
+                            const firstItem = currentValues[0]
+                            const lastItem =
+                              currentValues[currentValues.length - 1]
+
+                            const nextRoll = (lastItem?.roll ?? 1) + 1
+                            const nextLength =
+                              lastItem?.length + firstItem?.length
 
                             field.pushValue({
-                              roll: currentValues.length + 1,
-                              length: lastLengthValue || 1,
+                              roll: nextRoll,
+                              length: nextLength,
                             })
                           }}
                         >
