@@ -96,8 +96,9 @@ model FabricSpec {
 }
 
 model FabricConstruction {
-  id           String @id @default(cuid())
-  fabricSpecId String @map("fabric_spec_id")
+  id             String @id @default(cuid())
+  constructionNo Int    @map("construction_no")
+  fabricSpecId   String @map("fabric_spec_id")
 
   rollCount      Int           @map("roll_count")
   warpingMachine WbMachineType @map("warping_machine")
