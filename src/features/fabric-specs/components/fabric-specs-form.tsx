@@ -475,7 +475,7 @@ export const FabricSpecsForm = ({
                                           Number(e.target.value),
                                         )
                                       }
-                                      placeholder="Jml Roll"
+                                      placeholder="Jumlah Roll"
                                     />
                                     <InputGroupAddon align="inline-end">
                                       <span className="text-xs">Roll</span>
@@ -516,7 +516,7 @@ export const FabricSpecsForm = ({
                                         <Button
                                           type="button"
                                           variant="ghost"
-                                          size="icon-sm"
+                                          size="sm"
                                           onClick={() =>
                                             field.removeValue(index)
                                           }
