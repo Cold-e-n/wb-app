@@ -8,6 +8,8 @@ export const cutmarkItem = z.object({
   length: z.number(),
 })
 
+export type CutmarkItem = z.infer<typeof cutmarkItem>
+
 export const fabricSpecSchema = z.object({
   id: z.string(),
   fabricId: z.string(),
