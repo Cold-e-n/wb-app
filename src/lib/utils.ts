@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 import type { ClassValue } from 'clsx'
 import type { ColorContent } from '@/types/ColorLayout'
 
-export function cn(...inputs: Array<ClassValue>) {
+export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
@@ -165,7 +165,11 @@ export function getPageNumbers(currentPage: number, totalPages: number) {
 /**
  * Truncates a string to a specified length and appends a suffix.
  */
-export function truncate(text: string, length: number = 40, suffix: string = '...') {
+export function truncate(
+  text: string,
+  length: number = 40,
+  suffix: string = '...',
+) {
   if (text.length <= length) return text
   return text.slice(0, length) + suffix
 }
