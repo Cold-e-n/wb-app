@@ -321,11 +321,6 @@ export type FabricUncheckedUpdateManyInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type FabricScalarRelationFilter = {
-  is?: Prisma.FabricWhereInput
-  isNot?: Prisma.FabricWhereInput
-}
-
 export type FabricCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -351,6 +346,15 @@ export type FabricMinOrderByAggregateInput = {
   hasColor?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type FabricScalarRelationFilter = {
+  is?: Prisma.FabricWhereInput
+  isNot?: Prisma.FabricWhereInput
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type FabricCreateNestedOneWithoutColorLayoutInput = {
@@ -379,10 +383,6 @@ export type FabricUpdateOneRequiredWithoutColorPositionsNestedInput = {
   upsert?: Prisma.FabricUpsertWithoutColorPositionsInput
   connect?: Prisma.FabricWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.FabricUpdateToOneWithWhereWithoutColorPositionsInput, Prisma.FabricUpdateWithoutColorPositionsInput>, Prisma.FabricUncheckedUpdateWithoutColorPositionsInput>
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type FabricCreateNestedOneWithoutFabricSpecsInput = {

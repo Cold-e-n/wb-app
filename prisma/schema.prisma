@@ -23,6 +23,49 @@ model Color {
   @@map("colors")
 }
 
+model Fabric {
+  id       String  @id @default(cuid())
+  name     String  @unique @db.VarChar(100)
+  slug     String  @unique @db.VarChar(200)
+  hasColor Boolean @default(false) @map("has_color")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  colorLayout    ColorLayout?
+  colorPositions ColorPosition[]
+  fabricSpecs    FabricSpec[]
+
+  @@map("fabrics")
+}
+
+model Yarn {
+  id   String @id @default(cuid())
+  name String @unique @db.VarChar(100)
+  slug String @unique @db.VarChar(200)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  warpFabricSpecs FabricSpec[] @relation("warpYarnRelation")
+  weftFabricSpecs FabricSpec[] @relation("weftYarnRelation")
+
+  @@map("yarns")
+}
+
+model WeavingMachine {
+  id    String @id @default(cuid())
+  name  String @unique @db.VarChar(100)
+  slug  String @unique @db.VarChar(200)
+  width Int
+  type  String
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("weaving_machines")
+}
+
 model ColorLayout {
   id           String    @id @default(cuid())
   fabricId     String    @unique @map("fabric_id")
@@ -49,22 +92,6 @@ model ColorPosition {
   colorLayout ColorLayout @relation(fields: [colorLayoutId], references: [id])
 
   @@map("color_positions")
-}
-
-model Fabric {
-  id       String  @id @default(cuid())
-  name     String  @unique @db.VarChar(100)
-  slug     String  @unique @db.VarChar(200)
-  hasColor Boolean @default(false) @map("has_color")
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @map("updated_at")
-
-  colorLayout    ColorLayout?
-  colorPositions ColorPosition[]
-  fabricSpecs    FabricSpec[]
-
-  @@map("fabrics")
 }
 
 model FabricSpec {
@@ -97,15 +124,17 @@ model FabricSpec {
 
 model FabricConstruction {
   id             String @id @default(cuid())
-  constructionNo Int    @map("construction_no")
+  constructionId String @map("construction_id")
   fabricSpecId   String @map("fabric_spec_id")
 
   rollCount      Int           @map("roll_count")
   warpingMachine WbMachineType @map("warping_machine")
   coneCount      Int           @map("cone_count")
+  coneLength     Int           @map("cone_length")
   sectionCount   Int           @map("section_count")
   sectionLength  Int           @map("section_length")
-  beamWidth      Decimal       @map("beam_width") @db.Decimal(8, 2)
+  beamWidth      Int           @map("beam_width")
+  cutmarkValue   String        @map("cutmark_value")
   spareEnds      Int           @map("spare_ends")
   beamingLoss    Int?          @map("beaming_loss")
 
@@ -114,41 +143,13 @@ model FabricConstruction {
 
   fabricSpec FabricSpec @relation(fields: [fabricSpecId], references: [id])
 
+  @@unique([constructionId])
   @@map("fabric_constructions")
 }
 
-model WeavingMachine {
-  id    String @id @default(cuid())
-  name  String @unique @db.VarChar(100)
-  slug  String @unique @db.VarChar(200)
-  width Int
-  type  String
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @map("updated_at")
-
-  @@map("weaving_machines")
-}
-
-model Yarn {
-  id   String @id @default(cuid())
-  name String @unique @db.VarChar(100)
-  slug String @unique @db.VarChar(200)
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @map("updated_at")
-
-  warpFabricSpecs FabricSpec[] @relation("warpYarnRelation")
-  weftFabricSpecs FabricSpec[] @relation("weftYarnRelation")
-
-  @@map("yarns")
-}
-
 enum WbMachineType {
-  BENNINGER
-  KARLMAYER
-  MO
-  TSUDAKOMA
+  BENN_KM
+  MO_TS
 }
 
 enum WbProcessType {

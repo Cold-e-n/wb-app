@@ -23,6 +23,21 @@ export * from './enums.ts';
  */
 export type Color = Prisma.ColorModel
 /**
+ * Model Fabric
+ * 
+ */
+export type Fabric = Prisma.FabricModel
+/**
+ * Model Yarn
+ * 
+ */
+export type Yarn = Prisma.YarnModel
+/**
+ * Model WeavingMachine
+ * 
+ */
+export type WeavingMachine = Prisma.WeavingMachineModel
+/**
  * Model ColorLayout
  * 
  */
@@ -33,11 +48,6 @@ export type ColorLayout = Prisma.ColorLayoutModel
  */
 export type ColorPosition = Prisma.ColorPositionModel
 /**
- * Model Fabric
- * 
- */
-export type Fabric = Prisma.FabricModel
-/**
  * Model FabricSpec
  * 
  */
@@ -47,13 +57,3 @@ export type FabricSpec = Prisma.FabricSpecModel
  * 
  */
 export type FabricConstruction = Prisma.FabricConstructionModel
-/**
- * Model WeavingMachine
- * 
- */
-export type WeavingMachine = Prisma.WeavingMachineModel
-/**
- * Model Yarn
- * 
- */
-export type Yarn = Prisma.YarnModel

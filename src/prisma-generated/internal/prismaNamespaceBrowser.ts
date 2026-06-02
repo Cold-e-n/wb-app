@@ -52,13 +52,13 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Color: 'Color',
+  Fabric: 'Fabric',
+  Yarn: 'Yarn',
+  WeavingMachine: 'WeavingMachine',
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
-  Fabric: 'Fabric',
   FabricSpec: 'FabricSpec',
-  FabricConstruction: 'FabricConstruction',
-  WeavingMachine: 'WeavingMachine',
-  Yarn: 'Yarn'
+  FabricConstruction: 'FabricConstruction'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,6 +88,42 @@ export const ColorScalarFieldEnum = {
 export type ColorScalarFieldEnum = (typeof ColorScalarFieldEnum)[keyof typeof ColorScalarFieldEnum]
 
 
+export const FabricScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  hasColor: 'hasColor',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
+
+
+export const YarnScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
+
+
+export const WeavingMachineScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  width: 'width',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
+
+
 export const ColorLayoutScalarFieldEnum = {
   id: 'id',
   fabricId: 'fabricId',
@@ -110,18 +146,6 @@ export const ColorPositionScalarFieldEnum = {
 } as const
 
 export type ColorPositionScalarFieldEnum = (typeof ColorPositionScalarFieldEnum)[keyof typeof ColorPositionScalarFieldEnum]
-
-
-export const FabricScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  hasColor: 'hasColor',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
 
 
 export const FabricSpecScalarFieldEnum = {
@@ -147,14 +171,16 @@ export type FabricSpecScalarFieldEnum = (typeof FabricSpecScalarFieldEnum)[keyof
 
 export const FabricConstructionScalarFieldEnum = {
   id: 'id',
-  constructionNo: 'constructionNo',
+  constructionId: 'constructionId',
   fabricSpecId: 'fabricSpecId',
   rollCount: 'rollCount',
   warpingMachine: 'warpingMachine',
   coneCount: 'coneCount',
+  coneLength: 'coneLength',
   sectionCount: 'sectionCount',
   sectionLength: 'sectionLength',
   beamWidth: 'beamWidth',
+  cutmarkValue: 'cutmarkValue',
   spareEnds: 'spareEnds',
   beamingLoss: 'beamingLoss',
   createdAt: 'createdAt',
@@ -162,30 +188,6 @@ export const FabricConstructionScalarFieldEnum = {
 } as const
 
 export type FabricConstructionScalarFieldEnum = (typeof FabricConstructionScalarFieldEnum)[keyof typeof FabricConstructionScalarFieldEnum]
-
-
-export const WeavingMachineScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  width: 'width',
-  type: 'type',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
-
-
-export const YarnScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
 
 
 export const SortOrder = {

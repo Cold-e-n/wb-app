@@ -19,14 +19,18 @@ import { Route as AuthDashboardRouteImport } from './routes/_auth/dashboard'
 import { Route as AuthColorRouteImport } from './routes/_auth/color'
 import { Route as AuthFabricsIndexRouteImport } from './routes/_auth/fabrics/index'
 import { Route as AuthFabricSpecsIndexRouteImport } from './routes/_auth/fabric-specs/index'
+import { Route as AuthFabricConstructionsIndexRouteImport } from './routes/_auth/fabric-constructions/index'
 import { Route as AuthColorPositionsIndexRouteImport } from './routes/_auth/color-positions/index'
 import { Route as AuthColorLayoutsIndexRouteImport } from './routes/_auth/color-layouts/index'
 import { Route as AuthFabricSpecsAddNewRouteImport } from './routes/_auth/fabric-specs/add-new'
+import { Route as AuthFabricConstructionsAddNewRouteImport } from './routes/_auth/fabric-constructions/add-new'
 import { Route as AuthColorLayoutsAddNewRouteImport } from './routes/_auth/color-layouts/add-new'
 import { Route as AuthFabricSpecsFabricSpecIdIndexRouteImport } from './routes/_auth/fabric-specs/$fabricSpecId/index'
+import { Route as AuthFabricConstructionsFabricConstructionIdIndexRouteImport } from './routes/_auth/fabric-constructions/$fabricConstructionId/index'
 import { Route as AuthColorPositionsColorPositionIdIndexRouteImport } from './routes/_auth/color-positions/$colorPositionId/index'
 import { Route as AuthColorLayoutsColorLayoutIdIndexRouteImport } from './routes/_auth/color-layouts/$colorLayoutId/index'
 import { Route as AuthFabricSpecsFabricSpecIdEditRouteImport } from './routes/_auth/fabric-specs/$fabricSpecId/edit'
+import { Route as AuthFabricConstructionsFabricConstructionIdEditRouteImport } from './routes/_auth/fabric-constructions/$fabricConstructionId/edit'
 import { Route as AuthColorPositionsColorPositionIdEditRouteImport } from './routes/_auth/color-positions/$colorPositionId/edit'
 import { Route as AuthColorLayoutsColorLayoutIdEditRouteImport } from './routes/_auth/color-layouts/$colorLayoutId/edit'
 
@@ -78,6 +82,12 @@ const AuthFabricSpecsIndexRoute = AuthFabricSpecsIndexRouteImport.update({
   path: '/fabric-specs/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AuthFabricConstructionsIndexRoute =
+  AuthFabricConstructionsIndexRouteImport.update({
+    id: '/fabric-constructions/',
+    path: '/fabric-constructions/',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
 const AuthColorPositionsIndexRoute = AuthColorPositionsIndexRouteImport.update({
   id: '/color-positions/',
   path: '/color-positions/',
@@ -93,6 +103,12 @@ const AuthFabricSpecsAddNewRoute = AuthFabricSpecsAddNewRouteImport.update({
   path: '/fabric-specs/add-new',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AuthFabricConstructionsAddNewRoute =
+  AuthFabricConstructionsAddNewRouteImport.update({
+    id: '/fabric-constructions/add-new',
+    path: '/fabric-constructions/add-new',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
 const AuthColorLayoutsAddNewRoute = AuthColorLayoutsAddNewRouteImport.update({
   id: '/color-layouts/add-new',
   path: '/color-layouts/add-new',
@@ -102,6 +118,12 @@ const AuthFabricSpecsFabricSpecIdIndexRoute =
   AuthFabricSpecsFabricSpecIdIndexRouteImport.update({
     id: '/fabric-specs/$fabricSpecId/',
     path: '/fabric-specs/$fabricSpecId/',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthFabricConstructionsFabricConstructionIdIndexRoute =
+  AuthFabricConstructionsFabricConstructionIdIndexRouteImport.update({
+    id: '/fabric-constructions/$fabricConstructionId/',
+    path: '/fabric-constructions/$fabricConstructionId/',
     getParentRoute: () => AuthRouteRoute,
   } as any)
 const AuthColorPositionsColorPositionIdIndexRoute =
@@ -120,6 +142,12 @@ const AuthFabricSpecsFabricSpecIdEditRoute =
   AuthFabricSpecsFabricSpecIdEditRouteImport.update({
     id: '/fabric-specs/$fabricSpecId/edit',
     path: '/fabric-specs/$fabricSpecId/edit',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthFabricConstructionsFabricConstructionIdEditRoute =
+  AuthFabricConstructionsFabricConstructionIdEditRouteImport.update({
+    id: '/fabric-constructions/$fabricConstructionId/edit',
+    path: '/fabric-constructions/$fabricConstructionId/edit',
     getParentRoute: () => AuthRouteRoute,
   } as any)
 const AuthColorPositionsColorPositionIdEditRoute =
@@ -143,16 +171,20 @@ export interface FileRoutesByFullPath {
   '/yarns': typeof AuthYarnsRoute
   '/sign-in': typeof GuestSignInRoute
   '/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
+  '/fabric-constructions/add-new': typeof AuthFabricConstructionsAddNewRoute
   '/fabric-specs/add-new': typeof AuthFabricSpecsAddNewRoute
   '/color-layouts/': typeof AuthColorLayoutsIndexRoute
   '/color-positions/': typeof AuthColorPositionsIndexRoute
+  '/fabric-constructions/': typeof AuthFabricConstructionsIndexRoute
   '/fabric-specs/': typeof AuthFabricSpecsIndexRoute
   '/fabrics/': typeof AuthFabricsIndexRoute
   '/color-layouts/$colorLayoutId/edit': typeof AuthColorLayoutsColorLayoutIdEditRoute
   '/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
+  '/fabric-constructions/$fabricConstructionId/edit': typeof AuthFabricConstructionsFabricConstructionIdEditRoute
   '/fabric-specs/$fabricSpecId/edit': typeof AuthFabricSpecsFabricSpecIdEditRoute
   '/color-layouts/$colorLayoutId/': typeof AuthColorLayoutsColorLayoutIdIndexRoute
   '/color-positions/$colorPositionId/': typeof AuthColorPositionsColorPositionIdIndexRoute
+  '/fabric-constructions/$fabricConstructionId/': typeof AuthFabricConstructionsFabricConstructionIdIndexRoute
   '/fabric-specs/$fabricSpecId/': typeof AuthFabricSpecsFabricSpecIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -163,16 +195,20 @@ export interface FileRoutesByTo {
   '/yarns': typeof AuthYarnsRoute
   '/sign-in': typeof GuestSignInRoute
   '/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
+  '/fabric-constructions/add-new': typeof AuthFabricConstructionsAddNewRoute
   '/fabric-specs/add-new': typeof AuthFabricSpecsAddNewRoute
   '/color-layouts': typeof AuthColorLayoutsIndexRoute
   '/color-positions': typeof AuthColorPositionsIndexRoute
+  '/fabric-constructions': typeof AuthFabricConstructionsIndexRoute
   '/fabric-specs': typeof AuthFabricSpecsIndexRoute
   '/fabrics': typeof AuthFabricsIndexRoute
   '/color-layouts/$colorLayoutId/edit': typeof AuthColorLayoutsColorLayoutIdEditRoute
   '/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
+  '/fabric-constructions/$fabricConstructionId/edit': typeof AuthFabricConstructionsFabricConstructionIdEditRoute
   '/fabric-specs/$fabricSpecId/edit': typeof AuthFabricSpecsFabricSpecIdEditRoute
   '/color-layouts/$colorLayoutId': typeof AuthColorLayoutsColorLayoutIdIndexRoute
   '/color-positions/$colorPositionId': typeof AuthColorPositionsColorPositionIdIndexRoute
+  '/fabric-constructions/$fabricConstructionId': typeof AuthFabricConstructionsFabricConstructionIdIndexRoute
   '/fabric-specs/$fabricSpecId': typeof AuthFabricSpecsFabricSpecIdIndexRoute
 }
 export interface FileRoutesById {
@@ -186,16 +222,20 @@ export interface FileRoutesById {
   '/_auth/yarns': typeof AuthYarnsRoute
   '/_guest/sign-in': typeof GuestSignInRoute
   '/_auth/color-layouts/add-new': typeof AuthColorLayoutsAddNewRoute
+  '/_auth/fabric-constructions/add-new': typeof AuthFabricConstructionsAddNewRoute
   '/_auth/fabric-specs/add-new': typeof AuthFabricSpecsAddNewRoute
   '/_auth/color-layouts/': typeof AuthColorLayoutsIndexRoute
   '/_auth/color-positions/': typeof AuthColorPositionsIndexRoute
+  '/_auth/fabric-constructions/': typeof AuthFabricConstructionsIndexRoute
   '/_auth/fabric-specs/': typeof AuthFabricSpecsIndexRoute
   '/_auth/fabrics/': typeof AuthFabricsIndexRoute
   '/_auth/color-layouts/$colorLayoutId/edit': typeof AuthColorLayoutsColorLayoutIdEditRoute
   '/_auth/color-positions/$colorPositionId/edit': typeof AuthColorPositionsColorPositionIdEditRoute
+  '/_auth/fabric-constructions/$fabricConstructionId/edit': typeof AuthFabricConstructionsFabricConstructionIdEditRoute
   '/_auth/fabric-specs/$fabricSpecId/edit': typeof AuthFabricSpecsFabricSpecIdEditRoute
   '/_auth/color-layouts/$colorLayoutId/': typeof AuthColorLayoutsColorLayoutIdIndexRoute
   '/_auth/color-positions/$colorPositionId/': typeof AuthColorPositionsColorPositionIdIndexRoute
+  '/_auth/fabric-constructions/$fabricConstructionId/': typeof AuthFabricConstructionsFabricConstructionIdIndexRoute
   '/_auth/fabric-specs/$fabricSpecId/': typeof AuthFabricSpecsFabricSpecIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -208,16 +248,20 @@ export interface FileRouteTypes {
     | '/yarns'
     | '/sign-in'
     | '/color-layouts/add-new'
+    | '/fabric-constructions/add-new'
     | '/fabric-specs/add-new'
     | '/color-layouts/'
     | '/color-positions/'
+    | '/fabric-constructions/'
     | '/fabric-specs/'
     | '/fabrics/'
     | '/color-layouts/$colorLayoutId/edit'
     | '/color-positions/$colorPositionId/edit'
+    | '/fabric-constructions/$fabricConstructionId/edit'
     | '/fabric-specs/$fabricSpecId/edit'
     | '/color-layouts/$colorLayoutId/'
     | '/color-positions/$colorPositionId/'
+    | '/fabric-constructions/$fabricConstructionId/'
     | '/fabric-specs/$fabricSpecId/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -228,16 +272,20 @@ export interface FileRouteTypes {
     | '/yarns'
     | '/sign-in'
     | '/color-layouts/add-new'
+    | '/fabric-constructions/add-new'
     | '/fabric-specs/add-new'
     | '/color-layouts'
     | '/color-positions'
+    | '/fabric-constructions'
     | '/fabric-specs'
     | '/fabrics'
     | '/color-layouts/$colorLayoutId/edit'
     | '/color-positions/$colorPositionId/edit'
+    | '/fabric-constructions/$fabricConstructionId/edit'
     | '/fabric-specs/$fabricSpecId/edit'
     | '/color-layouts/$colorLayoutId'
     | '/color-positions/$colorPositionId'
+    | '/fabric-constructions/$fabricConstructionId'
     | '/fabric-specs/$fabricSpecId'
   id:
     | '__root__'
@@ -250,16 +298,20 @@ export interface FileRouteTypes {
     | '/_auth/yarns'
     | '/_guest/sign-in'
     | '/_auth/color-layouts/add-new'
+    | '/_auth/fabric-constructions/add-new'
     | '/_auth/fabric-specs/add-new'
     | '/_auth/color-layouts/'
     | '/_auth/color-positions/'
+    | '/_auth/fabric-constructions/'
     | '/_auth/fabric-specs/'
     | '/_auth/fabrics/'
     | '/_auth/color-layouts/$colorLayoutId/edit'
     | '/_auth/color-positions/$colorPositionId/edit'
+    | '/_auth/fabric-constructions/$fabricConstructionId/edit'
     | '/_auth/fabric-specs/$fabricSpecId/edit'
     | '/_auth/color-layouts/$colorLayoutId/'
     | '/_auth/color-positions/$colorPositionId/'
+    | '/_auth/fabric-constructions/$fabricConstructionId/'
     | '/_auth/fabric-specs/$fabricSpecId/'
   fileRoutesById: FileRoutesById
 }
@@ -341,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthFabricSpecsIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_auth/fabric-constructions/': {
+      id: '/_auth/fabric-constructions/'
+      path: '/fabric-constructions'
+      fullPath: '/fabric-constructions/'
+      preLoaderRoute: typeof AuthFabricConstructionsIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/_auth/color-positions/': {
       id: '/_auth/color-positions/'
       path: '/color-positions'
@@ -362,6 +421,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthFabricSpecsAddNewRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_auth/fabric-constructions/add-new': {
+      id: '/_auth/fabric-constructions/add-new'
+      path: '/fabric-constructions/add-new'
+      fullPath: '/fabric-constructions/add-new'
+      preLoaderRoute: typeof AuthFabricConstructionsAddNewRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/_auth/color-layouts/add-new': {
       id: '/_auth/color-layouts/add-new'
       path: '/color-layouts/add-new'
@@ -374,6 +440,13 @@ declare module '@tanstack/react-router' {
       path: '/fabric-specs/$fabricSpecId'
       fullPath: '/fabric-specs/$fabricSpecId/'
       preLoaderRoute: typeof AuthFabricSpecsFabricSpecIdIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/fabric-constructions/$fabricConstructionId/': {
+      id: '/_auth/fabric-constructions/$fabricConstructionId/'
+      path: '/fabric-constructions/$fabricConstructionId'
+      fullPath: '/fabric-constructions/$fabricConstructionId/'
+      preLoaderRoute: typeof AuthFabricConstructionsFabricConstructionIdIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/color-positions/$colorPositionId/': {
@@ -395,6 +468,13 @@ declare module '@tanstack/react-router' {
       path: '/fabric-specs/$fabricSpecId/edit'
       fullPath: '/fabric-specs/$fabricSpecId/edit'
       preLoaderRoute: typeof AuthFabricSpecsFabricSpecIdEditRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/fabric-constructions/$fabricConstructionId/edit': {
+      id: '/_auth/fabric-constructions/$fabricConstructionId/edit'
+      path: '/fabric-constructions/$fabricConstructionId/edit'
+      fullPath: '/fabric-constructions/$fabricConstructionId/edit'
+      preLoaderRoute: typeof AuthFabricConstructionsFabricConstructionIdEditRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/color-positions/$colorPositionId/edit': {
@@ -420,16 +500,20 @@ interface AuthRouteRouteChildren {
   AuthWeavingMachinesRoute: typeof AuthWeavingMachinesRoute
   AuthYarnsRoute: typeof AuthYarnsRoute
   AuthColorLayoutsAddNewRoute: typeof AuthColorLayoutsAddNewRoute
+  AuthFabricConstructionsAddNewRoute: typeof AuthFabricConstructionsAddNewRoute
   AuthFabricSpecsAddNewRoute: typeof AuthFabricSpecsAddNewRoute
   AuthColorLayoutsIndexRoute: typeof AuthColorLayoutsIndexRoute
   AuthColorPositionsIndexRoute: typeof AuthColorPositionsIndexRoute
+  AuthFabricConstructionsIndexRoute: typeof AuthFabricConstructionsIndexRoute
   AuthFabricSpecsIndexRoute: typeof AuthFabricSpecsIndexRoute
   AuthFabricsIndexRoute: typeof AuthFabricsIndexRoute
   AuthColorLayoutsColorLayoutIdEditRoute: typeof AuthColorLayoutsColorLayoutIdEditRoute
   AuthColorPositionsColorPositionIdEditRoute: typeof AuthColorPositionsColorPositionIdEditRoute
+  AuthFabricConstructionsFabricConstructionIdEditRoute: typeof AuthFabricConstructionsFabricConstructionIdEditRoute
   AuthFabricSpecsFabricSpecIdEditRoute: typeof AuthFabricSpecsFabricSpecIdEditRoute
   AuthColorLayoutsColorLayoutIdIndexRoute: typeof AuthColorLayoutsColorLayoutIdIndexRoute
   AuthColorPositionsColorPositionIdIndexRoute: typeof AuthColorPositionsColorPositionIdIndexRoute
+  AuthFabricConstructionsFabricConstructionIdIndexRoute: typeof AuthFabricConstructionsFabricConstructionIdIndexRoute
   AuthFabricSpecsFabricSpecIdIndexRoute: typeof AuthFabricSpecsFabricSpecIdIndexRoute
 }
 
@@ -439,20 +523,26 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthWeavingMachinesRoute: AuthWeavingMachinesRoute,
   AuthYarnsRoute: AuthYarnsRoute,
   AuthColorLayoutsAddNewRoute: AuthColorLayoutsAddNewRoute,
+  AuthFabricConstructionsAddNewRoute: AuthFabricConstructionsAddNewRoute,
   AuthFabricSpecsAddNewRoute: AuthFabricSpecsAddNewRoute,
   AuthColorLayoutsIndexRoute: AuthColorLayoutsIndexRoute,
   AuthColorPositionsIndexRoute: AuthColorPositionsIndexRoute,
+  AuthFabricConstructionsIndexRoute: AuthFabricConstructionsIndexRoute,
   AuthFabricSpecsIndexRoute: AuthFabricSpecsIndexRoute,
   AuthFabricsIndexRoute: AuthFabricsIndexRoute,
   AuthColorLayoutsColorLayoutIdEditRoute:
     AuthColorLayoutsColorLayoutIdEditRoute,
   AuthColorPositionsColorPositionIdEditRoute:
     AuthColorPositionsColorPositionIdEditRoute,
+  AuthFabricConstructionsFabricConstructionIdEditRoute:
+    AuthFabricConstructionsFabricConstructionIdEditRoute,
   AuthFabricSpecsFabricSpecIdEditRoute: AuthFabricSpecsFabricSpecIdEditRoute,
   AuthColorLayoutsColorLayoutIdIndexRoute:
     AuthColorLayoutsColorLayoutIdIndexRoute,
   AuthColorPositionsColorPositionIdIndexRoute:
     AuthColorPositionsColorPositionIdIndexRoute,
+  AuthFabricConstructionsFabricConstructionIdIndexRoute:
+    AuthFabricConstructionsFabricConstructionIdIndexRoute,
   AuthFabricSpecsFabricSpecIdIndexRoute: AuthFabricSpecsFabricSpecIdIndexRoute,
 }
 

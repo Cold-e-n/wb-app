@@ -672,48 +672,6 @@ export type FabricSpecUncheckedUpdateManyWithoutFabricNestedInput = {
   deleteMany?: Prisma.FabricSpecScalarWhereInput | Prisma.FabricSpecScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type FabricSpecCreateNestedOneWithoutFabricConstructionsInput = {
-  create?: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
-  connectOrCreate?: Prisma.FabricSpecCreateOrConnectWithoutFabricConstructionsInput
-  connect?: Prisma.FabricSpecWhereUniqueInput
-}
-
-export type FabricSpecUpdateOneRequiredWithoutFabricConstructionsNestedInput = {
-  create?: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
-  connectOrCreate?: Prisma.FabricSpecCreateOrConnectWithoutFabricConstructionsInput
-  upsert?: Prisma.FabricSpecUpsertWithoutFabricConstructionsInput
-  connect?: Prisma.FabricSpecWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FabricSpecUpdateToOneWithWhereWithoutFabricConstructionsInput, Prisma.FabricSpecUpdateWithoutFabricConstructionsInput>, Prisma.FabricSpecUncheckedUpdateWithoutFabricConstructionsInput>
-}
-
 export type FabricSpecCreateNestedManyWithoutWarpYarnInput = {
   create?: Prisma.XOR<Prisma.FabricSpecCreateWithoutWarpYarnInput, Prisma.FabricSpecUncheckedCreateWithoutWarpYarnInput> | Prisma.FabricSpecCreateWithoutWarpYarnInput[] | Prisma.FabricSpecUncheckedCreateWithoutWarpYarnInput[]
   connectOrCreate?: Prisma.FabricSpecCreateOrConnectWithoutWarpYarnInput | Prisma.FabricSpecCreateOrConnectWithoutWarpYarnInput[]
@@ -798,6 +756,40 @@ export type FabricSpecUncheckedUpdateManyWithoutWeftYarnNestedInput = {
   deleteMany?: Prisma.FabricSpecScalarWhereInput | Prisma.FabricSpecScalarWhereInput[]
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type FabricSpecCreateNestedOneWithoutFabricConstructionsInput = {
+  create?: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
+  connectOrCreate?: Prisma.FabricSpecCreateOrConnectWithoutFabricConstructionsInput
+  connect?: Prisma.FabricSpecWhereUniqueInput
+}
+
+export type FabricSpecUpdateOneRequiredWithoutFabricConstructionsNestedInput = {
+  create?: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
+  connectOrCreate?: Prisma.FabricSpecCreateOrConnectWithoutFabricConstructionsInput
+  upsert?: Prisma.FabricSpecUpsertWithoutFabricConstructionsInput
+  connect?: Prisma.FabricSpecWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FabricSpecUpdateToOneWithWhereWithoutFabricConstructionsInput, Prisma.FabricSpecUpdateWithoutFabricConstructionsInput>, Prisma.FabricSpecUncheckedUpdateWithoutFabricConstructionsInput>
+}
+
 export type FabricSpecCreateWithoutFabricInput = {
   id?: string
   width: number
@@ -879,94 +871,6 @@ export type FabricSpecScalarWhereInput = {
   pickPerInch?: Prisma.IntFilter<"FabricSpec"> | number
   createdAt?: Prisma.DateTimeFilter<"FabricSpec"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"FabricSpec"> | Date | string | null
-}
-
-export type FabricSpecCreateWithoutFabricConstructionsInput = {
-  id?: string
-  width: number
-  length: number
-  color?: string | null
-  cutmarkPerRoll: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  totalEnds: number
-  reedWidth: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reedNo: string
-  fringe?: number | null
-  pickPerInch: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  fabric: Prisma.FabricCreateNestedOneWithoutFabricSpecsInput
-  warpYarn: Prisma.YarnCreateNestedOneWithoutWarpFabricSpecsInput
-  weftYarn: Prisma.YarnCreateNestedOneWithoutWeftFabricSpecsInput
-}
-
-export type FabricSpecUncheckedCreateWithoutFabricConstructionsInput = {
-  id?: string
-  fabricId: string
-  width: number
-  length: number
-  warpYarnId: string
-  weftYarnId: string
-  color?: string | null
-  cutmarkPerRoll: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  totalEnds: number
-  reedWidth: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reedNo: string
-  fringe?: number | null
-  pickPerInch: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-}
-
-export type FabricSpecCreateOrConnectWithoutFabricConstructionsInput = {
-  where: Prisma.FabricSpecWhereUniqueInput
-  create: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
-}
-
-export type FabricSpecUpsertWithoutFabricConstructionsInput = {
-  update: Prisma.XOR<Prisma.FabricSpecUpdateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedUpdateWithoutFabricConstructionsInput>
-  create: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
-  where?: Prisma.FabricSpecWhereInput
-}
-
-export type FabricSpecUpdateToOneWithWhereWithoutFabricConstructionsInput = {
-  where?: Prisma.FabricSpecWhereInput
-  data: Prisma.XOR<Prisma.FabricSpecUpdateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedUpdateWithoutFabricConstructionsInput>
-}
-
-export type FabricSpecUpdateWithoutFabricConstructionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  width?: Prisma.IntFieldUpdateOperationsInput | number
-  length?: Prisma.IntFieldUpdateOperationsInput | number
-  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cutmarkPerRoll?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  totalEnds?: Prisma.IntFieldUpdateOperationsInput | number
-  reedWidth?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reedNo?: Prisma.StringFieldUpdateOperationsInput | string
-  fringe?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pickPerInch?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  fabric?: Prisma.FabricUpdateOneRequiredWithoutFabricSpecsNestedInput
-  warpYarn?: Prisma.YarnUpdateOneRequiredWithoutWarpFabricSpecsNestedInput
-  weftYarn?: Prisma.YarnUpdateOneRequiredWithoutWeftFabricSpecsNestedInput
-}
-
-export type FabricSpecUncheckedUpdateWithoutFabricConstructionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
-  width?: Prisma.IntFieldUpdateOperationsInput | number
-  length?: Prisma.IntFieldUpdateOperationsInput | number
-  warpYarnId?: Prisma.StringFieldUpdateOperationsInput | string
-  weftYarnId?: Prisma.StringFieldUpdateOperationsInput | string
-  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cutmarkPerRoll?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  totalEnds?: Prisma.IntFieldUpdateOperationsInput | number
-  reedWidth?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reedNo?: Prisma.StringFieldUpdateOperationsInput | string
-  fringe?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pickPerInch?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FabricSpecCreateWithoutWarpYarnInput = {
@@ -1091,6 +995,94 @@ export type FabricSpecUpdateWithWhereUniqueWithoutWeftYarnInput = {
 export type FabricSpecUpdateManyWithWhereWithoutWeftYarnInput = {
   where: Prisma.FabricSpecScalarWhereInput
   data: Prisma.XOR<Prisma.FabricSpecUpdateManyMutationInput, Prisma.FabricSpecUncheckedUpdateManyWithoutWeftYarnInput>
+}
+
+export type FabricSpecCreateWithoutFabricConstructionsInput = {
+  id?: string
+  width: number
+  length: number
+  color?: string | null
+  cutmarkPerRoll: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  totalEnds: number
+  reedWidth: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reedNo: string
+  fringe?: number | null
+  pickPerInch: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  fabric: Prisma.FabricCreateNestedOneWithoutFabricSpecsInput
+  warpYarn: Prisma.YarnCreateNestedOneWithoutWarpFabricSpecsInput
+  weftYarn: Prisma.YarnCreateNestedOneWithoutWeftFabricSpecsInput
+}
+
+export type FabricSpecUncheckedCreateWithoutFabricConstructionsInput = {
+  id?: string
+  fabricId: string
+  width: number
+  length: number
+  warpYarnId: string
+  weftYarnId: string
+  color?: string | null
+  cutmarkPerRoll: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  totalEnds: number
+  reedWidth: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reedNo: string
+  fringe?: number | null
+  pickPerInch: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type FabricSpecCreateOrConnectWithoutFabricConstructionsInput = {
+  where: Prisma.FabricSpecWhereUniqueInput
+  create: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
+}
+
+export type FabricSpecUpsertWithoutFabricConstructionsInput = {
+  update: Prisma.XOR<Prisma.FabricSpecUpdateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedUpdateWithoutFabricConstructionsInput>
+  create: Prisma.XOR<Prisma.FabricSpecCreateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedCreateWithoutFabricConstructionsInput>
+  where?: Prisma.FabricSpecWhereInput
+}
+
+export type FabricSpecUpdateToOneWithWhereWithoutFabricConstructionsInput = {
+  where?: Prisma.FabricSpecWhereInput
+  data: Prisma.XOR<Prisma.FabricSpecUpdateWithoutFabricConstructionsInput, Prisma.FabricSpecUncheckedUpdateWithoutFabricConstructionsInput>
+}
+
+export type FabricSpecUpdateWithoutFabricConstructionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  length?: Prisma.IntFieldUpdateOperationsInput | number
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cutmarkPerRoll?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  totalEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  reedWidth?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reedNo?: Prisma.StringFieldUpdateOperationsInput | string
+  fringe?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pickPerInch?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fabric?: Prisma.FabricUpdateOneRequiredWithoutFabricSpecsNestedInput
+  warpYarn?: Prisma.YarnUpdateOneRequiredWithoutWarpFabricSpecsNestedInput
+  weftYarn?: Prisma.YarnUpdateOneRequiredWithoutWeftFabricSpecsNestedInput
+}
+
+export type FabricSpecUncheckedUpdateWithoutFabricConstructionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  length?: Prisma.IntFieldUpdateOperationsInput | number
+  warpYarnId?: Prisma.StringFieldUpdateOperationsInput | string
+  weftYarnId?: Prisma.StringFieldUpdateOperationsInput | string
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cutmarkPerRoll?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  totalEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  reedWidth?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reedNo?: Prisma.StringFieldUpdateOperationsInput | string
+  fringe?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pickPerInch?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FabricSpecCreateManyFabricInput = {

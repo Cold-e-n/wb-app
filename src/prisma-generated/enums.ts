@@ -10,10 +10,8 @@
 */
 
 export const WbMachineType = {
-  BENNINGER: 'BENNINGER',
-  KARLMAYER: 'KARLMAYER',
-  MO: 'MO',
-  TSUDAKOMA: 'TSUDAKOMA'
+  BENN_KM: 'BENN_KM',
+  MO_TS: 'MO_TS'
 } as const
 
 export type WbMachineType = (typeof WbMachineType)[keyof typeof WbMachineType]

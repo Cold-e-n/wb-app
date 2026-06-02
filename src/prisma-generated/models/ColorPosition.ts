@@ -357,48 +357,6 @@ export type ColorPositionMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type ColorPositionCreateNestedManyWithoutColorLayoutInput = {
-  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
-  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
-  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
-  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-}
-
-export type ColorPositionUncheckedCreateNestedManyWithoutColorLayoutInput = {
-  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
-  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
-  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
-  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-}
-
-export type ColorPositionUpdateManyWithoutColorLayoutNestedInput = {
-  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
-  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
-  upsert?: Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput[]
-  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
-  set?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  disconnect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  delete?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  update?: Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput[]
-  updateMany?: Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput | Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput[]
-  deleteMany?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
-}
-
-export type ColorPositionUncheckedUpdateManyWithoutColorLayoutNestedInput = {
-  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
-  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
-  upsert?: Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput[]
-  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
-  set?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  disconnect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  delete?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
-  update?: Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput[]
-  updateMany?: Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput | Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput[]
-  deleteMany?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
-}
-
 export type ColorPositionCreateNestedManyWithoutFabricInput = {
   create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutFabricInput, Prisma.ColorPositionUncheckedCreateWithoutFabricInput> | Prisma.ColorPositionCreateWithoutFabricInput[] | Prisma.ColorPositionUncheckedCreateWithoutFabricInput[]
   connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutFabricInput | Prisma.ColorPositionCreateOrConnectWithoutFabricInput[]
@@ -441,61 +399,46 @@ export type ColorPositionUncheckedUpdateManyWithoutFabricNestedInput = {
   deleteMany?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
 }
 
-export type ColorPositionCreateWithoutColorLayoutInput = {
-  id?: string
-  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  wbNo: string
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  fabric: Prisma.FabricCreateNestedOneWithoutColorPositionsInput
+export type ColorPositionCreateNestedManyWithoutColorLayoutInput = {
+  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
+  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
+  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
+  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
 }
 
-export type ColorPositionUncheckedCreateWithoutColorLayoutInput = {
-  id?: string
-  fabricId: string
-  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  wbNo: string
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
+export type ColorPositionUncheckedCreateNestedManyWithoutColorLayoutInput = {
+  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
+  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
+  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
+  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
 }
 
-export type ColorPositionCreateOrConnectWithoutColorLayoutInput = {
-  where: Prisma.ColorPositionWhereUniqueInput
-  create: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput>
+export type ColorPositionUpdateManyWithoutColorLayoutNestedInput = {
+  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
+  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
+  upsert?: Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput[]
+  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
+  set?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  disconnect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  delete?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  update?: Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput[]
+  updateMany?: Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput | Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput[]
+  deleteMany?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
 }
 
-export type ColorPositionCreateManyColorLayoutInputEnvelope = {
-  data: Prisma.ColorPositionCreateManyColorLayoutInput | Prisma.ColorPositionCreateManyColorLayoutInput[]
-  skipDuplicates?: boolean
-}
-
-export type ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput = {
-  where: Prisma.ColorPositionWhereUniqueInput
-  update: Prisma.XOR<Prisma.ColorPositionUpdateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedUpdateWithoutColorLayoutInput>
-  create: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput>
-}
-
-export type ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput = {
-  where: Prisma.ColorPositionWhereUniqueInput
-  data: Prisma.XOR<Prisma.ColorPositionUpdateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedUpdateWithoutColorLayoutInput>
-}
-
-export type ColorPositionUpdateManyWithWhereWithoutColorLayoutInput = {
-  where: Prisma.ColorPositionScalarWhereInput
-  data: Prisma.XOR<Prisma.ColorPositionUpdateManyMutationInput, Prisma.ColorPositionUncheckedUpdateManyWithoutColorLayoutInput>
-}
-
-export type ColorPositionScalarWhereInput = {
-  AND?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
-  OR?: Prisma.ColorPositionScalarWhereInput[]
-  NOT?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
-  id?: Prisma.StringFilter<"ColorPosition"> | string
-  fabricId?: Prisma.StringFilter<"ColorPosition"> | string
-  colorLayoutId?: Prisma.StringFilter<"ColorPosition"> | string
-  fabricContent?: Prisma.JsonNullableFilter<"ColorPosition">
-  wbNo?: Prisma.StringFilter<"ColorPosition"> | string
-  createdAt?: Prisma.DateTimeFilter<"ColorPosition"> | Date | string
-  updatedAt?: Prisma.DateTimeNullableFilter<"ColorPosition"> | Date | string | null
+export type ColorPositionUncheckedUpdateManyWithoutColorLayoutNestedInput = {
+  create?: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput> | Prisma.ColorPositionCreateWithoutColorLayoutInput[] | Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput[]
+  connectOrCreate?: Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput | Prisma.ColorPositionCreateOrConnectWithoutColorLayoutInput[]
+  upsert?: Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput[]
+  createMany?: Prisma.ColorPositionCreateManyColorLayoutInputEnvelope
+  set?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  disconnect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  delete?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  connect?: Prisma.ColorPositionWhereUniqueInput | Prisma.ColorPositionWhereUniqueInput[]
+  update?: Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput | Prisma.ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput[]
+  updateMany?: Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput | Prisma.ColorPositionUpdateManyWithWhereWithoutColorLayoutInput[]
+  deleteMany?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
 }
 
 export type ColorPositionCreateWithoutFabricInput = {
@@ -542,7 +485,29 @@ export type ColorPositionUpdateManyWithWhereWithoutFabricInput = {
   data: Prisma.XOR<Prisma.ColorPositionUpdateManyMutationInput, Prisma.ColorPositionUncheckedUpdateManyWithoutFabricInput>
 }
 
-export type ColorPositionCreateManyColorLayoutInput = {
+export type ColorPositionScalarWhereInput = {
+  AND?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
+  OR?: Prisma.ColorPositionScalarWhereInput[]
+  NOT?: Prisma.ColorPositionScalarWhereInput | Prisma.ColorPositionScalarWhereInput[]
+  id?: Prisma.StringFilter<"ColorPosition"> | string
+  fabricId?: Prisma.StringFilter<"ColorPosition"> | string
+  colorLayoutId?: Prisma.StringFilter<"ColorPosition"> | string
+  fabricContent?: Prisma.JsonNullableFilter<"ColorPosition">
+  wbNo?: Prisma.StringFilter<"ColorPosition"> | string
+  createdAt?: Prisma.DateTimeFilter<"ColorPosition"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"ColorPosition"> | Date | string | null
+}
+
+export type ColorPositionCreateWithoutColorLayoutInput = {
+  id?: string
+  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  wbNo: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  fabric: Prisma.FabricCreateNestedOneWithoutColorPositionsInput
+}
+
+export type ColorPositionUncheckedCreateWithoutColorLayoutInput = {
   id?: string
   fabricId: string
   fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -551,31 +516,30 @@ export type ColorPositionCreateManyColorLayoutInput = {
   updatedAt?: Date | string | null
 }
 
-export type ColorPositionUpdateWithoutColorLayoutInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  wbNo?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  fabric?: Prisma.FabricUpdateOneRequiredWithoutColorPositionsNestedInput
+export type ColorPositionCreateOrConnectWithoutColorLayoutInput = {
+  where: Prisma.ColorPositionWhereUniqueInput
+  create: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput>
 }
 
-export type ColorPositionUncheckedUpdateWithoutColorLayoutInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  wbNo?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type ColorPositionCreateManyColorLayoutInputEnvelope = {
+  data: Prisma.ColorPositionCreateManyColorLayoutInput | Prisma.ColorPositionCreateManyColorLayoutInput[]
+  skipDuplicates?: boolean
 }
 
-export type ColorPositionUncheckedUpdateManyWithoutColorLayoutInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  wbNo?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type ColorPositionUpsertWithWhereUniqueWithoutColorLayoutInput = {
+  where: Prisma.ColorPositionWhereUniqueInput
+  update: Prisma.XOR<Prisma.ColorPositionUpdateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedUpdateWithoutColorLayoutInput>
+  create: Prisma.XOR<Prisma.ColorPositionCreateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedCreateWithoutColorLayoutInput>
+}
+
+export type ColorPositionUpdateWithWhereUniqueWithoutColorLayoutInput = {
+  where: Prisma.ColorPositionWhereUniqueInput
+  data: Prisma.XOR<Prisma.ColorPositionUpdateWithoutColorLayoutInput, Prisma.ColorPositionUncheckedUpdateWithoutColorLayoutInput>
+}
+
+export type ColorPositionUpdateManyWithWhereWithoutColorLayoutInput = {
+  where: Prisma.ColorPositionScalarWhereInput
+  data: Prisma.XOR<Prisma.ColorPositionUpdateManyMutationInput, Prisma.ColorPositionUncheckedUpdateManyWithoutColorLayoutInput>
 }
 
 export type ColorPositionCreateManyFabricInput = {
@@ -608,6 +572,42 @@ export type ColorPositionUncheckedUpdateWithoutFabricInput = {
 export type ColorPositionUncheckedUpdateManyWithoutFabricInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   colorLayoutId?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  wbNo?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type ColorPositionCreateManyColorLayoutInput = {
+  id?: string
+  fabricId: string
+  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  wbNo: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type ColorPositionUpdateWithoutColorLayoutInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  wbNo?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fabric?: Prisma.FabricUpdateOneRequiredWithoutColorPositionsNestedInput
+}
+
+export type ColorPositionUncheckedUpdateWithoutColorLayoutInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  wbNo?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type ColorPositionUncheckedUpdateManyWithoutColorLayoutInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
   fabricContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   wbNo?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string

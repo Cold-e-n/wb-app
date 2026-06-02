@@ -286,6 +286,11 @@ export type ColorLayoutUncheckedUpdateManyInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type ColorLayoutNullableScalarRelationFilter = {
+  is?: Prisma.ColorLayoutWhereInput | null
+  isNot?: Prisma.ColorLayoutWhereInput | null
+}
+
 export type ColorLayoutCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fabricId?: Prisma.SortOrder
@@ -311,25 +316,6 @@ export type ColorLayoutMinOrderByAggregateInput = {
 export type ColorLayoutScalarRelationFilter = {
   is?: Prisma.ColorLayoutWhereInput
   isNot?: Prisma.ColorLayoutWhereInput
-}
-
-export type ColorLayoutNullableScalarRelationFilter = {
-  is?: Prisma.ColorLayoutWhereInput | null
-  isNot?: Prisma.ColorLayoutWhereInput | null
-}
-
-export type ColorLayoutCreateNestedOneWithoutColorPositionsInput = {
-  create?: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
-  connectOrCreate?: Prisma.ColorLayoutCreateOrConnectWithoutColorPositionsInput
-  connect?: Prisma.ColorLayoutWhereUniqueInput
-}
-
-export type ColorLayoutUpdateOneRequiredWithoutColorPositionsNestedInput = {
-  create?: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
-  connectOrCreate?: Prisma.ColorLayoutCreateOrConnectWithoutColorPositionsInput
-  upsert?: Prisma.ColorLayoutUpsertWithoutColorPositionsInput
-  connect?: Prisma.ColorLayoutWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ColorLayoutUpdateToOneWithWhereWithoutColorPositionsInput, Prisma.ColorLayoutUpdateWithoutColorPositionsInput>, Prisma.ColorLayoutUncheckedUpdateWithoutColorPositionsInput>
 }
 
 export type ColorLayoutCreateNestedOneWithoutFabricInput = {
@@ -364,52 +350,18 @@ export type ColorLayoutUncheckedUpdateOneWithoutFabricNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ColorLayoutUpdateToOneWithWhereWithoutFabricInput, Prisma.ColorLayoutUpdateWithoutFabricInput>, Prisma.ColorLayoutUncheckedUpdateWithoutFabricInput>
 }
 
-export type ColorLayoutCreateWithoutColorPositionsInput = {
-  id?: string
-  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  fabric: Prisma.FabricCreateNestedOneWithoutColorLayoutInput
+export type ColorLayoutCreateNestedOneWithoutColorPositionsInput = {
+  create?: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
+  connectOrCreate?: Prisma.ColorLayoutCreateOrConnectWithoutColorPositionsInput
+  connect?: Prisma.ColorLayoutWhereUniqueInput
 }
 
-export type ColorLayoutUncheckedCreateWithoutColorPositionsInput = {
-  id?: string
-  fabricId: string
-  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-}
-
-export type ColorLayoutCreateOrConnectWithoutColorPositionsInput = {
-  where: Prisma.ColorLayoutWhereUniqueInput
-  create: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
-}
-
-export type ColorLayoutUpsertWithoutColorPositionsInput = {
-  update: Prisma.XOR<Prisma.ColorLayoutUpdateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedUpdateWithoutColorPositionsInput>
-  create: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
-  where?: Prisma.ColorLayoutWhereInput
-}
-
-export type ColorLayoutUpdateToOneWithWhereWithoutColorPositionsInput = {
-  where?: Prisma.ColorLayoutWhereInput
-  data: Prisma.XOR<Prisma.ColorLayoutUpdateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedUpdateWithoutColorPositionsInput>
-}
-
-export type ColorLayoutUpdateWithoutColorPositionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  fabric?: Prisma.FabricUpdateOneRequiredWithoutColorLayoutNestedInput
-}
-
-export type ColorLayoutUncheckedUpdateWithoutColorPositionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
-  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type ColorLayoutUpdateOneRequiredWithoutColorPositionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
+  connectOrCreate?: Prisma.ColorLayoutCreateOrConnectWithoutColorPositionsInput
+  upsert?: Prisma.ColorLayoutUpsertWithoutColorPositionsInput
+  connect?: Prisma.ColorLayoutWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ColorLayoutUpdateToOneWithWhereWithoutColorPositionsInput, Prisma.ColorLayoutUpdateWithoutColorPositionsInput>, Prisma.ColorLayoutUncheckedUpdateWithoutColorPositionsInput>
 }
 
 export type ColorLayoutCreateWithoutFabricInput = {
@@ -458,6 +410,54 @@ export type ColorLayoutUncheckedUpdateWithoutFabricInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colorPositions?: Prisma.ColorPositionUncheckedUpdateManyWithoutColorLayoutNestedInput
+}
+
+export type ColorLayoutCreateWithoutColorPositionsInput = {
+  id?: string
+  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  fabric: Prisma.FabricCreateNestedOneWithoutColorLayoutInput
+}
+
+export type ColorLayoutUncheckedCreateWithoutColorPositionsInput = {
+  id?: string
+  fabricId: string
+  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type ColorLayoutCreateOrConnectWithoutColorPositionsInput = {
+  where: Prisma.ColorLayoutWhereUniqueInput
+  create: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
+}
+
+export type ColorLayoutUpsertWithoutColorPositionsInput = {
+  update: Prisma.XOR<Prisma.ColorLayoutUpdateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedUpdateWithoutColorPositionsInput>
+  create: Prisma.XOR<Prisma.ColorLayoutCreateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedCreateWithoutColorPositionsInput>
+  where?: Prisma.ColorLayoutWhereInput
+}
+
+export type ColorLayoutUpdateToOneWithWhereWithoutColorPositionsInput = {
+  where?: Prisma.ColorLayoutWhereInput
+  data: Prisma.XOR<Prisma.ColorLayoutUpdateWithoutColorPositionsInput, Prisma.ColorLayoutUncheckedUpdateWithoutColorPositionsInput>
+}
+
+export type ColorLayoutUpdateWithoutColorPositionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fabric?: Prisma.FabricUpdateOneRequiredWithoutColorLayoutNestedInput
+}
+
+export type ColorLayoutUncheckedUpdateWithoutColorPositionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricId?: Prisma.StringFieldUpdateOperationsInput | string
+  colorContent?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 

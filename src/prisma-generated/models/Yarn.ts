@@ -295,11 +295,6 @@ export type YarnUncheckedUpdateManyInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type YarnScalarRelationFilter = {
-  is?: Prisma.YarnWhereInput
-  isNot?: Prisma.YarnWhereInput
-}
-
 export type YarnCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -322,6 +317,11 @@ export type YarnMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type YarnScalarRelationFilter = {
+  is?: Prisma.YarnWhereInput
+  isNot?: Prisma.YarnWhereInput
 }
 
 export type YarnCreateNestedOneWithoutWarpFabricSpecsInput = {

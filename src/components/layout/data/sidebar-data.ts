@@ -7,6 +7,7 @@ import {
   Scroll,
   Volleyball,
   RulerDimensionLine,
+  SquareSigma,
 } from 'lucide-react'
 
 export type SidebarDataType = {
@@ -58,6 +59,11 @@ export const sidebarData: Array<SidebarGroupType> = [
         title: 'Spek Kain',
         href: '/fabric-specs',
         icon: RulerDimensionLine,
+      },
+      {
+        title: 'Konstruksi Kain',
+        href: '/fabric-constructions',
+        icon: SquareSigma,
       },
     ],
   },

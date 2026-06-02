@@ -385,13 +385,13 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Color: 'Color',
+  Fabric: 'Fabric',
+  Yarn: 'Yarn',
+  WeavingMachine: 'WeavingMachine',
   ColorLayout: 'ColorLayout',
   ColorPosition: 'ColorPosition',
-  Fabric: 'Fabric',
   FabricSpec: 'FabricSpec',
-  FabricConstruction: 'FabricConstruction',
-  WeavingMachine: 'WeavingMachine',
-  Yarn: 'Yarn'
+  FabricConstruction: 'FabricConstruction'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "color" | "colorLayout" | "colorPosition" | "fabric" | "fabricSpec" | "fabricConstruction" | "weavingMachine" | "yarn"
+    modelProps: "color" | "fabric" | "yarn" | "weavingMachine" | "colorLayout" | "colorPosition" | "fabricSpec" | "fabricConstruction"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -482,6 +482,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ColorCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ColorCountAggregateOutputType> | number
+        }
+      }
+    }
+    Fabric: {
+      payload: Prisma.$FabricPayload<ExtArgs>
+      fields: Prisma.FabricFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FabricFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FabricFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
+        }
+        findFirst: {
+          args: Prisma.FabricFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FabricFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
+        }
+        findMany: {
+          args: Prisma.FabricFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>[]
+        }
+        create: {
+          args: Prisma.FabricCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
+        }
+        createMany: {
+          args: Prisma.FabricCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FabricCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>[]
+        }
+        delete: {
+          args: Prisma.FabricDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
+        }
+        update: {
+          args: Prisma.FabricUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
+        }
+        deleteMany: {
+          args: Prisma.FabricDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FabricUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FabricUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>[]
+        }
+        upsert: {
+          args: Prisma.FabricUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
+        }
+        aggregate: {
+          args: Prisma.FabricAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFabric>
+        }
+        groupBy: {
+          args: Prisma.FabricGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FabricGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FabricCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FabricCountAggregateOutputType> | number
+        }
+      }
+    }
+    Yarn: {
+      payload: Prisma.$YarnPayload<ExtArgs>
+      fields: Prisma.YarnFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.YarnFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.YarnFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
+        }
+        findFirst: {
+          args: Prisma.YarnFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.YarnFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
+        }
+        findMany: {
+          args: Prisma.YarnFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
+        }
+        create: {
+          args: Prisma.YarnCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
+        }
+        createMany: {
+          args: Prisma.YarnCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.YarnCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
+        }
+        delete: {
+          args: Prisma.YarnDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
+        }
+        update: {
+          args: Prisma.YarnUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
+        }
+        deleteMany: {
+          args: Prisma.YarnDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.YarnUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.YarnUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
+        }
+        upsert: {
+          args: Prisma.YarnUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
+        }
+        aggregate: {
+          args: Prisma.YarnAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYarn>
+        }
+        groupBy: {
+          args: Prisma.YarnGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YarnGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.YarnCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YarnCountAggregateOutputType> | number
+        }
+      }
+    }
+    WeavingMachine: {
+      payload: Prisma.$WeavingMachinePayload<ExtArgs>
+      fields: Prisma.WeavingMachineFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WeavingMachineFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WeavingMachineFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        findFirst: {
+          args: Prisma.WeavingMachineFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WeavingMachineFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        findMany: {
+          args: Prisma.WeavingMachineFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
+        }
+        create: {
+          args: Prisma.WeavingMachineCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        createMany: {
+          args: Prisma.WeavingMachineCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WeavingMachineCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
+        }
+        delete: {
+          args: Prisma.WeavingMachineDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        update: {
+          args: Prisma.WeavingMachineUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        deleteMany: {
+          args: Prisma.WeavingMachineDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WeavingMachineUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WeavingMachineUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
+        }
+        upsert: {
+          args: Prisma.WeavingMachineUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
+        }
+        aggregate: {
+          args: Prisma.WeavingMachineAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWeavingMachine>
+        }
+        groupBy: {
+          args: Prisma.WeavingMachineGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeavingMachineGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WeavingMachineCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeavingMachineCountAggregateOutputType> | number
         }
       }
     }
@@ -633,80 +855,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Fabric: {
-      payload: Prisma.$FabricPayload<ExtArgs>
-      fields: Prisma.FabricFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.FabricFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.FabricFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
-        }
-        findFirst: {
-          args: Prisma.FabricFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.FabricFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
-        }
-        findMany: {
-          args: Prisma.FabricFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>[]
-        }
-        create: {
-          args: Prisma.FabricCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
-        }
-        createMany: {
-          args: Prisma.FabricCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.FabricCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>[]
-        }
-        delete: {
-          args: Prisma.FabricDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
-        }
-        update: {
-          args: Prisma.FabricUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
-        }
-        deleteMany: {
-          args: Prisma.FabricDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.FabricUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.FabricUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>[]
-        }
-        upsert: {
-          args: Prisma.FabricUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FabricPayload>
-        }
-        aggregate: {
-          args: Prisma.FabricAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFabric>
-        }
-        groupBy: {
-          args: Prisma.FabricGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FabricGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.FabricCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FabricCountAggregateOutputType> | number
-        }
-      }
-    }
     FabricSpec: {
       payload: Prisma.$FabricSpecPayload<ExtArgs>
       fields: Prisma.FabricSpecFieldRefs
@@ -855,154 +1003,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    WeavingMachine: {
-      payload: Prisma.$WeavingMachinePayload<ExtArgs>
-      fields: Prisma.WeavingMachineFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.WeavingMachineFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.WeavingMachineFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
-        }
-        findFirst: {
-          args: Prisma.WeavingMachineFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.WeavingMachineFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
-        }
-        findMany: {
-          args: Prisma.WeavingMachineFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
-        }
-        create: {
-          args: Prisma.WeavingMachineCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
-        }
-        createMany: {
-          args: Prisma.WeavingMachineCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.WeavingMachineCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
-        }
-        delete: {
-          args: Prisma.WeavingMachineDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
-        }
-        update: {
-          args: Prisma.WeavingMachineUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
-        }
-        deleteMany: {
-          args: Prisma.WeavingMachineDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.WeavingMachineUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.WeavingMachineUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>[]
-        }
-        upsert: {
-          args: Prisma.WeavingMachineUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeavingMachinePayload>
-        }
-        aggregate: {
-          args: Prisma.WeavingMachineAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateWeavingMachine>
-        }
-        groupBy: {
-          args: Prisma.WeavingMachineGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WeavingMachineGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.WeavingMachineCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WeavingMachineCountAggregateOutputType> | number
-        }
-      }
-    }
-    Yarn: {
-      payload: Prisma.$YarnPayload<ExtArgs>
-      fields: Prisma.YarnFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.YarnFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.YarnFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
-        }
-        findFirst: {
-          args: Prisma.YarnFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.YarnFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
-        }
-        findMany: {
-          args: Prisma.YarnFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
-        }
-        create: {
-          args: Prisma.YarnCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
-        }
-        createMany: {
-          args: Prisma.YarnCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.YarnCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
-        }
-        delete: {
-          args: Prisma.YarnDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
-        }
-        update: {
-          args: Prisma.YarnUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
-        }
-        deleteMany: {
-          args: Prisma.YarnDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.YarnUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.YarnUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>[]
-        }
-        upsert: {
-          args: Prisma.YarnUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$YarnPayload>
-        }
-        aggregate: {
-          args: Prisma.YarnAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateYarn>
-        }
-        groupBy: {
-          args: Prisma.YarnGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.YarnGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.YarnCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.YarnCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -1053,6 +1053,42 @@ export const ColorScalarFieldEnum = {
 export type ColorScalarFieldEnum = (typeof ColorScalarFieldEnum)[keyof typeof ColorScalarFieldEnum]
 
 
+export const FabricScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  hasColor: 'hasColor',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
+
+
+export const YarnScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
+
+
+export const WeavingMachineScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  width: 'width',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
+
+
 export const ColorLayoutScalarFieldEnum = {
   id: 'id',
   fabricId: 'fabricId',
@@ -1075,18 +1111,6 @@ export const ColorPositionScalarFieldEnum = {
 } as const
 
 export type ColorPositionScalarFieldEnum = (typeof ColorPositionScalarFieldEnum)[keyof typeof ColorPositionScalarFieldEnum]
-
-
-export const FabricScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  hasColor: 'hasColor',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type FabricScalarFieldEnum = (typeof FabricScalarFieldEnum)[keyof typeof FabricScalarFieldEnum]
 
 
 export const FabricSpecScalarFieldEnum = {
@@ -1112,14 +1136,16 @@ export type FabricSpecScalarFieldEnum = (typeof FabricSpecScalarFieldEnum)[keyof
 
 export const FabricConstructionScalarFieldEnum = {
   id: 'id',
-  constructionNo: 'constructionNo',
+  constructionId: 'constructionId',
   fabricSpecId: 'fabricSpecId',
   rollCount: 'rollCount',
   warpingMachine: 'warpingMachine',
   coneCount: 'coneCount',
+  coneLength: 'coneLength',
   sectionCount: 'sectionCount',
   sectionLength: 'sectionLength',
   beamWidth: 'beamWidth',
+  cutmarkValue: 'cutmarkValue',
   spareEnds: 'spareEnds',
   beamingLoss: 'beamingLoss',
   createdAt: 'createdAt',
@@ -1127,30 +1153,6 @@ export const FabricConstructionScalarFieldEnum = {
 } as const
 
 export type FabricConstructionScalarFieldEnum = (typeof FabricConstructionScalarFieldEnum)[keyof typeof FabricConstructionScalarFieldEnum]
-
-
-export const WeavingMachineScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  width: 'width',
-  type: 'type',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type WeavingMachineScalarFieldEnum = (typeof WeavingMachineScalarFieldEnum)[keyof typeof WeavingMachineScalarFieldEnum]
-
-
-export const YarnScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1236,20 +1238,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -1267,6 +1255,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1422,13 +1424,13 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   color?: Prisma.ColorOmit
+  fabric?: Prisma.FabricOmit
+  yarn?: Prisma.YarnOmit
+  weavingMachine?: Prisma.WeavingMachineOmit
   colorLayout?: Prisma.ColorLayoutOmit
   colorPosition?: Prisma.ColorPositionOmit
-  fabric?: Prisma.FabricOmit
   fabricSpec?: Prisma.FabricSpecOmit
   fabricConstruction?: Prisma.FabricConstructionOmit
-  weavingMachine?: Prisma.WeavingMachineOmit
-  yarn?: Prisma.YarnOmit
 }
 
 /* Types for Logging */
