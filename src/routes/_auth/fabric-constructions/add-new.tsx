@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react'
 import { Link, createFileRoute } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
@@ -6,8 +7,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { FabricConstructionsForm } from '@/features/fabric-constructions/components/fabric-constructions-form'
 import { MoveLeft } from 'lucide-react'
+
+const FabricConstructionsForm = lazy(() =>
+  import('@/features/fabric-constructions/components/fabric-constructions-form').then(
+    (module) => ({
+      default: module.FabricConstructionsForm,
+    })
+  )
+)
 
 const RouteComponent = () => {
   return (
@@ -39,7 +47,15 @@ const RouteComponent = () => {
         </div>
       </div>
 
-      <FabricConstructionsForm />
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center">
+            <p className="text-sm text-muted-foreground">Loading form...</p>
+          </div>
+        }
+      >
+        <FabricConstructionsForm />
+      </Suspense>
     </div>
   )
 }
@@ -53,4 +69,11 @@ export const Route = createFileRoute('/_auth/fabric-constructions/add-new')({
     ],
   }),
   component: RouteComponent,
+  pendingComponent: () => (
+    <div className="flex flex-1 items-center justify-center">
+      <div className="text-center">
+        <p className="text-sm text-muted-foreground">Loading page...</p>
+      </div>
+    </div>
+  ),
 })
