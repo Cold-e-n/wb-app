@@ -173,3 +173,74 @@ export function truncate(
   if (text.length <= length) return text
   return text.slice(0, length) + suffix
 }
+
+/**
+ *
+ */
+export const fringeWidth = ({
+  fringe,
+  reedNo,
+}: {
+  fringe: number
+  reedNo: string
+}): number => {
+  const reedNoValue = parseFloat(reedNo.match(/\d+\.?\d*/)?.[0] || '0')
+  return fringe !== 0 ? Number((fringe / 2 / reedNoValue / 2).toFixed(2)) : 0
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
+export const parseCutmark = (value: string) => {
+  const parts = value
+    .split('+')
+    .map((s) => s.trim())
+    .filter(Boolean)
+
+  return parts
+}
+
+/**
+ *
+ */
+export const parseCutmarkTest = (
+  value: string,
+): {
+  testTying: number
+  testStretching: number
+} => {
+  const parts = parseCutmark(value)
+
+  const parseMeters = (s: string) => {
+    const match = s.match(/^(\d+(?:\.\d+)?)m$/)
+    return match ? Number(match[1]) : 0
+  }
+
+  const first = parts.at(0) ?? ''
+  const last = parts.at(-1) ?? ''
+
+  return {
+    testTying: parts.length >= 1 ? parseMeters(first) : 10,
+    testStretching: parts.length >= 2 ? parseMeters(last) : 35,
+  }
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
+export const parseCutmarkChunks = (
+  value: string,
+): Array<{ length: number; count: number }> => {
+  const parts = parseCutmark(value)
+  const middle = parts.slice(1, -1)
+
+  return middle.flatMap((part) => {
+    const match = part.match(/\(\s*(\d+(?:\.\d+)?)m\s*[xX×]\s*(\d+)\s*\)/)
+    if (!match) return []
+    return [{ length: Number(match[1]), count: Number(match[2]) }]
+  })
+}
