@@ -33,7 +33,7 @@ export const columns: ColumnDef<FabricConstructionWithRelation>[] = [
     header: 'ID Konstruksi',
     cell: ({ row }) => {
       return (
-        <span className="font-semibold text-primary">
+        <span className="font-semibold font-jetbrains-mono text-primary">
           CONST-{row.original.constructionId}
         </span>
       )
@@ -47,6 +47,17 @@ export const columns: ColumnDef<FabricConstructionWithRelation>[] = [
       return (
         <span className="font-medium text-foreground">
           {truncate(row.original.fabricSpec?.fabric?.name ?? '-', 45)}
+        </span>
+      )
+    },
+  },
+  {
+    id: 'fabricDimension',
+    header: 'Lebar x Panjang',
+    cell: ({ row }) => {
+      return (
+        <span className="font-medium font-jetbrains-mono text-foreground">
+          {`${row.original.fabricSpec.width}mm x ${row.original.fabricSpec.length}m`}
         </span>
       )
     },
