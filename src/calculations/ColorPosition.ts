@@ -1,8 +1,23 @@
 import type {ColorPositionWithRelations} from '@/types/ColorPosition';
 
 /**
+ * Representasi data per seksi hasil kalkulasi.
+ * - topRow   : nilai gap dan fill di baris utama (atas border horizontal).
+ * - bottomRow: nilai sisa setelah benang pertama (splitStart) atau
+ *              sisa jarak pair sebelum benang kedua (splitContinue).
+ * - splitStart   : seksi ini memiliki benang pertama marker yang terpotong.
+ * - splitContinue: seksi ini menerima lanjutan (benang kedua) dari seksi sebelumnya.
+ */
+export interface SectionData {
+  topRow: number[]
+  bottomRow: number[]
+  splitStart: boolean
+  splitContinue: boolean
+}
+
+/**
  * Class untuk menghitung posisi benang warna.
- * @returns array
+ * @returns SectionData[]
  */
 export class ColorPositionCalculator {
   private readonly data: ColorPositionWithRelations
@@ -66,13 +81,16 @@ export class ColorPositionCalculator {
 
   /**
    * Fungsi utama untuk menghitung distribusi posisi benang warna di setiap seksi.
-   * Menggunakan logika kumulatif untuk memastikan jarak antar warna tetap konsisten
-   * meskipun melintasi batas seksi atau seksi yang kosong.
-   * @returns number[][]
+   * @returns SectionData[]
    */
-  public calculate(): Array<Array<number>> {
+  public calculate(): Array<SectionData> {
     const { sections } = this.data.fabricContent
-    const results: Array<Array<number>> = Array.from({ length: sections }, () => [])
+    const results: Array<SectionData> = Array.from({ length: sections }, () => ({
+      topRow: [],
+      bottomRow: [],
+      splitStart: false,
+      splitContinue: false,
+    }))
     this.sectionMarkerWidths = Array.from({ length: sections }, () => [])
 
     this.placeInColors(results)
@@ -86,23 +104,15 @@ export class ColorPositionCalculator {
    * Logika penempatan warna untuk bagian IN di awal seksi pertama.
    * @param results Array hasil untuk menampung gap.
    */
-  private placeInColors(results: Array<Array<number>>): void {
+  private placeInColors(results: Array<SectionData>): void {
     const { IN } = this.data.colorLayout.colorContent
     if (!IN || IN.count === 0) return
 
-    // IN markers ditempatkan di awal seksi 0
-    // Marker pertama diletakkan setelah gap 0 (langsung di awal)
-    // Marker berikutnya diletakkan setelah gap IN.distance
-    // Sederhananya: [gap_0, IN_marker, gap_IN, IN_marker, gap_IN, IN_marker, ...]
-    results[0].push(0) // Marker pertama langsung di awal
+    results[0].topRow.push(0)
     for (let i = 0; i < IN.count - 1; i++) {
-      results[0].push(IN.distance)
+      results[0].topRow.push(IN.distance)
       this.sectionMarkerWidths[0].push(1)
     }
-    // Setelah semua IN markers, sisakan gap IN.distance sebelum pattern regular dimulai
-    // Namun Calculator.placeColors() sudah mulai dengan firstPos() gap.
-    // Jadi gap akhir IN markers akan digabung dengan firstPos()?
-    // Tidak, cukup biarkan placeColors menangani gap awalnya sendiri.
   }
 
   /**
@@ -139,7 +149,6 @@ export class ColorPositionCalculator {
 
   /**
    * Mengambil kapasitas total benang (cones) pada seksi tertentu.
-   * Mendukung perbedaan jumlah cones antara seksi badan dan seksi pinggiran (cones[1]).
    * @param index Indeks seksi (0-n).
    * @returns number
    */
@@ -163,35 +172,92 @@ export class ColorPositionCalculator {
   }
 
   /**
-   * Melakukan iterasi untuk menentukan di seksi mana setiap benang warna harus diletakkan.
-   * Jika sisa benang di seksi sekarang tidak cukup untuk jarak 'colorDistance',
-   * sisa tersebut akan diteruskan ke seksi berikutnya secara kumulatif.
-   * Mendukung lebar marker yang berbeda untuk edge-triple double.
-   * @param results Array hasil untuk menampung gap.
+   * Kalkulasi total benang terpakai di sebuah SectionData,
+   * menggabungkan topRow, bottomRow, dan sectionMarkerWidths.
    */
-  private placeColors(results: Array<Array<number>>): void {
+  private calculateSectionUsed(s: number, section: SectionData): number {
+    return this.calculateUsedThreads(
+      [...section.topRow, ...section.bottomRow],
+      this.sectionMarkerWidths[s],
+    )
+  }
+
+  /**
+   * Melakukan iterasi untuk menentukan di seksi mana setiap benang warna harus diletakkan.
+   *
+   * Untuk tipe "double", jika gap muat tapi seluruh marker (2 + pD) tidak muat,
+   * marker dipotong: benang pertama ditempatkan di seksi sekarang (splitStart),
+   * benang kedua ditempatkan di seksi berikutnya (splitContinue).
+   *
+   * @param results Array SectionData hasil untuk menampung gap.
+   */
+  private placeColors(results: Array<SectionData>): void {
     const { sections } = this.data.fabricContent
-    const { colorCount, colorDistance } = this.data.colorLayout.colorContent
+    const { colorCount, colorDistance, type, colorPairDistance } =
+      this.data.colorLayout.colorContent
+    const pD = colorPairDistance ?? 0
 
     let currentSection = 0
     let colorsPlaced = 0
     let gapToNextColor = this.firstPos()
 
+    /**
+     * Carry gap sisa pairDistance yang harus ditempatkan di awal seksi berikutnya
+     * ketika marker double terpotong di batas seksi.
+     */
+    let pendingSplitCarry: number | null = null
+
     while (currentSection < sections && colorsPlaced < colorCount) {
+      const section = results[currentSection]
+      const markerWidths = this.sectionMarkerWidths[currentSection]
+
+      // --- Tangani lanjutan split dari seksi sebelumnya ---
+      if (pendingSplitCarry !== null) {
+        section.splitContinue = true
+        section.bottomRow.push(pendingSplitCarry)
+        // Benang kedua ditempatkan (width = 1)
+        markerWidths.push(1)
+        colorsPlaced++
+        pendingSplitCarry = null
+        gapToNextColor = colorDistance
+        // Lanjut ke iterasi berikutnya di seksi yang sama untuk mengisi sisa
+        continue
+      }
+
       const sectCones = this.getSectionCones(currentSection)
-      const currentSectionGaps = results[currentSection]
-      const currentMarkerWidths = this.sectionMarkerWidths[currentSection]
-      const usedThreads = this.calculateUsedThreads(
-        currentSectionGaps,
-        currentMarkerWidths,
-      )
+      const usedThreads = this.calculateSectionUsed(currentSection, section)
       const remainingThreads = sectCones - usedThreads
 
       if (gapToNextColor <= remainingThreads) {
-        currentSectionGaps.push(gapToNextColor)
-        currentMarkerWidths.push(this.getMarkerWidth(colorsPlaced))
-        colorsPlaced++
-        gapToNextColor = colorDistance
+        const markerWidth = this.getMarkerWidth(colorsPlaced)
+        const spaceAfterGap = remainingThreads - gapToNextColor
+
+        // Cek apakah seluruh marker muat
+        if (spaceAfterGap >= markerWidth) {
+          // Penempatan normal
+          section.topRow.push(gapToNextColor)
+          markerWidths.push(markerWidth)
+          colorsPlaced++
+          gapToNextColor = colorDistance
+        } else if (type === 'double' && spaceAfterGap >= 1) {
+          // Split marker: benang pertama muat, benang kedua carry ke seksi berikutnya
+          // spaceAfterGap = remaining - gap, mis. 335-332 = 3
+          // spaceAfterFirstThread = spaceAfterGap - 1 (1 untuk benang pertama)
+          const spaceAfterFirstThread = spaceAfterGap - 1
+
+          section.topRow.push(gapToNextColor)          // gap sebelum benang pertama
+          section.bottomRow.push(spaceAfterFirstThread) // sisa ruang setelah benang pertama
+          section.splitStart = true
+          markerWidths.push(1) // hanya benang pertama (1 thread)
+
+          // Sisa pairDistance = pD - spaceAfterFirstThread
+          pendingSplitCarry = pD - spaceAfterFirstThread
+          currentSection++
+        } else {
+          // Gap muat tapi tidak ada ruang untuk benang (spaceAfterGap == 0), carry over
+          gapToNextColor -= remainingThreads
+          currentSection++
+        }
       } else {
         gapToNextColor -= remainingThreads
         currentSection++
@@ -204,30 +270,30 @@ export class ColorPositionCalculator {
    * di setiap sub-array hasil sesuai dengan kapasitas seksi (sectCones).
    * @param results Array hasil yang sudah berisi posisi warna.
    */
-  private fillGaps(results: Array<Array<number>>): void {
+  private fillGaps(results: Array<SectionData>): void {
     const { sections } = this.data.fabricContent
     const { OUT } = this.data.colorLayout.colorContent
 
     for (let s = 0; s < sections; s++) {
       const sectCones = this.getSectionCones(s)
-      const usedThreads = this.calculateUsedThreads(
-        results[s],
-        this.sectionMarkerWidths[s],
-      )
+      const section = results[s]
+      const usedThreads = this.calculateSectionUsed(s, section)
       const remainingThreads = sectCones - usedThreads
 
+      // Seksi splitStart sudah penuh (gap + 1 benang + bottomRow = sectCones)
+      if (section.splitStart) continue
+
       if (s === sections - 1 && OUT) {
-        results[s].push(...this.calculateOutGaps(remainingThreads))
+        section.topRow.push(...this.calculateOutGaps(remainingThreads))
         continue
       }
 
-      results[s].push(remainingThreads)
+      section.topRow.push(remainingThreads)
     }
   }
 
   /**
    * Logika khusus untuk menghitung distribusi warna pada bagian OUT di seksi terakhir.
-   * Biasanya digunakan untuk benang pinggiran dengan aturan jarak yang berbeda.
    * @param remainingCapacity Sisa ruang di seksi terakhir.
    * @returns Array gap untuk seksi OUT.
    */

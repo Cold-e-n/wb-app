@@ -1,15 +1,16 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
-import { useForm, useStore } from '@tanstack/react-form'
+import { useMemo, useState, useEffect } from 'react'
+import { useStore } from '@tanstack/react-form'
 import { useNavigate, useRouter } from '@tanstack/react-router'
 import { useFabricSpecs } from '@/features/fabric-specs/hooks/use-fabric-specs'
 import { useFabricConstructionMutation } from '../hooks/use-fabric-constructions'
+import { useAppForm } from '../hooks/use-fabric-contructions-form'
 
 import type {
   FabricConstructionForm,
   FabricConstructionFormValues,
 } from '@/types/FabricConstruction'
-import type { CutmarkItem } from '@/types/FabricSpec'
-import { cn } from '@/lib/utils'
+import type { CutmarkItem, FabricSpecWithRelation } from '@/types/FabricSpec'
+import { cn, fringeWidth, parseCutmarkTest } from '@/lib/utils'
 
 import {
   Accordion,
@@ -27,25 +28,16 @@ import {
 } from '@/components/ui/card'
 import {
   Field,
-  FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
-  FieldLegend,
-  FieldSet,
-  FieldSeparator,
 } from '@/components/ui/field'
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from '@/components/ui/input-group'
 import { Input } from '@/components/ui/input'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { FabricsCombobox } from '@/components/fabrics-combobox'
+import { WarpingSection as WarpingSectionForm } from '@/components/form/warping-section'
+import { BeamingSection as BeamingSectionForm } from '@/components/form/beaming-section'
 import { CutMarkCalculator } from '@/components/cutmark-calculator'
-import { CutMarkKanban, CutMarkChunk } from '@/components/cutmark-kanban'
 
 import { CheckCircle2 } from 'lucide-react'
 
@@ -73,42 +65,18 @@ export const FabricConstructionsForm = ({
     return fabricSpecs.filter((spec) => spec.fabricId === selectedFabricId)
   }, [selectedFabricId, fabricSpecs])
 
-  const parseCutmark = (
-    value: string,
-  ): {
-    testTying: number
-    testStretching: number
-  } => {
-    const parts = value
-      .split('+')
-      .map((s) => s.trim())
-      .filter(Boolean)
-
-    const parseMeters = (s: string) => {
-      const match = s.match(/^(\d+(?:\.\d+)?)m$/)
-      return match ? Number(match[1]) : 0
-    }
-
-    const first = parts.at(0) ?? ''
-    const last = parts.at(-1) ?? ''
-
-    return {
-      testTying: parts.length >= 1 ? parseMeters(first) : 10,
-      testStretching: parts.length >= 2 ? parseMeters(last) : 35,
-    }
-  }
-
   const getInitialValues = useMemo((): FabricConstructionFormValues => {
     if (mode === 'edit' && initialData) {
       const { testTying, testStretching } = initialData.cutmarkValue
-        ? parseCutmark(initialData.cutmarkValue)
-        : { testTying: 10, testStretching: 35 }
+        ? parseCutmarkTest(initialData.cutmarkValue)
+        : { testTying: 10, testStretching: [35] }
 
       return {
         ...initialData,
         conesCount: Number(initialData.conesCount),
         totalEnds: Number(initialData.totalEnds),
         beamingLoss: Number(initialData.beamingLoss),
+        beamWidth: Number(initialData.beamWidth),
         testTying,
         testStretching,
       } as FabricConstructionFormValues
@@ -130,28 +98,43 @@ export const FabricConstructionsForm = ({
       coneLength: 1,
       fabricId: '',
       testTying: 10,
-      testStretching: 35,
+      testStretching: [35],
       cutMarkSequence: [],
       cutmarkValue: '',
     }
   }, [mode, initialData])
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: getInitialValues,
     onSubmit: async ({ value }) => {
+      const {
+        fabricSpecId,
+        rollCount,
+        warpingMachine,
+        conesCount,
+        sectionCount,
+        sectionLength,
+        beamWidth,
+        cutmarkValue,
+        spareEnds,
+        beamingLoss,
+        coneLength,
+        constructionId,
+      } = value
+
       const payload = {
-        fabricSpecId: value.fabricSpecId,
-        rollCount: value.rollCount,
-        warpingMachine: value.warpingMachine,
-        conesCount: value.conesCount,
-        sectionCount: value.sectionCount,
-        sectionLength: value.sectionLength,
-        beamWidth: value.beamWidth,
-        cutmarkValue: value.cutmarkValue,
-        spareEnds: value.spareEnds,
-        beamingLoss: value.beamingLoss,
-        coneLength: value.coneLength,
-        constructionId: value.constructionId,
+        fabricSpecId,
+        rollCount,
+        warpingMachine,
+        conesCount,
+        sectionCount,
+        sectionLength,
+        beamWidth,
+        cutmarkValue,
+        spareEnds,
+        beamingLoss,
+        coneLength,
+        constructionId,
       }
 
       if (mode === 'edit' && initialData?.id) {
@@ -167,30 +150,21 @@ export const FabricConstructionsForm = ({
     },
   })
 
-  const rollCount = useStore(form.store, (state) => state.values.rollCount)
-  const warpingMachine = useStore(
+  const { rollCount, fabricSpecId, spareEnds, sectionCount } = useStore(
     form.store,
-    (state) => state.values.warpingMachine,
-  )
-  const sectionLength = useStore(
-    form.store,
-    (state) => state.values.sectionLength,
-  )
-  const testTying = useStore(form.store, (state) => state.values.testTying)
-  const testStretching = useStore(
-    form.store,
-    (state) => state.values.testStretching,
+    (state) => state.values,
   )
 
-  const fabricSpecId = useStore(
-    form.store,
-    (state) => state.values.fabricSpecId,
-  )
-  const spareEnds = useStore(form.store, (state) => state.values.spareEnds)
-  const sectionCount = useStore(
-    form.store,
-    (state) => state.values.sectionCount,
-  )
+  const selectedSpec = useMemo(() => {
+    if (!fabricSpecId || !specsByFabric) return undefined
+    return specsByFabric.find((s) => s.id === fabricSpecId)
+  }, [fabricSpecId, specsByFabric])
+
+  const fringeVal = useMemo(() => {
+    return selectedSpec?.fringe && selectedSpec.fringe !== 0
+      ? selectedSpec.fringe
+      : 0
+  }, [selectedSpec])
 
   const isFormDisabled = useMemo(() => {
     if (mode !== 'create') return false
@@ -200,7 +174,7 @@ export const FabricConstructionsForm = ({
   const initialRolls = useMemo(() => {
     if (!rollCount) return []
 
-    const spec = specsByFabric.find((s) => s.id === fabricSpecId)
+    const spec = selectedSpec
     const cutmarks =
       (spec?.cutmarkPerRoll as unknown as Array<CutmarkItem>) || []
 
@@ -209,7 +183,7 @@ export const FabricConstructionsForm = ({
         {
           id: 'fallback-roll',
           roll: rollCount,
-          length: sectionLength || 1,
+          length: 1,
           count: 1,
         },
       ]
@@ -243,30 +217,37 @@ export const FabricConstructionsForm = ({
     }
 
     return chunks
-  }, [rollCount, fabricSpecId, specsByFabric])
-
-  const handleKanbanChange = useCallback(
-    (val: { sequence: Array<CutMarkChunk>; formula: string }) => {
-      form.setFieldValue('cutMarkSequence', val.sequence)
-
-      if (val.formula) {
-        form.setFieldValue('cutmarkValue', val.formula)
-      }
-    },
-    [form],
-  )
-
-  const selectedSpec = useMemo(() => {
-    if (!fabricSpecId || !specsByFabric) return undefined
-    return specsByFabric.find((s) => s.id === fabricSpecId)
-  }, [fabricSpecId, specsByFabric])
+  }, [rollCount, selectedSpec])
 
   useEffect(() => {
     if (selectedSpec) {
-      const fringeVal =
-        selectedSpec.fringe && selectedSpec.fringe !== 0
-          ? selectedSpec.fringe
-          : 0
+      const targetBeamWidth =
+        fringeVal !== 0
+          ? Math.round(
+              (selectedSpec.reedWidth +
+                0.474 * 2 +
+                fringeWidth({
+                  fringe: fringeVal,
+                  reedNo: selectedSpec.reedNo,
+                }) *
+                  2) *
+                25.4,
+            )
+          : Math.round(selectedSpec.reedWidth * 25.4)
+
+      const isInitialSpecInEditMode =
+        mode === 'edit' && selectedSpec.id === initialData?.fabricSpecId
+
+      if (!isInitialSpecInEditMode) {
+        if (form.getFieldValue('beamWidth') !== targetBeamWidth) {
+          form.setFieldValue('beamWidth', targetBeamWidth)
+        }
+      }
+    }
+  }, [selectedSpec, form, mode, initialData])
+
+  useEffect(() => {
+    if (selectedSpec) {
       const currentSectionCount = Number(sectionCount || 1)
       const calculatedCones =
         (selectedSpec.totalEnds + (spareEnds ?? 0) + fringeVal) /
@@ -277,17 +258,9 @@ export const FabricConstructionsForm = ({
         form.setFieldValue('conesCount', Number(targetConesCount))
       }
 
-      const targetBeamWidth =
-        selectedSpec.fringe !== 0
-          ? Math.floor((selectedSpec.reedWidth + 0.474 + 0.474) * 25.4)
-          : Math.floor(selectedSpec.reedWidth * 25.4)
-      if (form.getFieldValue('beamWidth') !== targetBeamWidth) {
-        form.setFieldValue('beamWidth', targetBeamWidth)
-      }
-
       const totalEnds =
-        selectedSpec.fringe !== 0
-          ? selectedSpec.totalEnds + spareEnds + (selectedSpec.fringe ?? 1)
+        fringeVal !== 0
+          ? selectedSpec.totalEnds + spareEnds + fringeVal
           : selectedSpec.totalEnds + spareEnds
       if (form.getFieldValue('totalEnds') !== totalEnds) {
         form.setFieldValue('totalEnds', totalEnds)
@@ -512,8 +485,7 @@ export const FabricConstructionsForm = ({
                                           Total Helai
                                         </span>
                                         <span>
-                                          {`${spec.totalEnds.toLocaleString()} Helai` ||
-                                            '-'}
+                                          {`${spec.totalEnds.toLocaleString()} Helai`}
                                         </span>
                                       </div>
                                     </CardContent>
@@ -525,7 +497,6 @@ export const FabricConstructionsForm = ({
                         </AccordionItem>
                       </Accordion>
 
-                      {/* Pesan Error Validasi */}
                       {field.state.meta.isTouched &&
                       field.state.meta.errors.length > 0 ? (
                         <span className="text-sm text-destructive">
@@ -539,634 +510,16 @@ export const FabricConstructionsForm = ({
             ) : null}
 
             <div className="grid lg:grid-cols-2 gap-4">
-              <FieldSet
-                disabled={isFormDisabled}
-                className="border border-border rounded-xl p-5 pt-0 bg-card/50 shadow-sm"
-              >
-                <FieldLegend className="px-5">Warping</FieldLegend>
+              {/* Warping Section */}
+              <WarpingSectionForm form={form} isFormDisabled={isFormDisabled} />
 
-                <FieldGroup>
-                  {/* Mesin Warping Tabs */}
-                  <form.Field name="warpingMachine">
-                    {(field) => (
-                      <Field>
-                        <Tabs
-                          value={field.state.value}
-                          onValueChange={(value) => {
-                            field.handleChange(value)
-
-                            const testTying = value === 'BENN_KM' ? 10 : 7
-                            const testStretching = 35
-
-                            form.setFieldValue('testTying', testTying)
-                            form.setFieldValue('testStretching', testStretching)
-                          }}
-                        >
-                          <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="BENN_KM">
-                              BENNINGER / KARL MAYER
-                            </TabsTrigger>
-                            <TabsTrigger value="MO_TS">
-                              MO / TSUDAKOMA
-                            </TabsTrigger>
-                          </TabsList>
-
-                          <div className="grid grid-cols-2 gap-4">
-                            {/* Jumlah cones */}
-                            <form.Field
-                              name="conesCount"
-                              validators={{
-                                onBlur: ({ value }) => {
-                                  if (!value || value <= 0) {
-                                    return 'Jumlah cones harus lebih dari 0'
-                                  }
-                                  return undefined
-                                },
-                              }}
-                            >
-                              {(subField) => {
-                                const isInvalid =
-                                  subField.state.meta.isTouched &&
-                                  subField.state.meta.errors &&
-                                  subField.state.meta.errors.length > 0
-
-                                return (
-                                  <Field data-invalid={isInvalid}>
-                                    <FieldLabel htmlFor={subField.name}>
-                                      Jumlah Cones
-                                    </FieldLabel>
-                                    <FieldContent>
-                                      <InputGroup>
-                                        <InputGroupInput
-                                          id={subField.name}
-                                          type="number"
-                                          min="0"
-                                          step="0.01"
-                                          value={subField.state.value}
-                                          onBlur={subField.handleBlur}
-                                          onChange={(e) => {
-                                            const val = e.target.value
-                                            subField.handleChange(
-                                              val === '' ? 0 : Number(val),
-                                            )
-                                          }}
-                                          placeholder="Masukkan jumlah cones"
-                                          className="font-jetbrains-mono"
-                                          readOnly
-                                        />
-                                        <InputGroupAddon align="inline-end">
-                                          <span className="text-sm">cones</span>
-                                        </InputGroupAddon>
-                                      </InputGroup>
-                                      {isInvalid && (
-                                        <FieldError>
-                                          {subField.state.meta.errors.join(
-                                            ', ',
-                                          )}
-                                        </FieldError>
-                                      )}
-                                    </FieldContent>
-                                  </Field>
-                                )
-                              }}
-                            </form.Field>
-
-                            {/* Jumlah Section / Beam */}
-                            <form.Field
-                              name="sectionCount"
-                              validators={{
-                                onBlur: ({ value }) => {
-                                  if (!value || value <= 0) {
-                                    return 'Jumlah section / beam harus lebih dari 0'
-                                  }
-                                  return undefined
-                                },
-                              }}
-                            >
-                              {(subField) => {
-                                const isInvalid =
-                                  subField.state.meta.isTouched &&
-                                  subField.state.meta.errors &&
-                                  subField.state.meta.errors.length > 0
-
-                                return (
-                                  <Field data-invalid={isInvalid}>
-                                    <FieldLabel htmlFor={subField.name}>
-                                      Jumlah{' '}
-                                      {warpingMachine === 'BENN_KM'
-                                        ? 'Section'
-                                        : 'Beam'}
-                                    </FieldLabel>
-                                    <FieldContent>
-                                      <InputGroup>
-                                        <InputGroupInput
-                                          id={subField.name}
-                                          type="number"
-                                          min="1"
-                                          max="10000"
-                                          value={subField.state.value}
-                                          onBlur={subField.handleBlur}
-                                          onChange={(e) => {
-                                            const val = e.target.value
-                                            subField.handleChange(
-                                              val === '' ? 0 : Number(val),
-                                            )
-                                          }}
-                                          placeholder="Masukkan jumlah section / beam"
-                                          className="font-jetbrains-mono"
-                                          readOnly
-                                        />
-                                        <InputGroupAddon align="inline-end">
-                                          <span className="text-sm">
-                                            {warpingMachine === 'BENN_KM'
-                                              ? 'section'
-                                              : 'beam'}
-                                          </span>
-                                        </InputGroupAddon>
-                                      </InputGroup>
-                                      {isInvalid && (
-                                        <FieldError>
-                                          {field.state.meta.errors.join(', ')}
-                                        </FieldError>
-                                      )}
-                                    </FieldContent>
-                                  </Field>
-                                )
-                              }}
-                            </form.Field>
-
-                            {/* Panjang Benang */}
-                            <form.Field
-                              name="sectionLength"
-                              validators={{
-                                onBlur: ({ value }) => {
-                                  if (!value || value <= 0) {
-                                    return 'Panjang benang harus lebih dari 0'
-                                  }
-                                  return undefined
-                                },
-                              }}
-                            >
-                              {(subField) => {
-                                const isInvalid =
-                                  subField.state.meta.isTouched &&
-                                  subField.state.meta.errors &&
-                                  subField.state.meta.errors.length > 0
-
-                                return (
-                                  <Field data-invalid={isInvalid}>
-                                    <FieldLabel htmlFor={subField.name}>
-                                      Panjang Benang
-                                    </FieldLabel>
-                                    <FieldContent>
-                                      <InputGroup>
-                                        <InputGroupInput
-                                          id={subField.name}
-                                          type="number"
-                                          min="1"
-                                          max="10000"
-                                          value={subField.state.value}
-                                          onBlur={subField.handleBlur}
-                                          onChange={(e) => {
-                                            const val = e.target.value
-                                            subField.handleChange(
-                                              val === '' ? 0 : Number(val),
-                                            )
-                                          }}
-                                          placeholder="Masukkan panjang benang"
-                                          className="font-jetbrains-mono"
-                                          readOnly
-                                        />
-                                        <InputGroupAddon align="inline-end">
-                                          <span className="text-sm">meter</span>
-                                        </InputGroupAddon>
-                                      </InputGroup>
-                                      {isInvalid && (
-                                        <FieldError>
-                                          {field.state.meta.errors.join(', ')}
-                                        </FieldError>
-                                      )}
-                                    </FieldContent>
-                                  </Field>
-                                )
-                              }}
-                            </form.Field>
-
-                            <form.Field
-                              name="spareEnds"
-                              validators={{
-                                onBlur: ({ value }) => {
-                                  if (!value || value <= 0) {
-                                    return 'Spare harus lebih dari 0'
-                                  }
-                                  return undefined
-                                },
-                              }}
-                            >
-                              {(subField) => {
-                                const isInvalid =
-                                  subField.state.meta.isTouched &&
-                                  subField.state.meta.errors &&
-                                  subField.state.meta.errors.length > 0
-
-                                return (
-                                  <Field data-invalid={isInvalid}>
-                                    <FieldLabel htmlFor={subField.name}>
-                                      Spare
-                                    </FieldLabel>
-                                    <FieldContent>
-                                      <InputGroup>
-                                        <InputGroupInput
-                                          id={subField.name}
-                                          type="number"
-                                          min="1"
-                                          max="10000"
-                                          value={subField.state.value}
-                                          onBlur={subField.handleBlur}
-                                          onChange={(e) => {
-                                            const val = e.target.value
-                                            subField.handleChange(
-                                              val === '' ? 1 : Number(val),
-                                            )
-                                          }}
-                                          placeholder="Masukkan jumlah spare"
-                                          className="font-jetbrains-mono"
-                                        />
-                                        <InputGroupAddon align="inline-end">
-                                          <span className="text-sm">Helai</span>
-                                        </InputGroupAddon>
-                                      </InputGroup>
-                                      {isInvalid && (
-                                        <FieldError>
-                                          {field.state.meta.errors.join(', ')}
-                                        </FieldError>
-                                      )}
-                                    </FieldContent>
-                                  </Field>
-                                )
-                              }}
-                            </form.Field>
-                          </div>
-
-                          <FieldSeparator className="my-2" />
-
-                          <div className="grid grid-cols-2 gap-4">
-                            {/* Total panjang yang terpakai */}
-                            <form.Field
-                              name="totalLength"
-                              validators={{
-                                onBlur: ({ value }) => {
-                                  if (!value || value <= 0) {
-                                    return 'Total panjang yang terpakai harus lebih dari 0'
-                                  }
-                                  return undefined
-                                },
-                              }}
-                            >
-                              {(subField) => {
-                                const isInvalid =
-                                  subField.state.meta.isTouched &&
-                                  subField.state.meta.errors &&
-                                  subField.state.meta.errors.length > 0
-
-                                return (
-                                  <Field data-invalid={isInvalid}>
-                                    <FieldLabel htmlFor={subField.name}>
-                                      Total Panjang Yang Terpakai
-                                    </FieldLabel>
-                                    <FieldContent>
-                                      <InputGroup>
-                                        <InputGroupInput
-                                          id={subField.name}
-                                          type="number"
-                                          min="1"
-                                          max="1000000"
-                                          value={subField.state.value}
-                                          onBlur={subField.handleBlur}
-                                          onChange={(e) => {
-                                            const val = e.target.value
-                                            subField.handleChange(
-                                              val === '' ? 0 : Number(val),
-                                            )
-                                          }}
-                                          placeholder="Masukkan total panjang yang terpakai"
-                                          className="font-jetbrains-mono"
-                                          readOnly
-                                        />
-                                        <InputGroupAddon align="inline-end">
-                                          <span className="text-sm">meter</span>
-                                        </InputGroupAddon>
-                                      </InputGroup>
-                                      {isInvalid && (
-                                        <FieldError>
-                                          {field.state.meta.errors.join(', ')}
-                                        </FieldError>
-                                      )}
-                                    </FieldContent>
-                                  </Field>
-                                )
-                              }}
-                            </form.Field>
-
-                            {/* Panjang per cones */}
-                            <form.Field
-                              name="coneLength"
-                              validators={{
-                                onBlur: ({ value }) => {
-                                  if (!value || value <= 0) {
-                                    return 'Panjang per cones harus lebih dari 0'
-                                  }
-                                  return undefined
-                                },
-                              }}
-                            >
-                              {(subField) => {
-                                const isInvalid =
-                                  subField.state.meta.isTouched &&
-                                  subField.state.meta.errors &&
-                                  subField.state.meta.errors.length > 0
-
-                                return (
-                                  <Field data-invalid={isInvalid}>
-                                    <FieldLabel htmlFor={subField.name}>
-                                      Panjang per cones (hasil test panjang)
-                                    </FieldLabel>
-                                    <FieldContent>
-                                      <InputGroup>
-                                        <InputGroupInput
-                                          id={subField.name}
-                                          type="number"
-                                          min="1"
-                                          max="1000000"
-                                          value={subField.state.value ?? 1}
-                                          onBlur={subField.handleBlur}
-                                          onChange={(e) => {
-                                            const val = e.target.value
-                                            subField.handleChange(
-                                              val === '' ? 0 : Number(val),
-                                            )
-                                          }}
-                                          placeholder="Masukkan total panjang per cones"
-                                          className="font-jetbrains-mono"
-                                        />
-                                        <InputGroupAddon align="inline-end">
-                                          <span className="text-sm">meter</span>
-                                        </InputGroupAddon>
-                                      </InputGroup>
-                                      {isInvalid && (
-                                        <FieldError>
-                                          {field.state.meta.errors.join(', ')}
-                                        </FieldError>
-                                      )}
-                                    </FieldContent>
-                                  </Field>
-                                )
-                              }}
-                            </form.Field>
-
-                            {/* Beaming Loss */}
-                            {warpingMachine === 'mo_ts' && (
-                              <form.Field
-                                name="beamingLoss"
-                                validators={{
-                                  onBlur: ({ value }) => {
-                                    if (!value || value <= 0) {
-                                      return 'Loss Beaming harus lebih dari 0'
-                                    }
-                                    return undefined
-                                  },
-                                }}
-                              >
-                                {(subField) => {
-                                  const isInvalid =
-                                    subField.state.meta.isTouched &&
-                                    subField.state.meta.errors &&
-                                    subField.state.meta.errors.length > 0
-
-                                  return (
-                                    <Field data-invalid={isInvalid}>
-                                      <FieldLabel htmlFor={subField.name}>
-                                        Loss Beaming
-                                      </FieldLabel>
-                                      <FieldContent>
-                                        <InputGroup>
-                                          <InputGroupInput
-                                            id={subField.name}
-                                            type="number"
-                                            min="1"
-                                            max="1000000"
-                                            value={subField.state.value}
-                                            onBlur={subField.handleBlur}
-                                            onChange={(e) => {
-                                              const val = e.target.value
-                                              subField.handleChange(
-                                                val === '' ? 0 : Number(val),
-                                              )
-                                            }}
-                                            placeholder="Masukkan total panjang per cones"
-                                            className="font-jetbrains-mono"
-                                          />
-                                          <InputGroupAddon align="inline-end">
-                                            <span className="text-sm">
-                                              meter
-                                            </span>
-                                          </InputGroupAddon>
-                                        </InputGroup>
-                                        {isInvalid && (
-                                          <FieldError>
-                                            {field.state.meta.errors.join(', ')}
-                                          </FieldError>
-                                        )}
-                                      </FieldContent>
-                                    </Field>
-                                  )
-                                }}
-                              </form.Field>
-                            )}
-                          </div>
-                        </Tabs>
-                      </Field>
-                    )}
-                  </form.Field>
-                </FieldGroup>
-              </FieldSet>
-
-              <FieldSet
-                disabled={isFormDisabled}
-                className="border border-border rounded-xl p-5 pt-0 bg-card/50 shadow-sm"
-              >
-                {/* Legend bertindak sebagai Label Utama/Judul Fieldset */}
-                <FieldLegend className="px-5">Beaming</FieldLegend>
-
-                <form.Field name="cutmarkValue">
-                  {(field) => (
-                    <div className="rounded-lg border border-border bg-card p-4 shadow-sm space-y-2">
-                      <div className="text-xs font-bold text-muted-foreground tracking-wider border-b pb-2 mb-2">
-                        Cutmark
-                      </div>
-                      <div className="p-3 bg-muted/40 rounded-lg min-h-12 flex items-center">
-                        <span className="font-mono text-base font-semibold text-primary break-all tracking-wide">
-                          {field.state.value || '-'}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </form.Field>
-
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-                  <div className="xl:col-span-8 flex flex-col gap-2 min-h-100">
-                    <div className="border border-border rounded-xl p-4 bg-muted/10 flex-1 shadow-inner">
-                      <CutMarkKanban
-                        initialRolls={initialRolls}
-                        testTying={testTying ?? 10}
-                        testStretching={testStretching ?? 35}
-                        onChange={handleKanbanChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="xl:col-span-4 space-y-4 bg-muted/20 p-4 border border-border rounded-xl">
-                    <div className="text-xs font-bold text-muted-foreground tracking-wider border-b pb-2 mb-2">
-                      Test
-                    </div>
-
-                    <form.Field name="testTying">
-                      {(field) => (
-                        <Field>
-                          <FieldLabel htmlFor={field.name} className="text-xs">
-                            Test Awal
-                          </FieldLabel>
-                          <FieldContent>
-                            <InputGroup>
-                              <InputGroupInput
-                                id={field.name}
-                                type="number"
-                                min="1"
-                                max="10000"
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) => {
-                                  const val = e.target.value
-                                  field.handleChange(
-                                    val === '' ? 0 : Number(val),
-                                  )
-                                }}
-                                placeholder="Masukkan panjang test"
-                                className="font-jetbrains-mono h-9 text-sm"
-                              />
-                              <InputGroupAddon align="inline-end">
-                                <span className="text-sm">meter</span>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </FieldContent>
-                        </Field>
-                      )}
-                    </form.Field>
-
-                    <form.Field name="testStretching">
-                      {(field) => (
-                        <Field>
-                          <FieldLabel htmlFor={field.name} className="text-xs">
-                            Test Akhir
-                          </FieldLabel>
-                          <FieldContent>
-                            <InputGroup>
-                              <InputGroupInput
-                                id={field.name}
-                                type="number"
-                                min="1"
-                                max="10000"
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) => {
-                                  const val = e.target.value
-                                  field.handleChange(
-                                    val === '' ? 0 : Number(val),
-                                  )
-                                }}
-                                placeholder="Masukkan panjang test"
-                                className="font-jetbrains-mono h-9 text-sm"
-                              />
-                              <InputGroupAddon align="inline-end">
-                                <span className="text-sm">meter</span>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </FieldContent>
-                        </Field>
-                      )}
-                    </form.Field>
-                  </div>
-                </div>
-
-                <FieldSeparator />
-
-                {/* Lebar Beam */}
-                <form.Field name="beamWidth">
-                  {(field) => (
-                    <Field>
-                      <FieldLabel htmlFor={field.name}>Lebar Beam</FieldLabel>
-                      <FieldContent>
-                        <InputGroup>
-                          <InputGroupInput
-                            id={field.name}
-                            type="number"
-                            min="1.0"
-                            max="10000"
-                            step="0.01"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => {
-                              const val = e.target.value
-                              if (val === '') {
-                                field.handleChange(0)
-                                return
-                              }
-                              const parsed = parseFloat(val)
-                              if (!isNaN(parsed)) {
-                                field.handleChange(parsed)
-                              }
-                            }}
-                            placeholder="Masukkan lebar beam"
-                            className="font-jetbrains-mono h-9 text-sm"
-                          />
-                          <InputGroupAddon align="inline-end">
-                            <span className="text-sm">mm</span>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </FieldContent>
-                    </Field>
-                  )}
-                </form.Field>
-
-                {/* Jumlah helai lusi */}
-                <form.Field name="totalEnds">
-                  {(field) => (
-                    <div className="rounded-lg border border-border bg-card p-4 shadow-sm space-y-2">
-                      <div className="text-[14px]">
-                        Jumlah Helai Lusi
-                        <span className="font-jetbrains-mono">
-                          {selectedSpec && (
-                            <span>
-                              {' '}
-                              {selectedSpec?.totalEnds.toLocaleString(
-                                'en-US',
-                              )}{' '}
-                              + {spareEnds}{' '}
-                              {selectedSpec?.fringe !== 0
-                                ? `+ ${selectedSpec?.fringe}`
-                                : ''}{' '}
-                              ={' '}
-                              {field.state.value?.toLocaleString('en-US') ||
-                                '-'}{' '}
-                              Helai
-                            </span>
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </form.Field>
-              </FieldSet>
+              {/* Beaming Section */}
+              <BeamingSectionForm
+                form={form}
+                isFormDisabled={isFormDisabled}
+                initialRolls={initialRolls}
+                selectedSpec={selectedSpec as FabricSpecWithRelation}
+              />
             </div>
           </FieldGroup>
         </form>
