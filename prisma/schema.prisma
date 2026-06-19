@@ -141,7 +141,11 @@ model FabricConstruction {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
 
-  fabricSpec FabricSpec @relation(fields: [fabricSpecId], references: [id])
+  parentConstructionId String? @map("parent_construction_id")
+
+  fabricSpec         FabricSpec           @relation(fields: [fabricSpecId], references: [id])
+  parentConstruction FabricConstruction?  @relation("ConstructionChain", fields: [parentConstructionId], references: [id])
+  childConstructions FabricConstruction[] @relation("ConstructionChain")
 
   @@unique([constructionId])
   @@map("fabric_constructions")
