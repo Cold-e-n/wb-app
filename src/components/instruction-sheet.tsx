@@ -1,8 +1,10 @@
 import type { FabricConstructionWithRelation } from '@/types/FabricConstruction'
-import type { CutmarkItem } from '@/types/FabricSpec'
-import { cn } from '@/lib/utils'
+import type { CutmarkItem } from '@/types/Cutmark'
+import { cn, fringeWidth } from '@/lib/utils'
+import { parseCutmarkChunks } from '@/lib/cutmark'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
+import React from 'react'
 
 /**
  * Resolve the display value for a field given its option and computed default.
@@ -18,27 +20,6 @@ const resolve = (
   if (option === undefined || option === true)
     return { show: true, value: computed }
   return { show: true, value: String(option) }
-}
-
-/**
- * Parse the middle chunks of a cutmark value (excludes test tying & stretching).
- * e.g. "10m + ( 563m x 3 ) + ( 301m x 1 ) + 45m"
- *   → [{ length: 563, count: 3 }, { length: 301, count: 1 }]
- */
-const parseCutmarkChunks = (
-  cutmarkValue: string,
-): Array<{ length: number; count: number }> => {
-  const parts = cutmarkValue
-    .split('+')
-    .map((part) => part.trim())
-    .filter(Boolean)
-  const middle = parts.slice(1, -1)
-
-  return middle.flatMap((part) => {
-    const match = part.match(/\(\s*(\d+(?:\.\d+)?)m\s*[xX×]\s*(\d+)\s*\)/)
-    if (!match) return []
-    return [{ length: Number(match[1]), count: Number(match[2]) }]
-  })
 }
 
 /**
@@ -252,11 +233,13 @@ export const InstructionWeavingReport = ({
   cutmarkValue,
   cutmarkPerRoll,
   options = {},
+  children,
 }: {
   rollCount?: number
   cutmarkValue?: string | null
   cutmarkPerRoll?: Array<CutmarkItem>
-  options?: DocWeavingReportoptions
+  options?: DocWeavingReportOptions
+  children?: React.ReactNode
 }) => {
   const remarkLabel =
     options.remarkLabel === false
@@ -292,7 +275,7 @@ export const InstructionWeavingReport = ({
             {remarkLabel}
           </div>
 
-          <div className="py-1 px-2 h-2" />
+          <div className="py-1 px-2">{children}</div>
         </div>
       </div>
     </InstructionSection>
@@ -309,7 +292,7 @@ export const InstructionWarpper = ({
 }) => (
   <div
     className={cn(
-      'rounded-lg border border-border bg-card/50 shadow-md w-full mx-auto pl-30 pr-20 py-15',
+      'rounded-lg border border-border bg-card/50 shadow-md w-full mx-auto pl-10 pr-5 lg:pl-30 lg:pr-20 py-15',
       className,
     )}
   >
@@ -330,7 +313,7 @@ export type InstructionHeaderOptions =
 
 export type DocWarpingOptions = {
   warpDate?: boolean | string
-  conesCount?: boolean | string
+  coneCount?: boolean | string
   warpYarn?: boolean | string
   twistingMachine?: boolean | string
   sectionCount?: boolean | string
@@ -358,7 +341,7 @@ export type DocWeavingOptions = {
   weftYarn?: boolean | string
 }
 
-export type DocWeavingReportoptions = {
+export type DocWeavingReportOptions = {
   remarkLabel?: boolean | string
 }
 
@@ -367,7 +350,7 @@ export interface InstructionSheetOptions {
   warping?: DocWarpingOptions
   beaming?: DocBeamingOptions
   weaving?: DocWeavingOptions
-  weavingReport?: DocWeavingReportoptions | false
+  weavingReport?: DocWeavingReportOptions | false
 }
 
 // Main component
@@ -386,14 +369,23 @@ export const InstructionSheet = ({
     (fabricConstruction.spareEnds ?? 0) +
     (fabricSpec.fringe !== 0 ? (fabricSpec.fringe ?? 0) : 0)
 
-  const jumlahHelaiLusiComputed = [
+  const totalEndsComputed = [
     fabricSpec.totalEnds.toLocaleString('en-US'),
-    `+ ${fabricConstruction.spareEnds}`,
+    fabricConstruction.spareEnds === 0
+      ? ''
+      : ` + ${fabricConstruction.spareEnds}`,
     fabricSpec.fringe !== 0 ? `+ ${fabricSpec.fringe}` : null,
-    `= ${totalEnds.toLocaleString('en-US')} Helai`,
+    totalEnds === fabricSpec.totalEnds
+      ? ' Helai'
+      : `= ${totalEnds.toLocaleString('en-US')} Helai`,
   ]
     .filter(Boolean)
     .join(' ')
+
+  const fringeWidthValue = fringeWidth({
+    fringe: fabricSpec.fringe ?? 1,
+    reedNo: fabricSpec.reedNo,
+  })
 
   // Warping
   const w = options.warping ?? {}
@@ -413,11 +405,11 @@ export const InstructionSheet = ({
       computed: '',
     },
     {
-      key: 'conesCount',
+      key: 'coneCount',
       label: 'Jumlah Helai (Cones)',
       labelJp: '（立個数）',
-      opt: w.conesCount,
-      computed: `${fabricConstruction.conesCount} cones`,
+      opt: w.coneCount,
+      computed: `${fabricConstruction.coneCount} cones`,
     },
     {
       key: 'warpYarn',
@@ -485,7 +477,7 @@ export const InstructionSheet = ({
       label: 'Lebar Beam',
       labelJp: '（整経幅）',
       opt: b.beamWidth,
-      computed: `${fabricConstruction.beamWidth.toLocaleString('en-Us')} mm`,
+      computed: `${Number(fabricConstruction.beamWidth / 25.4).toFixed(2)}'' (${fabricConstruction.beamWidth.toLocaleString('en-Us')} mm)`,
     },
     {
       key: 'cutmarkValue',
@@ -532,14 +524,17 @@ export const InstructionSheet = ({
       label: 'Jumlah Helai Lusi',
       labelJp: '（経糸総本数）',
       opt: wv.totalEnds,
-      computed: jumlahHelaiLusiComputed,
+      computed: totalEndsComputed,
     },
     {
       key: 'reedWidth',
       label: 'Lebar Sisir',
       labelJp: '（オサ入れ幅）',
       opt: wv.reedWidth,
-      computed: `${fabricSpec.reedWidth}'' (${fabricConstruction.beamWidth.toLocaleString('en-Us')} mm)`,
+      computed:
+        fabricSpec.fringe === 0
+          ? `${fabricSpec.reedWidth}'' (${Number(Math.floor(fabricSpec.reedWidth * 25.4)).toLocaleString('en-Us')} mm)`
+          : `${fabricSpec.reedWidth}'' (${Number(Math.floor(fabricSpec.reedWidth * 25.4)).toLocaleString('en-Us')} mm) Total ${Number(fabricConstruction.beamWidth / 25.4).toFixed(2)} ''`,
     },
     {
       key: 'reedNo',
@@ -664,7 +659,35 @@ export const InstructionSheet = ({
               ? options.weavingReport
               : {}
           }
-        />
+        >
+          {fabricSpec.fringe !== 0 && (
+            <>
+              <div className="flex items-center justify-center space-x-5 text-[12px] text-center">
+                <div className="flex flex-col space-y-1 w-1/10">
+                  <div>{(fabricSpec.fringe ?? 2) / 2} h</div>
+                  <div className="border" />
+                  <div>{fringeWidthValue}"</div>
+                </div>
+
+                <div className="flex flex-col space-y-1 w-1/4">
+                  <div>{fabricSpec.totalEnds} helai</div>
+                  <div className="border" />
+                  <div>{fabricSpec.reedWidth}"</div>
+                </div>
+
+                <div className="flex flex-col space-y-1 w-1/10">
+                  <div>{(fabricSpec.fringe ?? 2) / 2} h</div>
+                  <div className="border" />
+                  <div>{fringeWidthValue}"</div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center mt-15">
+                Total {(fabricConstruction.beamWidth / 25.4).toFixed(2)}"
+              </div>
+            </>
+          )}
+        </InstructionWeavingReport>
       )}
 
       <div className="flex items-center justify-center text-[13px] py-1 h-7">
