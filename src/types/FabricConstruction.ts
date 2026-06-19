@@ -7,7 +7,7 @@ export const fabricConstructionSchema = z.object({
   fabricSpecId: z.string(),
   rollCount: z.number(),
   warpingMachine: z.string(),
-  conesCount: z.number().transform((val) => {
+  coneCount: z.number().transform((val) => {
     return Number(val)
   }),
   sectionCount: z.number(),
@@ -15,12 +15,16 @@ export const fabricConstructionSchema = z.object({
   beamWidth: z.number(),
   spareEnds: z.number(),
   totalEnds: z.number().optional(),
-  beamingLoss: z.number().optional(),
+  beamingLoss: z
+    .number()
+    .nullable()
+    .optional()
+    .transform((val) => val ?? 0),
   totalLength: z.number().optional(),
-  coneLength: z.number().optional(),
+  coneLength: z.number(),
   fabricId: z.string(),
   testTying: z.number().optional(),
-  testStretching: z.number().optional(),
+  testStretching: z.array(z.number()).optional(),
   cutMarkSequence: z
     .array(
       z.object({
@@ -28,11 +32,16 @@ export const fabricConstructionSchema = z.object({
         roll: z.number(),
         length: z.number(),
         count: z.number(),
-        type: z.enum(['roll', 'test-awal', 'test-akhir']).optional(),
+        type: z.enum(['roll', 'test-tying', 'test-stretching']).optional(),
       }),
     )
     .optional(),
   cutmarkValue: z.string(),
+  parentConstructionId: z.string().nullable().optional(),
+  hasChildren: z.boolean().optional(),
+  effectedChildren: z
+    .array(z.object({ id: z.string(), constructionId: z.string() }))
+    .optional(),
 })
 
 export type FabricConstruction = z.infer<typeof fabricConstructionSchema>
@@ -42,6 +51,16 @@ export const fabricConstructionWithRelationSchema =
     createdAt: z.coerce.date().optional(),
     updatedAt: z.coerce.date().nullable().optional(),
     fabricSpec: fabricSpecWithRelationSchema,
+    parentConstruction: fabricConstructionSchema
+      .pick({
+        id: true,
+        constructionId: true,
+        coneLength: true,
+        sectionCount: true,
+        sectionLength: true,
+      })
+      .nullable()
+      .optional(),
   })
 
 export type FabricConstructionWithRelation = z.infer<
@@ -60,3 +79,10 @@ export const fabricConstructionFormSchema = fabricConstructionSchema.omit({
 export type FabricConstructionFormValues = z.infer<
   typeof fabricConstructionFormSchema
 >
+
+export type FabricConstructionFormEntry = {
+  constructionId: string
+  parentConstructionId: string | null | undefined
+  effectiveConeLength: number
+  formValues: FabricConstructionFormValues
+}

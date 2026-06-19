@@ -46,7 +46,7 @@ export const FabricConstructionDetail = ({
         <Button variant="outline" asChild>
           <Link
             to="/fabric-constructions/$fabricConstructionId/edit"
-            params={{ fabricConstructionId: fabricConstruction.id }}
+            params={{ fabricConstructionId: fabricConstruction.constructionId }}
           >
             <Pencil className="h-4 w-4" /> Edit
           </Link>

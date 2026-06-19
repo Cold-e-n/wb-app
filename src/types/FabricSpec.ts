@@ -2,13 +2,7 @@ import { z } from 'zod'
 import { fabricSchema } from '@/types/Fabric'
 import type { Fabric } from '@/types/Fabric'
 import { yarnSchema } from './Yarn'
-
-export const cutmarkItem = z.object({
-  roll: z.number(),
-  length: z.number(),
-})
-
-export type CutmarkItem = z.infer<typeof cutmarkItem>
+import { cutmarkItemSchema } from './Cutmark'
 
 export const fabricSpecSchema = z.object({
   id: z.string(),
@@ -18,7 +12,7 @@ export const fabricSpecSchema = z.object({
   warpYarnId: z.string(),
   weftYarnId: z.string(),
   color: z.string().default('-').optional(),
-  cutmarkPerRoll: z.array(cutmarkItem),
+  cutmarkPerRoll: z.array(cutmarkItemSchema),
   totalEnds: z.number(),
   reedWidth: z.number(),
   reedNo: z.string(),
@@ -68,7 +62,7 @@ export const fabricSpecFormSchema = z.object({
   warpYarnId: z.string(),
   weftYarnId: z.string(),
   color: z.string().default('-').optional(),
-  cutmarkPerRoll: z.array(cutmarkItem),
+  cutmarkPerRoll: z.array(cutmarkItemSchema),
   totalEnds: z.number(),
   reedWidth: z.number(),
   reedNo: z.string(),

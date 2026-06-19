@@ -184,7 +184,8 @@ export const FabricConstructionScalarFieldEnum = {
   spareEnds: 'spareEnds',
   beamingLoss: 'beamingLoss',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  parentConstructionId: 'parentConstructionId'
 } as const
 
 export type FabricConstructionScalarFieldEnum = (typeof FabricConstructionScalarFieldEnum)[keyof typeof FabricConstructionScalarFieldEnum]

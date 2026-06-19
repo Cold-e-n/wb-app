@@ -27,7 +27,7 @@ export const FabricConstructionsTableRowActions = <TData,>({
           type: 'item',
           label: 'Edit',
           icon: Pencil,
-          href: `/fabric-constructions/${fabricConstruction.id}/edit`,
+          href: `/fabric-constructions/${fabricConstruction.constructionId}/edit`,
         },
         {
           type: 'separator',

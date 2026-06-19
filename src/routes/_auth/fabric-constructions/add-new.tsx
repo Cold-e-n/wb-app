@@ -10,11 +10,11 @@ import {
 import { MoveLeft } from 'lucide-react'
 
 const FabricConstructionsForm = lazy(() =>
-  import('@/features/fabric-constructions/components/fabric-constructions-form').then(
+  import('@/features/fabric-constructions/components/form/fabric-constructions-form').then(
     (module) => ({
       default: module.FabricConstructionsForm,
-    })
-  )
+    }),
+  ),
 )
 
 const RouteComponent = () => {
@@ -54,7 +54,7 @@ const RouteComponent = () => {
           </div>
         }
       >
-        <FabricConstructionsForm />
+        <FabricConstructionsForm mode="create" />
       </Suspense>
     </div>
   )

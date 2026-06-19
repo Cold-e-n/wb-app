@@ -14,7 +14,7 @@ export const Route = createFileRoute(
   '/_auth/fabric-constructions/$fabricConstructionId/',
 )({
   loader: async ({ context, params }) => {
-    const fabricConstruction = await context.queryClient.ensureQueryData(
+    const fabricConstruction = await context.queryClient.fetchQuery(
       getFabricConstructionByConstructionIdQueryOptions(
         params.fabricConstructionId,
       ),

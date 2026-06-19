@@ -64,6 +64,7 @@ export type FabricConstructionMinAggregateOutputType = {
   beamingLoss: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  parentConstructionId: string | null
 }
 
 export type FabricConstructionMaxAggregateOutputType = {
@@ -82,6 +83,7 @@ export type FabricConstructionMaxAggregateOutputType = {
   beamingLoss: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  parentConstructionId: string | null
 }
 
 export type FabricConstructionCountAggregateOutputType = {
@@ -100,6 +102,7 @@ export type FabricConstructionCountAggregateOutputType = {
   beamingLoss: number
   createdAt: number
   updatedAt: number
+  parentConstructionId: number
   _all: number
 }
 
@@ -142,6 +145,7 @@ export type FabricConstructionMinAggregateInputType = {
   beamingLoss?: true
   createdAt?: true
   updatedAt?: true
+  parentConstructionId?: true
 }
 
 export type FabricConstructionMaxAggregateInputType = {
@@ -160,6 +164,7 @@ export type FabricConstructionMaxAggregateInputType = {
   beamingLoss?: true
   createdAt?: true
   updatedAt?: true
+  parentConstructionId?: true
 }
 
 export type FabricConstructionCountAggregateInputType = {
@@ -178,6 +183,7 @@ export type FabricConstructionCountAggregateInputType = {
   beamingLoss?: true
   createdAt?: true
   updatedAt?: true
+  parentConstructionId?: true
   _all?: true
 }
 
@@ -283,6 +289,7 @@ export type FabricConstructionGroupByOutputType = {
   beamingLoss: number | null
   createdAt: Date
   updatedAt: Date | null
+  parentConstructionId: string | null
   _count: FabricConstructionCountAggregateOutputType | null
   _avg: FabricConstructionAvgAggregateOutputType | null
   _sum: FabricConstructionSumAggregateOutputType | null
@@ -324,7 +331,10 @@ export type FabricConstructionWhereInput = {
   beamingLoss?: Prisma.IntNullableFilter<"FabricConstruction"> | number | null
   createdAt?: Prisma.DateTimeFilter<"FabricConstruction"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"FabricConstruction"> | Date | string | null
+  parentConstructionId?: Prisma.StringNullableFilter<"FabricConstruction"> | string | null
   fabricSpec?: Prisma.XOR<Prisma.FabricSpecScalarRelationFilter, Prisma.FabricSpecWhereInput>
+  parentConstruction?: Prisma.XOR<Prisma.FabricConstructionNullableScalarRelationFilter, Prisma.FabricConstructionWhereInput> | null
+  childConstructions?: Prisma.FabricConstructionListRelationFilter
 }
 
 export type FabricConstructionOrderByWithRelationInput = {
@@ -343,7 +353,10 @@ export type FabricConstructionOrderByWithRelationInput = {
   beamingLoss?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentConstructionId?: Prisma.SortOrderInput | Prisma.SortOrder
   fabricSpec?: Prisma.FabricSpecOrderByWithRelationInput
+  parentConstruction?: Prisma.FabricConstructionOrderByWithRelationInput
+  childConstructions?: Prisma.FabricConstructionOrderByRelationAggregateInput
 }
 
 export type FabricConstructionWhereUniqueInput = Prisma.AtLeast<{
@@ -365,7 +378,10 @@ export type FabricConstructionWhereUniqueInput = Prisma.AtLeast<{
   beamingLoss?: Prisma.IntNullableFilter<"FabricConstruction"> | number | null
   createdAt?: Prisma.DateTimeFilter<"FabricConstruction"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"FabricConstruction"> | Date | string | null
+  parentConstructionId?: Prisma.StringNullableFilter<"FabricConstruction"> | string | null
   fabricSpec?: Prisma.XOR<Prisma.FabricSpecScalarRelationFilter, Prisma.FabricSpecWhereInput>
+  parentConstruction?: Prisma.XOR<Prisma.FabricConstructionNullableScalarRelationFilter, Prisma.FabricConstructionWhereInput> | null
+  childConstructions?: Prisma.FabricConstructionListRelationFilter
 }, "id" | "constructionId">
 
 export type FabricConstructionOrderByWithAggregationInput = {
@@ -384,6 +400,7 @@ export type FabricConstructionOrderByWithAggregationInput = {
   beamingLoss?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentConstructionId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FabricConstructionCountOrderByAggregateInput
   _avg?: Prisma.FabricConstructionAvgOrderByAggregateInput
   _max?: Prisma.FabricConstructionMaxOrderByAggregateInput
@@ -410,6 +427,7 @@ export type FabricConstructionScalarWhereWithAggregatesInput = {
   beamingLoss?: Prisma.IntNullableWithAggregatesFilter<"FabricConstruction"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FabricConstruction"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FabricConstruction"> | Date | string | null
+  parentConstructionId?: Prisma.StringNullableWithAggregatesFilter<"FabricConstruction"> | string | null
 }
 
 export type FabricConstructionCreateInput = {
@@ -428,6 +446,8 @@ export type FabricConstructionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   fabricSpec: Prisma.FabricSpecCreateNestedOneWithoutFabricConstructionsInput
+  parentConstruction?: Prisma.FabricConstructionCreateNestedOneWithoutChildConstructionsInput
+  childConstructions?: Prisma.FabricConstructionCreateNestedManyWithoutParentConstructionInput
 }
 
 export type FabricConstructionUncheckedCreateInput = {
@@ -446,6 +466,8 @@ export type FabricConstructionUncheckedCreateInput = {
   beamingLoss?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  parentConstructionId?: string | null
+  childConstructions?: Prisma.FabricConstructionUncheckedCreateNestedManyWithoutParentConstructionInput
 }
 
 export type FabricConstructionUpdateInput = {
@@ -464,6 +486,8 @@ export type FabricConstructionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fabricSpec?: Prisma.FabricSpecUpdateOneRequiredWithoutFabricConstructionsNestedInput
+  parentConstruction?: Prisma.FabricConstructionUpdateOneWithoutChildConstructionsNestedInput
+  childConstructions?: Prisma.FabricConstructionUpdateManyWithoutParentConstructionNestedInput
 }
 
 export type FabricConstructionUncheckedUpdateInput = {
@@ -482,6 +506,8 @@ export type FabricConstructionUncheckedUpdateInput = {
   beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentConstructionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  childConstructions?: Prisma.FabricConstructionUncheckedUpdateManyWithoutParentConstructionNestedInput
 }
 
 export type FabricConstructionCreateManyInput = {
@@ -500,6 +526,7 @@ export type FabricConstructionCreateManyInput = {
   beamingLoss?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  parentConstructionId?: string | null
 }
 
 export type FabricConstructionUpdateManyMutationInput = {
@@ -535,6 +562,7 @@ export type FabricConstructionUncheckedUpdateManyInput = {
   beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentConstructionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FabricConstructionListRelationFilter = {
@@ -545,6 +573,11 @@ export type FabricConstructionListRelationFilter = {
 
 export type FabricConstructionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type FabricConstructionNullableScalarRelationFilter = {
+  is?: Prisma.FabricConstructionWhereInput | null
+  isNot?: Prisma.FabricConstructionWhereInput | null
 }
 
 export type FabricConstructionCountOrderByAggregateInput = {
@@ -563,6 +596,7 @@ export type FabricConstructionCountOrderByAggregateInput = {
   beamingLoss?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  parentConstructionId?: Prisma.SortOrder
 }
 
 export type FabricConstructionAvgOrderByAggregateInput = {
@@ -592,6 +626,7 @@ export type FabricConstructionMaxOrderByAggregateInput = {
   beamingLoss?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  parentConstructionId?: Prisma.SortOrder
 }
 
 export type FabricConstructionMinOrderByAggregateInput = {
@@ -610,6 +645,7 @@ export type FabricConstructionMinOrderByAggregateInput = {
   beamingLoss?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  parentConstructionId?: Prisma.SortOrder
 }
 
 export type FabricConstructionSumOrderByAggregateInput = {
@@ -665,8 +701,66 @@ export type FabricConstructionUncheckedUpdateManyWithoutFabricSpecNestedInput = 
   deleteMany?: Prisma.FabricConstructionScalarWhereInput | Prisma.FabricConstructionScalarWhereInput[]
 }
 
+export type FabricConstructionCreateNestedOneWithoutChildConstructionsInput = {
+  create?: Prisma.XOR<Prisma.FabricConstructionCreateWithoutChildConstructionsInput, Prisma.FabricConstructionUncheckedCreateWithoutChildConstructionsInput>
+  connectOrCreate?: Prisma.FabricConstructionCreateOrConnectWithoutChildConstructionsInput
+  connect?: Prisma.FabricConstructionWhereUniqueInput
+}
+
+export type FabricConstructionCreateNestedManyWithoutParentConstructionInput = {
+  create?: Prisma.XOR<Prisma.FabricConstructionCreateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput> | Prisma.FabricConstructionCreateWithoutParentConstructionInput[] | Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput[]
+  connectOrCreate?: Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput | Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput[]
+  createMany?: Prisma.FabricConstructionCreateManyParentConstructionInputEnvelope
+  connect?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+}
+
+export type FabricConstructionUncheckedCreateNestedManyWithoutParentConstructionInput = {
+  create?: Prisma.XOR<Prisma.FabricConstructionCreateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput> | Prisma.FabricConstructionCreateWithoutParentConstructionInput[] | Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput[]
+  connectOrCreate?: Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput | Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput[]
+  createMany?: Prisma.FabricConstructionCreateManyParentConstructionInputEnvelope
+  connect?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+}
+
 export type EnumWbMachineTypeFieldUpdateOperationsInput = {
   set?: $Enums.WbMachineType
+}
+
+export type FabricConstructionUpdateOneWithoutChildConstructionsNestedInput = {
+  create?: Prisma.XOR<Prisma.FabricConstructionCreateWithoutChildConstructionsInput, Prisma.FabricConstructionUncheckedCreateWithoutChildConstructionsInput>
+  connectOrCreate?: Prisma.FabricConstructionCreateOrConnectWithoutChildConstructionsInput
+  upsert?: Prisma.FabricConstructionUpsertWithoutChildConstructionsInput
+  disconnect?: Prisma.FabricConstructionWhereInput | boolean
+  delete?: Prisma.FabricConstructionWhereInput | boolean
+  connect?: Prisma.FabricConstructionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FabricConstructionUpdateToOneWithWhereWithoutChildConstructionsInput, Prisma.FabricConstructionUpdateWithoutChildConstructionsInput>, Prisma.FabricConstructionUncheckedUpdateWithoutChildConstructionsInput>
+}
+
+export type FabricConstructionUpdateManyWithoutParentConstructionNestedInput = {
+  create?: Prisma.XOR<Prisma.FabricConstructionCreateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput> | Prisma.FabricConstructionCreateWithoutParentConstructionInput[] | Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput[]
+  connectOrCreate?: Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput | Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput[]
+  upsert?: Prisma.FabricConstructionUpsertWithWhereUniqueWithoutParentConstructionInput | Prisma.FabricConstructionUpsertWithWhereUniqueWithoutParentConstructionInput[]
+  createMany?: Prisma.FabricConstructionCreateManyParentConstructionInputEnvelope
+  set?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  disconnect?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  delete?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  connect?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  update?: Prisma.FabricConstructionUpdateWithWhereUniqueWithoutParentConstructionInput | Prisma.FabricConstructionUpdateWithWhereUniqueWithoutParentConstructionInput[]
+  updateMany?: Prisma.FabricConstructionUpdateManyWithWhereWithoutParentConstructionInput | Prisma.FabricConstructionUpdateManyWithWhereWithoutParentConstructionInput[]
+  deleteMany?: Prisma.FabricConstructionScalarWhereInput | Prisma.FabricConstructionScalarWhereInput[]
+}
+
+export type FabricConstructionUncheckedUpdateManyWithoutParentConstructionNestedInput = {
+  create?: Prisma.XOR<Prisma.FabricConstructionCreateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput> | Prisma.FabricConstructionCreateWithoutParentConstructionInput[] | Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput[]
+  connectOrCreate?: Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput | Prisma.FabricConstructionCreateOrConnectWithoutParentConstructionInput[]
+  upsert?: Prisma.FabricConstructionUpsertWithWhereUniqueWithoutParentConstructionInput | Prisma.FabricConstructionUpsertWithWhereUniqueWithoutParentConstructionInput[]
+  createMany?: Prisma.FabricConstructionCreateManyParentConstructionInputEnvelope
+  set?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  disconnect?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  delete?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  connect?: Prisma.FabricConstructionWhereUniqueInput | Prisma.FabricConstructionWhereUniqueInput[]
+  update?: Prisma.FabricConstructionUpdateWithWhereUniqueWithoutParentConstructionInput | Prisma.FabricConstructionUpdateWithWhereUniqueWithoutParentConstructionInput[]
+  updateMany?: Prisma.FabricConstructionUpdateManyWithWhereWithoutParentConstructionInput | Prisma.FabricConstructionUpdateManyWithWhereWithoutParentConstructionInput[]
+  deleteMany?: Prisma.FabricConstructionScalarWhereInput | Prisma.FabricConstructionScalarWhereInput[]
 }
 
 export type FabricConstructionCreateWithoutFabricSpecInput = {
@@ -684,6 +778,8 @@ export type FabricConstructionCreateWithoutFabricSpecInput = {
   beamingLoss?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  parentConstruction?: Prisma.FabricConstructionCreateNestedOneWithoutChildConstructionsInput
+  childConstructions?: Prisma.FabricConstructionCreateNestedManyWithoutParentConstructionInput
 }
 
 export type FabricConstructionUncheckedCreateWithoutFabricSpecInput = {
@@ -701,6 +797,8 @@ export type FabricConstructionUncheckedCreateWithoutFabricSpecInput = {
   beamingLoss?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  parentConstructionId?: string | null
+  childConstructions?: Prisma.FabricConstructionUncheckedCreateNestedManyWithoutParentConstructionInput
 }
 
 export type FabricConstructionCreateOrConnectWithoutFabricSpecInput = {
@@ -748,6 +846,163 @@ export type FabricConstructionScalarWhereInput = {
   beamingLoss?: Prisma.IntNullableFilter<"FabricConstruction"> | number | null
   createdAt?: Prisma.DateTimeFilter<"FabricConstruction"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"FabricConstruction"> | Date | string | null
+  parentConstructionId?: Prisma.StringNullableFilter<"FabricConstruction"> | string | null
+}
+
+export type FabricConstructionCreateWithoutChildConstructionsInput = {
+  id?: string
+  constructionId: string
+  rollCount: number
+  warpingMachine: $Enums.WbMachineType
+  coneCount: number
+  coneLength: number
+  sectionCount: number
+  sectionLength: number
+  beamWidth: number
+  cutmarkValue: string
+  spareEnds: number
+  beamingLoss?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  fabricSpec: Prisma.FabricSpecCreateNestedOneWithoutFabricConstructionsInput
+  parentConstruction?: Prisma.FabricConstructionCreateNestedOneWithoutChildConstructionsInput
+}
+
+export type FabricConstructionUncheckedCreateWithoutChildConstructionsInput = {
+  id?: string
+  constructionId: string
+  fabricSpecId: string
+  rollCount: number
+  warpingMachine: $Enums.WbMachineType
+  coneCount: number
+  coneLength: number
+  sectionCount: number
+  sectionLength: number
+  beamWidth: number
+  cutmarkValue: string
+  spareEnds: number
+  beamingLoss?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  parentConstructionId?: string | null
+}
+
+export type FabricConstructionCreateOrConnectWithoutChildConstructionsInput = {
+  where: Prisma.FabricConstructionWhereUniqueInput
+  create: Prisma.XOR<Prisma.FabricConstructionCreateWithoutChildConstructionsInput, Prisma.FabricConstructionUncheckedCreateWithoutChildConstructionsInput>
+}
+
+export type FabricConstructionCreateWithoutParentConstructionInput = {
+  id?: string
+  constructionId: string
+  rollCount: number
+  warpingMachine: $Enums.WbMachineType
+  coneCount: number
+  coneLength: number
+  sectionCount: number
+  sectionLength: number
+  beamWidth: number
+  cutmarkValue: string
+  spareEnds: number
+  beamingLoss?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  fabricSpec: Prisma.FabricSpecCreateNestedOneWithoutFabricConstructionsInput
+  childConstructions?: Prisma.FabricConstructionCreateNestedManyWithoutParentConstructionInput
+}
+
+export type FabricConstructionUncheckedCreateWithoutParentConstructionInput = {
+  id?: string
+  constructionId: string
+  fabricSpecId: string
+  rollCount: number
+  warpingMachine: $Enums.WbMachineType
+  coneCount: number
+  coneLength: number
+  sectionCount: number
+  sectionLength: number
+  beamWidth: number
+  cutmarkValue: string
+  spareEnds: number
+  beamingLoss?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  childConstructions?: Prisma.FabricConstructionUncheckedCreateNestedManyWithoutParentConstructionInput
+}
+
+export type FabricConstructionCreateOrConnectWithoutParentConstructionInput = {
+  where: Prisma.FabricConstructionWhereUniqueInput
+  create: Prisma.XOR<Prisma.FabricConstructionCreateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput>
+}
+
+export type FabricConstructionCreateManyParentConstructionInputEnvelope = {
+  data: Prisma.FabricConstructionCreateManyParentConstructionInput | Prisma.FabricConstructionCreateManyParentConstructionInput[]
+  skipDuplicates?: boolean
+}
+
+export type FabricConstructionUpsertWithoutChildConstructionsInput = {
+  update: Prisma.XOR<Prisma.FabricConstructionUpdateWithoutChildConstructionsInput, Prisma.FabricConstructionUncheckedUpdateWithoutChildConstructionsInput>
+  create: Prisma.XOR<Prisma.FabricConstructionCreateWithoutChildConstructionsInput, Prisma.FabricConstructionUncheckedCreateWithoutChildConstructionsInput>
+  where?: Prisma.FabricConstructionWhereInput
+}
+
+export type FabricConstructionUpdateToOneWithWhereWithoutChildConstructionsInput = {
+  where?: Prisma.FabricConstructionWhereInput
+  data: Prisma.XOR<Prisma.FabricConstructionUpdateWithoutChildConstructionsInput, Prisma.FabricConstructionUncheckedUpdateWithoutChildConstructionsInput>
+}
+
+export type FabricConstructionUpdateWithoutChildConstructionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
+  warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
+  coneCount?: Prisma.IntFieldUpdateOperationsInput | number
+  coneLength?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionLength?: Prisma.IntFieldUpdateOperationsInput | number
+  beamWidth?: Prisma.IntFieldUpdateOperationsInput | number
+  cutmarkValue?: Prisma.StringFieldUpdateOperationsInput | string
+  spareEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fabricSpec?: Prisma.FabricSpecUpdateOneRequiredWithoutFabricConstructionsNestedInput
+  parentConstruction?: Prisma.FabricConstructionUpdateOneWithoutChildConstructionsNestedInput
+}
+
+export type FabricConstructionUncheckedUpdateWithoutChildConstructionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionId?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricSpecId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
+  warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
+  coneCount?: Prisma.IntFieldUpdateOperationsInput | number
+  coneLength?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionLength?: Prisma.IntFieldUpdateOperationsInput | number
+  beamWidth?: Prisma.IntFieldUpdateOperationsInput | number
+  cutmarkValue?: Prisma.StringFieldUpdateOperationsInput | string
+  spareEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentConstructionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type FabricConstructionUpsertWithWhereUniqueWithoutParentConstructionInput = {
+  where: Prisma.FabricConstructionWhereUniqueInput
+  update: Prisma.XOR<Prisma.FabricConstructionUpdateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedUpdateWithoutParentConstructionInput>
+  create: Prisma.XOR<Prisma.FabricConstructionCreateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedCreateWithoutParentConstructionInput>
+}
+
+export type FabricConstructionUpdateWithWhereUniqueWithoutParentConstructionInput = {
+  where: Prisma.FabricConstructionWhereUniqueInput
+  data: Prisma.XOR<Prisma.FabricConstructionUpdateWithoutParentConstructionInput, Prisma.FabricConstructionUncheckedUpdateWithoutParentConstructionInput>
+}
+
+export type FabricConstructionUpdateManyWithWhereWithoutParentConstructionInput = {
+  where: Prisma.FabricConstructionScalarWhereInput
+  data: Prisma.XOR<Prisma.FabricConstructionUpdateManyMutationInput, Prisma.FabricConstructionUncheckedUpdateManyWithoutParentConstructionInput>
 }
 
 export type FabricConstructionCreateManyFabricSpecInput = {
@@ -765,6 +1020,7 @@ export type FabricConstructionCreateManyFabricSpecInput = {
   beamingLoss?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  parentConstructionId?: string | null
 }
 
 export type FabricConstructionUpdateWithoutFabricSpecInput = {
@@ -782,6 +1038,8 @@ export type FabricConstructionUpdateWithoutFabricSpecInput = {
   beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentConstruction?: Prisma.FabricConstructionUpdateOneWithoutChildConstructionsNestedInput
+  childConstructions?: Prisma.FabricConstructionUpdateManyWithoutParentConstructionNestedInput
 }
 
 export type FabricConstructionUncheckedUpdateWithoutFabricSpecInput = {
@@ -799,6 +1057,8 @@ export type FabricConstructionUncheckedUpdateWithoutFabricSpecInput = {
   beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentConstructionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  childConstructions?: Prisma.FabricConstructionUncheckedUpdateManyWithoutParentConstructionNestedInput
 }
 
 export type FabricConstructionUncheckedUpdateManyWithoutFabricSpecInput = {
@@ -816,8 +1076,112 @@ export type FabricConstructionUncheckedUpdateManyWithoutFabricSpecInput = {
   beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  parentConstructionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type FabricConstructionCreateManyParentConstructionInput = {
+  id?: string
+  constructionId: string
+  fabricSpecId: string
+  rollCount: number
+  warpingMachine: $Enums.WbMachineType
+  coneCount: number
+  coneLength: number
+  sectionCount: number
+  sectionLength: number
+  beamWidth: number
+  cutmarkValue: string
+  spareEnds: number
+  beamingLoss?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type FabricConstructionUpdateWithoutParentConstructionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
+  warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
+  coneCount?: Prisma.IntFieldUpdateOperationsInput | number
+  coneLength?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionLength?: Prisma.IntFieldUpdateOperationsInput | number
+  beamWidth?: Prisma.IntFieldUpdateOperationsInput | number
+  cutmarkValue?: Prisma.StringFieldUpdateOperationsInput | string
+  spareEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fabricSpec?: Prisma.FabricSpecUpdateOneRequiredWithoutFabricConstructionsNestedInput
+  childConstructions?: Prisma.FabricConstructionUpdateManyWithoutParentConstructionNestedInput
+}
+
+export type FabricConstructionUncheckedUpdateWithoutParentConstructionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionId?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricSpecId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
+  warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
+  coneCount?: Prisma.IntFieldUpdateOperationsInput | number
+  coneLength?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionLength?: Prisma.IntFieldUpdateOperationsInput | number
+  beamWidth?: Prisma.IntFieldUpdateOperationsInput | number
+  cutmarkValue?: Prisma.StringFieldUpdateOperationsInput | string
+  spareEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  childConstructions?: Prisma.FabricConstructionUncheckedUpdateManyWithoutParentConstructionNestedInput
+}
+
+export type FabricConstructionUncheckedUpdateManyWithoutParentConstructionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionId?: Prisma.StringFieldUpdateOperationsInput | string
+  fabricSpecId?: Prisma.StringFieldUpdateOperationsInput | string
+  rollCount?: Prisma.IntFieldUpdateOperationsInput | number
+  warpingMachine?: Prisma.EnumWbMachineTypeFieldUpdateOperationsInput | $Enums.WbMachineType
+  coneCount?: Prisma.IntFieldUpdateOperationsInput | number
+  coneLength?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionCount?: Prisma.IntFieldUpdateOperationsInput | number
+  sectionLength?: Prisma.IntFieldUpdateOperationsInput | number
+  beamWidth?: Prisma.IntFieldUpdateOperationsInput | number
+  cutmarkValue?: Prisma.StringFieldUpdateOperationsInput | string
+  spareEnds?: Prisma.IntFieldUpdateOperationsInput | number
+  beamingLoss?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+
+/**
+ * Count Type FabricConstructionCountOutputType
+ */
+
+export type FabricConstructionCountOutputType = {
+  childConstructions: number
+}
+
+export type FabricConstructionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  childConstructions?: boolean | FabricConstructionCountOutputTypeCountChildConstructionsArgs
+}
+
+/**
+ * FabricConstructionCountOutputType without action
+ */
+export type FabricConstructionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FabricConstructionCountOutputType
+   */
+  select?: Prisma.FabricConstructionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FabricConstructionCountOutputType without action
+ */
+export type FabricConstructionCountOutputTypeCountChildConstructionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FabricConstructionWhereInput
+}
 
 
 export type FabricConstructionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -836,7 +1200,11 @@ export type FabricConstructionSelect<ExtArgs extends runtime.Types.Extensions.In
   beamingLoss?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  parentConstructionId?: boolean
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
+  parentConstruction?: boolean | Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>
+  childConstructions?: boolean | Prisma.FabricConstruction$childConstructionsArgs<ExtArgs>
+  _count?: boolean | Prisma.FabricConstructionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fabricConstruction"]>
 
 export type FabricConstructionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -855,7 +1223,9 @@ export type FabricConstructionSelectCreateManyAndReturn<ExtArgs extends runtime.
   beamingLoss?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  parentConstructionId?: boolean
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
+  parentConstruction?: boolean | Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>
 }, ExtArgs["result"]["fabricConstruction"]>
 
 export type FabricConstructionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -874,7 +1244,9 @@ export type FabricConstructionSelectUpdateManyAndReturn<ExtArgs extends runtime.
   beamingLoss?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  parentConstructionId?: boolean
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
+  parentConstruction?: boolean | Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>
 }, ExtArgs["result"]["fabricConstruction"]>
 
 export type FabricConstructionSelectScalar = {
@@ -893,23 +1265,31 @@ export type FabricConstructionSelectScalar = {
   beamingLoss?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  parentConstructionId?: boolean
 }
 
-export type FabricConstructionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "constructionId" | "fabricSpecId" | "rollCount" | "warpingMachine" | "coneCount" | "coneLength" | "sectionCount" | "sectionLength" | "beamWidth" | "cutmarkValue" | "spareEnds" | "beamingLoss" | "createdAt" | "updatedAt", ExtArgs["result"]["fabricConstruction"]>
+export type FabricConstructionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "constructionId" | "fabricSpecId" | "rollCount" | "warpingMachine" | "coneCount" | "coneLength" | "sectionCount" | "sectionLength" | "beamWidth" | "cutmarkValue" | "spareEnds" | "beamingLoss" | "createdAt" | "updatedAt" | "parentConstructionId", ExtArgs["result"]["fabricConstruction"]>
 export type FabricConstructionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
+  parentConstruction?: boolean | Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>
+  childConstructions?: boolean | Prisma.FabricConstruction$childConstructionsArgs<ExtArgs>
+  _count?: boolean | Prisma.FabricConstructionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FabricConstructionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
+  parentConstruction?: boolean | Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>
 }
 export type FabricConstructionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fabricSpec?: boolean | Prisma.FabricSpecDefaultArgs<ExtArgs>
+  parentConstruction?: boolean | Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>
 }
 
 export type $FabricConstructionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FabricConstruction"
   objects: {
     fabricSpec: Prisma.$FabricSpecPayload<ExtArgs>
+    parentConstruction: Prisma.$FabricConstructionPayload<ExtArgs> | null
+    childConstructions: Prisma.$FabricConstructionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -927,6 +1307,7 @@ export type $FabricConstructionPayload<ExtArgs extends runtime.Types.Extensions.
     beamingLoss: number | null
     createdAt: Date
     updatedAt: Date | null
+    parentConstructionId: string | null
   }, ExtArgs["result"]["fabricConstruction"]>
   composites: {}
 }
@@ -1322,6 +1703,8 @@ readonly fields: FabricConstructionFieldRefs;
 export interface Prisma__FabricConstructionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   fabricSpec<T extends Prisma.FabricSpecDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FabricSpecDefaultArgs<ExtArgs>>): Prisma.Prisma__FabricSpecClient<runtime.Types.Result.GetResult<Prisma.$FabricSpecPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  parentConstruction<T extends Prisma.FabricConstruction$parentConstructionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FabricConstruction$parentConstructionArgs<ExtArgs>>): Prisma.Prisma__FabricConstructionClient<runtime.Types.Result.GetResult<Prisma.$FabricConstructionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  childConstructions<T extends Prisma.FabricConstruction$childConstructionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FabricConstruction$childConstructionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FabricConstructionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1366,6 +1749,7 @@ export interface FabricConstructionFieldRefs {
   readonly beamingLoss: Prisma.FieldRef<"FabricConstruction", 'Int'>
   readonly createdAt: Prisma.FieldRef<"FabricConstruction", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"FabricConstruction", 'DateTime'>
+  readonly parentConstructionId: Prisma.FieldRef<"FabricConstruction", 'String'>
 }
     
 
@@ -1764,6 +2148,49 @@ export type FabricConstructionDeleteManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many FabricConstructions to delete.
    */
   limit?: number
+}
+
+/**
+ * FabricConstruction.parentConstruction
+ */
+export type FabricConstruction$parentConstructionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FabricConstruction
+   */
+  select?: Prisma.FabricConstructionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FabricConstruction
+   */
+  omit?: Prisma.FabricConstructionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FabricConstructionInclude<ExtArgs> | null
+  where?: Prisma.FabricConstructionWhereInput
+}
+
+/**
+ * FabricConstruction.childConstructions
+ */
+export type FabricConstruction$childConstructionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FabricConstruction
+   */
+  select?: Prisma.FabricConstructionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FabricConstruction
+   */
+  omit?: Prisma.FabricConstructionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FabricConstructionInclude<ExtArgs> | null
+  where?: Prisma.FabricConstructionWhereInput
+  orderBy?: Prisma.FabricConstructionOrderByWithRelationInput | Prisma.FabricConstructionOrderByWithRelationInput[]
+  cursor?: Prisma.FabricConstructionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FabricConstructionScalarFieldEnum | Prisma.FabricConstructionScalarFieldEnum[]
 }
 
 /**

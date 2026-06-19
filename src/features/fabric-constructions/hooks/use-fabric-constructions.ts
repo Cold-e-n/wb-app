@@ -51,7 +51,9 @@ export const useFabricConstructionMutation = () => {
   }
 
   const createMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (
+      data: Parameters<typeof Api.createFabricConstruction>[0]['data'],
+    ) => {
       return Api.createFabricConstruction({ data })
     },
     onSuccess: async () => {
@@ -65,12 +67,40 @@ export const useFabricConstructionMutation = () => {
     },
   })
 
-  const updateMutation = useMutation({
-    mutationFn: async (data: any) => {
-      return Api.updateFabricConstruction({ data })
+  const createManyMutation = useMutation({
+    mutationFn: async (
+      data: Parameters<typeof Api.createFabricConstructions>[0]['data'],
+    ) => {
+      return Api.createFabricConstructions({ data })
     },
     onSuccess: async () => {
-      toast.success('Konstruksi kain berhasil diperbarui')
+      toast.success('Konstruksi kain berhasil dibuat')
+      await invalidate()
+    },
+    onError: (error) => {
+      toast.error('Gagal membuat konstruksi kain', {
+        description: error.message,
+      })
+    },
+  })
+
+  const updateMutation = useMutation({
+    mutationFn: async (
+      data: Parameters<typeof Api.updateFabricConstruction>[0]['data'],
+    ) => {
+      return Api.updateFabricConstruction({ data })
+    },
+    onSuccess: async (result) => {
+      toast.success('Konstruksi kain berhasil diupdate.')
+
+      // TAMBAHAN: Tampilkan Toast Info jika ada child yang ikut terpengaruh
+      if (result.affectedChildren && result.affectedChildren.length > 0) {
+        toast.info('Update Berhasil', {
+          description: `Konstruksi otomatis disesuaikan pada: ${result.affectedChildren.join(', ')}`,
+          duration: 5000,
+        })
+      }
+
       await invalidate()
     },
     onError: (error) => {
@@ -99,9 +129,9 @@ export const useFabricConstructionMutation = () => {
     mutationFn: async (data: { ids: Array<string> }) => {
       return Api.deleteManyFabricConstructions({ data })
     },
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       toast.success(`${result.count} konstruksi kain berhasil dihapus`)
-      invalidate()
+      await invalidate()
     },
     onError: (error) => {
       toast.error('Gagal menghapus konstruksi kain terpilih', {
@@ -113,6 +143,7 @@ export const useFabricConstructionMutation = () => {
   return {
     invalidate,
     createMutation,
+    createManyMutation,
     updateMutation,
     deleteMutation,
     deleteManyMutation,

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { getFabricConstructionByIdQueryOptions } from '@/features/fabric-constructions/hooks/use-fabric-constructions'
+import { getFabricConstructionByConstructionIdQueryOptions } from '@/features/fabric-constructions/hooks/use-fabric-constructions'
 import type { FabricConstruction } from '@/types/FabricConstruction'
 
 import { Button } from '@/components/ui/button'
@@ -10,13 +10,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ErrorFallback } from '@/components/error-boundary'
-import { FabricConstructionsForm } from '@/features/fabric-constructions/components/fabric-constructions-form'
+import { FabricConstructionsForm } from '@/features/fabric-constructions/components/form/fabric-constructions-form'
 import { MoveLeft } from 'lucide-react'
 
 const RouteComponent = () => {
   const { fabricConstructionId } = Route.useParams()
   const { data: fabricConstruction } = useSuspenseQuery(
-    getFabricConstructionByIdQueryOptions(fabricConstructionId),
+    getFabricConstructionByConstructionIdQueryOptions(fabricConstructionId),
   )
   const navigate = useNavigate()
 
@@ -73,7 +73,9 @@ export const Route = createFileRoute(
 )({
   loader: async ({ context, params }) => {
     const fabricConstruction = await context.queryClient.fetchQuery(
-      getFabricConstructionByIdQueryOptions(params.fabricConstructionId),
+      getFabricConstructionByConstructionIdQueryOptions(
+        params.fabricConstructionId,
+      ),
     )
     return { fabricConstruction }
   },
