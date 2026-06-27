@@ -22,6 +22,56 @@ export function createSlug(text: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
+/**
+ * Generates page numbers for pagination with ellipsis
+ * @param currentPage - Current page number (1-based)
+ * @param totalPages - Total number of pages
+ * @returns Array of page numbers and ellipsis strings
+ *
+ * Examples:
+ * - Small dataset (≤5 pages): [1, 2, 3, 4, 5]
+ * - Near beginning: [1, 2, 3, 4, '...', 10]
+ * - In middle: [1, '...', 4, 5, 6, '...', 10]
+ * - Near end: [1, '...', 7, 8, 9, 10]
+ */
+export function getPageNumbers(currentPage: number, totalPages: number) {
+  const maxVisiblePages = 5 // Maximum number of page buttons to show
+  const rangeWithDots = []
+
+  if (totalPages <= maxVisiblePages) {
+    // If total pages is 5 or less, show all pages
+    for (let i = 1; i <= totalPages; i++) {
+      rangeWithDots.push(i)
+    }
+  } else {
+    // Always show first page
+    rangeWithDots.push(1)
+
+    if (currentPage <= 3) {
+      // Near the beginning: [1] [2] [3] [4] ... [10]
+      for (let i = 2; i <= 4; i++) {
+        rangeWithDots.push(i)
+      }
+      rangeWithDots.push('...', totalPages)
+    } else if (currentPage >= totalPages - 2) {
+      // Near the end: [1] ... [7] [8] [9] [10]
+      rangeWithDots.push('...')
+      for (let i = totalPages - 3; i <= totalPages; i++) {
+        rangeWithDots.push(i)
+      }
+    } else {
+      // In the middle: [1] ... [4] [5] [6] ... [10]
+      rangeWithDots.push('...')
+      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+        rangeWithDots.push(i)
+      }
+      rangeWithDots.push('...', totalPages)
+    }
+  }
+
+  return rangeWithDots
+}
+
 export const getColorClass = (colorName: string | undefined): string => {
   if (!colorName) return 'text-gray-900'
   const name = colorName.toUpperCase()
@@ -95,6 +145,10 @@ export const isEdgeMarker = (
   return regularIdx === 0 || regularIdx === colorCount - 1
 }
 
+export const isColorLayoutId = (value: string | null | undefined): boolean => {
+  return !!value && /^c[a-z0-9]{24,}$/i.test(value)
+}
+
 export const incrementMachineName = (name: string): string => {
   const match = name.match(/^(.*?)(\d+)$/)
 
@@ -112,54 +166,76 @@ export const incrementMachineName = (name: string): string => {
   return `${prefix}${nextNumber}`
 }
 
-/**
- * Generates page numbers for pagination with ellipsis
- * @param currentPage - Current page number (1-based)
- * @param totalPages - Total number of pages
- * @returns Array of page numbers and ellipsis strings
- *
- * Examples:
- * - Small dataset (≤5 pages): [1, 2, 3, 4, 5]
- * - Near beginning: [1, 2, 3, 4, '...', 10]
- * - In middle: [1, '...', 4, 5, 6, '...', 10]
- * - Near end: [1, '...', 7, 8, 9, 10]
- */
-export function getPageNumbers(currentPage: number, totalPages: number) {
-  const maxVisiblePages = 5 // Maximum number of page buttons to show
-  const rangeWithDots = []
+export const colorInfo = (
+  colorContent: ColorContent | undefined | null,
+  colorMap: Map<string, string>,
+  isOrder?: boolean,
+): string => {
+  if (!colorContent) return ''
 
-  if (totalPages <= maxVisiblePages) {
-    // If total pages is 5 or less, show all pages
-    for (let i = 1; i <= totalPages; i++) {
-      rangeWithDots.push(i)
-    }
-  } else {
-    // Always show first page
-    rangeWithDots.push(1)
+  const { IN, OUT, colorCount, color = [], type, edgeTriple } = colorContent
 
-    if (currentPage <= 3) {
-      // Near the beginning: [1] [2] [3] [4] ... [10]
-      for (let i = 2; i <= 4; i++) {
-        rangeWithDots.push(i)
-      }
-      rangeWithDots.push('...', totalPages)
-    } else if (currentPage >= totalPages - 2) {
-      // Near the end: [1] ... [7] [8] [9] [10]
-      rangeWithDots.push('...')
-      for (let i = totalPages - 3; i <= totalPages; i++) {
-        rangeWithDots.push(i)
+  const getColorName = (colorId: string) => {
+    return colorMap.get(colorId) || colorId || '...'
+  }
+
+  const parts: string[] = []
+
+  if (type === 'double') {
+    const isSameColor = color.length === 2 && color[0] === color[1]
+
+    if (isOrder) {
+      // isOrder: tampilkan nama warna saja dipisah " & ", tanpa colorCount
+      if (isSameColor) {
+        parts.push(getColorName(color[0]))
+      } else {
+        const colorParts: string[] = []
+        if (color[0]) colorParts.push(getColorName(color[0]))
+        if (color[1]) colorParts.push(getColorName(color[1]))
+        parts.push(colorParts.join(' & '))
       }
     } else {
-      // In the middle: [1] ... [4] [5] [6] ... [10]
-      rangeWithDots.push('...')
-      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-        rangeWithDots.push(i)
+      if (isSameColor) {
+        parts.push(`${getColorName(color[0])} Double ${colorCount} Helai`)
+      } else {
+        const colorParts: string[] = []
+        if (color[0]) colorParts.push(getColorName(color[0]))
+        if (color[1]) colorParts.push(getColorName(color[1]))
+        parts.push(`${colorParts.join(' + ')} ${colorCount} Helai`)
       }
-      rangeWithDots.push('...', totalPages)
+    }
+
+    if (edgeTriple) {
+      parts.push(`Triple ${getColorName(edgeTriple.color)}`)
+    }
+  } else {
+    const firstColor = color[0] ? getColorName(color[0]) : ''
+    // isOrder: tanpa colorCount
+    parts.push(isOrder ? firstColor : `${firstColor} ${colorCount} Helai`)
+  }
+
+  if (IN) {
+    const inColors = IN.color.map(getColorName).filter(Boolean)
+    parts.push(`IN ${IN.count} Helai (${inColors.join(' + ')})`)
+  }
+
+  if (OUT) {
+    // Sembunyikan nama warna OUT hanya kalau semua warna OUT sama dengan warna utama (color[0])
+    const mainColor = color[0]
+    const allOutSameAsMain =
+      mainColor !== undefined &&
+      OUT.color.length > 0 &&
+      OUT.color.every((c) => c === mainColor)
+
+    if (allOutSameAsMain) {
+      parts.push(`OUT ${OUT.count} Helai`)
+    } else {
+      const outColors = OUT.color.map(getColorName).filter(Boolean)
+      parts.push(`OUT ${OUT.count} Helai (${outColors.join(' + ')})`)
     }
   }
 
-  return rangeWithDots
+  return parts.join(' + ')
 }
 
 /**
@@ -186,4 +262,41 @@ export const fringeWidth = ({
 }): number => {
   const reedNoValue = parseFloat(reedNo.match(/\d+\.?\d*/)?.[0] || '0')
   return fringe !== 0 ? Number((fringe / 2 / reedNoValue / 2).toFixed(2)) : 0
+}
+
+/**
+ *
+ * @param wbNo
+ * @returns
+ */
+export const encodeWbNo = (wbNo: string): string => {
+  return wbNo.toLocaleLowerCase().replace(/\s+/g, '-')
+}
+
+/**
+ *
+ * @param wbNo
+ * @returns
+ */
+export const decodeWbNo = (wbNo: string): string => {
+  return wbNo.toUpperCase().replace(/-/g, ' ')
+}
+
+/**
+ *
+ * @param machine
+ * @returns
+ */
+export const getWeavingMachineLabel = (machine: {
+  name: string
+  width: number
+  type: string
+}) => {
+  let processedType = machine.type
+  if (machine.width !== 380) {
+    processedType = 'ZAX'
+  } else {
+    processedType = machine.type.replace(/\(.*?\)/g, '').trim()
+  }
+  return `${machine.name} (${machine.width}) ${processedType}`
 }

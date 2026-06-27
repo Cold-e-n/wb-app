@@ -1,9 +1,10 @@
 import { Equal } from 'lucide-react'
 import { ColorPositionVisualizer } from './color-position-visualizer'
-import type {ColorPositionWithRelations} from '@/types/ColorPosition';
+import type { ColorPositionWithRelations } from '@/types/ColorPosition'
 import { ColorPositionCalculator } from '@/calculations/ColorPosition'
 import { Card, CardContent } from '@/components/ui/card'
-import { ColorInfoDisplay } from '@/features/color-layout/components/color-layout-details'
+import { useColorMap } from '@/features/colors/hooks/use-color'
+import { colorInfo } from '@/lib/utils'
 
 type ColorPositionsDetailsProps = {
   data: ColorPositionWithRelations
@@ -12,7 +13,8 @@ type ColorPositionsDetailsProps = {
 export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
   const calculator = new ColorPositionCalculator(data)
   const results = calculator.calculate()
-  const colorInfo = ColorInfoDisplay(data.colorLayout)
+  const { colorMap } = useColorMap()
+  const colorInfoStr = colorInfo(data.colorLayout.colorContent, colorMap)
   const totalThreads =
     data.fabricContent.cones.length === 1
       ? data.fabricContent.cones[0] * data.fabricContent.sections
@@ -50,7 +52,7 @@ export const ColorPositionsDetails = ({ data }: ColorPositionsDetailsProps) => {
                     </div>
                   )}
                 </div>
-                <div>{colorInfo}</div>
+                <div>{colorInfoStr}</div>
               </div>
 
               <div>

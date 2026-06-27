@@ -2,8 +2,9 @@ import { Link, useRouter } from '@tanstack/react-router'
 import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import { useColorLayout } from '../hooks/use-color-layout'
 import { ColorLayoutGrid } from './color-layout-grid'
-import type {ColorContent,ColorLayout} from '@/types/ColorLayout';
-import { useColorById } from '@/features/colors/hooks/use-color'
+import type { ColorLayout } from '@/types/ColorLayout'
+import { useColorMap } from '@/features/colors/hooks/use-color'
+import { colorInfo } from '@/lib/utils'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,112 +18,12 @@ interface ColorLayoutDetailsProps {
   colorLayout: ColorLayout & { fabric: { name: string } }
 }
 
-const ColorName = ({ colorId }: { colorId: string }) => {
-  const { data: color } = useColorById(colorId)
-  return <>{color?.name || '...'}</>
-}
-
-export const ColorInfoDisplay = ({
-  colorContent,
-}: {
-  colorContent: ColorContent
-}) => {
-  const { IN, OUT, colorCount, color = [], type, edgeTriple } = colorContent
-
-  const renderIN = () => {
-    if (!IN) return null
-
-    return (
-      <>
-        {` + IN ${IN.count} Helai (`}
-        {IN.color[0] && <ColorName colorId={IN.color[0]} />}
-        {IN.color[1] && (
-          <>
-            {' + '}
-            <ColorName colorId={IN.color[1]} />
-          </>
-        )}
-        {')'}
-      </>
-    )
-  }
-
-  const renderOUT = () => {
-    if (!OUT) return null
-
-    const isSameColor = OUT.color.length === 2 && OUT.color[0] === OUT.color[1]
-
-    if (isSameColor) {
-      return <>{` + OUT ${OUT.count} Helai`}</>
-    }
-
-    return (
-      <>
-        {` + OUT ${OUT.count} Helai (`}
-        {OUT.color[0] && <ColorName colorId={OUT.color[0]} />}
-        {OUT.color[1] && (
-          <>
-            {' + '}
-            <ColorName colorId={OUT.color[1]} />
-          </>
-        )}
-        {')'}
-      </>
-    )
-  }
-
-  const renderEdgeTriple = () => {
-    if (!edgeTriple) return null
-
-    return (
-      <>
-        {' + Triple '}
-        {edgeTriple && <ColorName colorId={edgeTriple.color} />}
-      </>
-    )
-  }
-
-  if (type === 'double') {
-    const isSameColor = color.length === 2 && color[0] === color[1]
-
-    if (isSameColor) {
-      return (
-        <>
-          <ColorName colorId={color[0]} /> Double {colorCount} Helai
-          {renderEdgeTriple()} {renderIN()} {renderOUT()}
-        </>
-      )
-    }
-
-    return (
-      <>
-        {color[0] && <ColorName colorId={color[0]} />}
-        {color[1] && (
-          <>
-            {' + '}
-            <ColorName colorId={color[1]} />
-          </>
-        )}
-        {` ${colorCount} Helai`}
-        {renderEdgeTriple()} {renderIN()} {renderOUT()}
-      </>
-    )
-  }
-
-  // Default for single, triple, etc.
-  return (
-    <>
-      {color[0] && <ColorName colorId={color[0]} />} {colorCount} Helai
-      {renderIN()} {renderOUT()}
-    </>
-  )
-}
-
 export const ColorLayoutDetails = ({
   colorLayout,
 }: ColorLayoutDetailsProps) => {
   const router = useRouter()
   const { data: colorLayouts = [] } = useColorLayout()
+  const { colorMap } = useColorMap()
   const colorContent = colorLayout?.colorContent
 
   // Find current index
@@ -222,9 +123,7 @@ export const ColorLayoutDetails = ({
                 {colorLayout.fabric.name}
               </h2>
 
-              <p className="text-2xl">
-                <ColorInfoDisplay colorContent={colorContent} />
-              </p>
+              <p className="text-2xl">{colorInfo(colorContent, colorMap)}</p>
             </div>
 
             <ColorLayoutGrid colorContent={colorContent} />
