@@ -159,7 +159,7 @@ export const FabricSpecDetail = ({ fabricSpec }: FabricSpecDetailProps) => {
                   <SpecItem
                     label="Lebar"
                     value={fabricSpec.width}
-                    suffix="cm"
+                    suffix="mm"
                   />
                   <SpecItem
                     label="Panjang"
